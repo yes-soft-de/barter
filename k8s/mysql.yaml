@@ -2,8 +2,8 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: FORREPLACE1235-mysql
-  namespace: FORREPLACE1235
+  name: barter-mysql
+  namespace: barter
 spec:
   selector:
     matchLabels:
@@ -35,26 +35,26 @@ spec:
         - containerPort: 3306
           name: mysql8
         volumeMounts:
-          - name: FORREPLACE1235-mysql-persistent-storage
+          - name: barter-mysql-persistent-storage
             mountPath: /var/lib/mysql
           - name: configmap
             mountPath: /etc/mysql/conf.d
       volumes:
-      - name: FORREPLACE1235-mysql-persistent-storage
+      - name: barter-mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: FORREPLACE1235-mysql-pv-claim
+          claimName: barter-mysql-pv-claim
       - name: configmap
         configMap:
           items:
             - key: sql_mode.cnf
               path: sql_mode.cnf
-          name: FORREPLACE1235-configmap
+          name: barter-configmap
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: FORREPLACE1235-mysql-pv-claim
-  namespace: FORREPLACE1235
+  name: barter-mysql-pv-claim
+  namespace: barter
   labels:
     app: mysql8
 spec:
@@ -67,8 +67,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: FORREPLACE1235-mysql8-service
-  namespace: FORREPLACE1235
+  name: barter-mysql8-service
+  namespace: barter
   labels:
     app: mysql8
 spec:
