@@ -40,6 +40,11 @@ spec:
         - name: barter-pvc-sym-m
           persistentVolumeClaim:
             claimName: barter-pvc-sym-uploud
+      tolerations:
+      - key: "env"
+        operator: "Equal"
+        value: "dev"
+        effect: "NoSchedule"
 ---
 apiVersion: v1
 kind: Service
