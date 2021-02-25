@@ -23,7 +23,7 @@ class ProfileRepository {
     await _authService.refreshToken();
     var token = await _authService.getToken();
     dynamic response = await _apiClient.get(
-      Urls.CAPTAIN_PROFILE_API,
+      Urls.PROFILE_API,
       headers: {'Authorization': 'Bearer ' + token},
     );
 
@@ -40,15 +40,8 @@ class ProfileRepository {
 
     Map<String, dynamic> response;
     try {
-      response = await _apiClient.post(
-        Urls.CAPTAIN_PROFILE_API,
-        profileRequest.toJson(),
-        headers: {'Authorization': 'Bearer ' + token},
-      );
-    } catch (e) {}
-    try {
       response = await _apiClient.put(
-        Urls.CAPTAIN_PROFILE_API,
+        Urls.PROFILE_API,
         profileRequest.toJson(),
         headers: {'Authorization': 'Bearer ' + token},
       );

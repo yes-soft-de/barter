@@ -39,7 +39,7 @@ class InitAccountRepository {
       CreateCaptainProfileRequest request) async {
     var token = await _authService.getToken();
     dynamic response = await _apiClient.post(
-      Urls.CAPTAIN_PROFILE_API,
+      Urls.PROFILE_API,
       request.toJSON(),
       headers: {'Authorization': 'Bearer ' + token},
     );
