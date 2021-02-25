@@ -1,4 +1,5 @@
 import 'package:barter/generated/l10n.dart';
+import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_profile/ui/screen/edit_profile/edit_profile.dart';
 import 'package:barter/module_profile/ui/states/profile_state/profile_state.dart';
 import 'package:barter/module_splash/splash_routes.dart';
@@ -24,7 +25,7 @@ class ProfileStateSaveSuccess extends ProfileState {
           Text(S.of(context).saveSuccess),
           RaisedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(SplashRoutes.SPLASH_SCREEN);
+              Navigator.of(context).pushNamed(HomeRoutes.HOME_ROUTE);
             },
             child: Text(S.of(context).next),
           ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:barter/abstracts/module/yes_module.dart';
 import 'package:barter/module_chat/chat_module.dart';
+import 'package:barter/module_home/module_home.dart';
 import 'package:barter/module_init/init_account_module.dart';
 import 'package:barter/module_localization/service/localization_service/localization_service.dart';
 import 'package:barter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatefulWidget {
   final SplashModule _splashModule;
   final ProfileModule _profileModule;
   final FireNotificationService _fireNotificationService;
+  final HomeModule _homeModule;
 
   MyApp(
     this._themeDataService,
@@ -74,6 +76,7 @@ class MyApp extends StatefulWidget {
     this._settingsModule,
     this._authorizationModule,
     this._profileModule,
+    this._homeModule,
   );
 
   @override
@@ -111,6 +114,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutes.addAll(widget._splashModule.getRoutes());
     fullRoutes.addAll(widget._chatModule.getRoutes());
     fullRoutes.addAll(widget._profileModule.getRoutes());
+    fullRoutes.addAll(widget._homeModule.getRoutes());
 
     return FutureBuilder(
       initialData: ThemeData.light(),
