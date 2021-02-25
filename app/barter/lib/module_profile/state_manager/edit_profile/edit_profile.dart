@@ -32,7 +32,7 @@ class EditProfileStateManager {
   void submitProfile(
       EditProfileScreenState screenState, ProfileRequest request) {
     _stateSubject.add(ProfileStateLoading(screenState));
-    _profileService.createProfile(request).then((value) {
+    _profileService.updateProfile(request).then((value) {
       if (value) {
         _stateSubject.add(ProfileStateSaveSuccess(screenState));
       } else {
@@ -50,14 +50,10 @@ class EditProfileStateManager {
         _stateSubject.add(ProfileStateGotProfile(
           screenState,
           ProfileRequest(
-            name: value.name,
+            firstName: value.firstName,
+            lastName: value.lastName,
             image: value.image,
             phone: value.phone,
-            drivingLicence: value.drivingLicence,
-            city: 'Jedda',
-            branch: '-1',
-            car: value.car,
-            age: value.age.toString(),
           ),
         ));
       }

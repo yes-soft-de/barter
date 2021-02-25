@@ -13,16 +13,10 @@ class ProfileStateGotProfile extends ProfileState {
   @override
   Widget getUI(BuildContext context) {
     return ProfileFormWidget(
-      onProfileSaved: (name, phone, image) {
-        request.name = name;
-        request.phone = phone;
-        request.image = image;
+      onProfileSaved: (request) {
         screenState.saveProfile(request);
       },
-      onImageUpload: (name, phone, localImage) {
-        request.name = name;
-        request.phone = phone;
-        request.image = localImage;
+      onImageUpload: (request) {
         screenState.uploadImage(request);
       },
       request: request,

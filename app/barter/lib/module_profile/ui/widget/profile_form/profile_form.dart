@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileFormWidget extends StatefulWidget {
-  final Function(String, String, String) onProfileSaved;
-  final Function(String, String, String) onImageUpload;
+  final Function(ProfileRequest) onProfileSaved;
+  final Function(ProfileRequest) onImageUpload;
   final ProfileRequest request;
 
   ProfileFormWidget({
@@ -19,25 +19,88 @@ class ProfileFormWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _ProfileFormWidgetState(
-      request != null ? request.name : null,
-      request != null ? request.phone : null);
+      request != null ? request.firstName : null,
+      request != null ? request.lastName : null,
+      request != null ? request.phone : null,
+      request != null ? request.location : null,
+      request != null ? request.image : null);
 }
 
 class _ProfileFormWidgetState extends State<ProfileFormWidget> {
-  final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
   final _phoneController = TextEditingController();
-  String localImage;
+  final _locationController = TextEditingController();
+  String theImage;
 
   final _formKey = GlobalKey<FormState>();
 
-  _ProfileFormWidgetState(String name, String phone) {
-    _nameController.text = name;
+  _ProfileFormWidgetState(
+    String firstName,
+    String lastName,
+    String phone,
+    String location,
+    String image,
+  ) {
+    _firstNameController.text = firstName;
+    _lastNameController.text = lastName;
     _phoneController.text = phone;
+    _locationController.text = location;
+    theImage = image;
   }
 
   @override
   Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Text(
+              'Complete Profile Info'.toUpperCase(),
+              style: TextStyle(color: Colors.blue),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            color: Colors.teal[500],
+            height: 4,
+          ),
+          Container(
+            padding: EdgeInsets.all(24.0),
+            decoration: BoxDecoration(color: Colors.cyan[200]),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.info,
+                    color: Colors.cyan,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Please First we need to complete your profile info',
+                      style: TextStyle(
+                        color: Color(0xff219653),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          getPersonalForm(),
+        ],
+      ),
+    );
+  }
+
+  Widget getPersonalForm() {
     return Padding(
+      key: ObjectKey('false'),
       padding: const EdgeInsets.all(16.0),
       child: Form(
         key: _formKey,
@@ -52,9 +115,13 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                     .getImage(source: ImageSource.gallery)
                     .then((value) {
                   widget.onImageUpload(
-                    _nameController.text,
-                    _phoneController.text,
-                    value.path,
+                    ProfileRequest(
+                      firstName: _firstNameController.text,
+                      lastName: _lastNameController.text,
+                      phone: _phoneController.text,
+                      location: _locationController.text,
+                      image: value.path,
+                    ),
                   );
                   setState(() {});
                 });
@@ -81,10 +148,11 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          widget.request.image.contains('http')
-                                              ? widget.request.image
-                                              : Urls.IMAGES_ROOT +
-                                                  widget.request.image),
+                                        widget.request.image.contains('http')
+                                            ? widget.request.image
+                                            : Urls.IMAGES_ROOT +
+                                                widget.request.image,
+                                      ),
                                       fit: BoxFit.cover,
                                     )),
                               ),
@@ -93,10 +161,26 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
               ),
             ),
             TextFormField(
-              controller: _nameController,
+              controller: _firstNameController,
               decoration: InputDecoration(
-                hintText: S.of(context).name,
-                labelText: S.of(context).name,
+                hintText: 'First Name',
+                labelText: 'First Name',
+              ),
+              validator: (name) {
+                if (name == null) {
+                  return S.of(context).nameIsRequired;
+                }
+                if (name.isEmpty) {
+                  return S.of(context).nameIsRequired;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _lastNameController,
+              decoration: InputDecoration(
+                hintText: 'Last Name',
+                labelText: 'Last Name',
               ),
               validator: (name) {
                 if (name == null) {
@@ -125,15 +209,173 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 return null;
               },
             ),
+            TextFormField(
+              controller: _locationController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                hintText: 'Location',
+                labelText: 'Location',
+              ),
+              validator: (location) {
+                if (location == null) {
+                  return 'Please Input Location';
+                }
+                if (location.isEmpty) {
+                  return 'Please Input Location';
+                }
+                return null;
+              },
+            ),
             RaisedButton(
                 color: Theme.of(context).primaryColor,
                 child: Text(S.of(context).save),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     widget.onProfileSaved(
-                      _nameController.text,
-                      _phoneController.text,
-                      widget.request.image,
+                      ProfileRequest(
+                        firstName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        phone: _phoneController.text,
+                        location: _locationController.text,
+                        image: theImage,
+                      ),
+                    );
+                  } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(S.of(context).pleaseCompleteTheForm)));
+                  }
+                })
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCompanyForm() {
+    return Padding(
+      key: ObjectKey('true'),
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.always,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GestureDetector(
+              onTap: () {
+                ImagePicker()
+                    .getImage(source: ImageSource.gallery)
+                    .then((value) {
+                  widget.onImageUpload(
+                    ProfileRequest(
+                      firstName: _firstNameController.text,
+                      lastName: _lastNameController.text,
+                      phone: _phoneController.text,
+                      location: _locationController.text,
+                      image: value.path,
+                    ),
+                  );
+                  setState(() {});
+                });
+              },
+              child: Container(
+                height: 96,
+                width: 96,
+                decoration: BoxDecoration(shape: BoxShape.circle),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    widget.request == null
+                        ? Container()
+                        : widget.request.image == null
+                            ? Container()
+                            : Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        widget.request.image.contains('http')
+                                            ? widget.request.image
+                                            : Urls.IMAGES_ROOT +
+                                                widget.request.image,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    )),
+                              ),
+                  ],
+                ),
+              ),
+            ),
+            TextFormField(
+              controller: _firstNameController,
+              decoration: InputDecoration(
+                hintText: 'Name',
+                labelText: 'Name',
+              ),
+              validator: (name) {
+                if (name == null) {
+                  return S.of(context).nameIsRequired;
+                }
+                if (name.isEmpty) {
+                  return S.of(context).nameIsRequired;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                hintText: S.of(context).phoneNumber,
+                labelText: S.of(context).phoneNumber,
+              ),
+              validator: (name) {
+                if (name == null) {
+                  return S.of(context).pleaseInputPhoneNumber;
+                }
+                if (name.isEmpty) {
+                  return S.of(context).pleaseInputPhoneNumber;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _locationController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                hintText: 'Location',
+                labelText: 'Location',
+              ),
+              validator: (location) {
+                if (location == null) {
+                  return 'Please Input Location';
+                }
+                if (location.isEmpty) {
+                  return 'Please Input Location';
+                }
+                return null;
+              },
+            ),
+            RaisedButton(
+                color: Theme.of(context).primaryColor,
+                child: Text(S.of(context).save),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    widget.onProfileSaved(
+                      ProfileRequest(
+                        firstName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        phone: _phoneController.text,
+                        location: _locationController.text,
+                        image: theImage,
+                      ),
                     );
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(

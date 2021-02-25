@@ -240,23 +240,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(S.of(context).myStatus),
                 Switch(
                   onChanged: (bool value) {
-                    profile.isOnline = value;
                     widget._notificationService.setCaptainActive(value);
-                    widget._profileService.updateCaptainProfile(
+                    widget._profileService.updateProfile(
                       ProfileRequest(
-                        name: profile.name,
+                        firstName: profile.firstName,
+                        lastName: profile.lastName,
                         image: profile.image,
                         phone: profile.phone,
-                        drivingLicence: profile.drivingLicence,
-                        city: 'Jedda',
-                        branch: '-1',
-                        car: profile.car,
-                        age: profile.age.toString(),
-                        isOnline: value == true ? 'active' : 'inactive',
+                        location: profile.location,
                       ),
                     );
                   },
-                  value: profile.isOnline == true,
+                  value: profile.location != null,
                 )
               ],
             ),

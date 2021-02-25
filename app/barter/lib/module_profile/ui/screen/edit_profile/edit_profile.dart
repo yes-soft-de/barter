@@ -45,10 +45,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       states.add(ProfileStateLoading(this));
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).myProfile),
-      ),
-      body: states.last.getUI(context),
+      body: SafeArea(child: states.last.getUI(context)),
     );
   }
 }

@@ -15,23 +15,8 @@ class ProfileManager {
     this._repository,
   );
 
-  Future<bool> createOwnerProfile(ProfileRequest profileRequest) =>
-      _repository.createOwnerProfile(profileRequest);
+  Future<ProfileResponseModel> getProfile() => _repository.getProfile();
 
-  Future<bool> createCaptainProfile(ProfileRequest profileRequest) =>
-      _repository.createCaptainProfile(profileRequest);
-
-  Future<ProfileResponseModel> getCaptainProfile() =>
-      _repository.getCaptainProfile();
-
-  Future<ProfileResponse> updateCaptainProfile(ProfileRequest profileRequest) =>
-      _repository.updateCaptainProfile(profileRequest);
-
-  Future<ProfileResponseModel> getOwnerProfile() =>
-      _repository.getOwnerProfile();
-
-  Future<Branch> createBranch(CreateBranchRequest request) =>
-      _repository.createBranch(request);
-
-  Future<List<Branch>> getMyBranches() => _repository.getMyBranches();
+  Future<ProfileResponse> updateProfile(ProfileRequest profileRequest) =>
+      _repository.updateProfile(profileRequest);
 }

@@ -19,22 +19,7 @@ class ProfileRepository {
     this._authService,
   );
 
-  Future<ProfileResponseModel> getOwnerProfile() async {
-    await _authService.refreshToken();
-    var token = await _authService.getToken();
-    dynamic response = await _apiClient.get(
-      Urls.OWNER_PROFILE_API,
-      headers: {'Authorization': 'Bearer ' + token},
-    );
-    if (response == null) return null;
-    try {
-      return ProfileResponse.fromJson(response).data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<ProfileResponseModel> getCaptainProfile() async {
+  Future<ProfileResponseModel> getProfile() async {
     await _authService.refreshToken();
     var token = await _authService.getToken();
     dynamic response = await _apiClient.get(
@@ -50,55 +35,7 @@ class ProfileRepository {
     }
   }
 
-  Future<bool> createOwnerProfile(ProfileRequest profileRequest) async {
-    var token = await _authService.getToken();
-    dynamic response;
-    try {
-      response = await _apiClient.post(
-        Urls.OWNER_PROFILE_API,
-        profileRequest.toJson(),
-        headers: {'Authorization': 'Bearer ' + token},
-      );
-    } catch (e) {}
-    try {
-      await _apiClient.put(
-        Urls.OWNER_PROFILE_API,
-        profileRequest.toJson(),
-        headers: {'Authorization': 'Bearer ' + token},
-      );
-    } catch (e) {}
-
-    if (response != null) return true;
-
-    return false;
-  }
-
-  Future<bool> createCaptainProfile(ProfileRequest profileRequest) async {
-    var token = await _authService.getToken();
-
-    dynamic response;
-    try {
-      await _apiClient.post(
-        Urls.CAPTAIN_PROFILE_API,
-        profileRequest.toJson(),
-        headers: {'Authorization': 'Bearer ' + token},
-      );
-    } catch (e) {}
-    try {
-      await _apiClient.put(
-        Urls.CAPTAIN_PROFILE_API,
-        profileRequest.toJson(),
-        headers: {'Authorization': 'Bearer ' + token},
-      );
-    } catch (e) {}
-
-    if (response == null) return true;
-
-    return false;
-  }
-
-  Future<ProfileResponse> updateCaptainProfile(
-      ProfileRequest profileRequest) async {
+  Future<ProfileResponse> updateProfile(ProfileRequest profileRequest) async {
     var token = await _authService.getToken();
 
     Map<String, dynamic> response;
@@ -120,30 +57,5 @@ class ProfileRepository {
     if (response == null) return null;
 
     return ProfileResponse.fromJson(response);
-  }
-
-  Future<Branch> createBranch(CreateBranchRequest createBranch) async {
-    var token = await _authService.getToken();
-    dynamic response = await _apiClient.post(
-      Urls.BRANCHES_API,
-      createBranch.toJson(),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    if (response == null) return null;
-
-    return CreateBranchResponse.fromJson(response).data;
-  }
-
-  Future<List<Branch>> getMyBranches() async {
-    var token = await _authService.getToken();
-    dynamic response = await _apiClient.get(
-      Urls.BRANCHES_API,
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    if (response == null) return null;
-
-    return GetBranchesResponse.fromJson(response).data;
   }
 }
