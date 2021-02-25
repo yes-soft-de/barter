@@ -1,9 +1,9 @@
 name: Android Deploy
 
 on:
-  push:
+  pull_request:
     branches: 
-      - 'release-v*'
+      - 'dev-mobile'
 
 jobs:
   deploy-android:
