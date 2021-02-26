@@ -19,7 +19,7 @@ class AppThemeDataService {
   }
 
   static Color get PrimaryDarker {
-    return Color(0xFF665EFF);
+    return Color(0xFF3ACCE1);
   }
 
   static Color get AccentColor {

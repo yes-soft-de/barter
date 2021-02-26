@@ -14,16 +14,11 @@ class LoginStateInit extends LoginState {
   @override
   Widget getUI(BuildContext context) {
     return SafeArea(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        GoogleLoginWidget(
-          onGoogleLoginRequested: () {
-            screen.loginViaGoogle();
-          },
-        ),
-      ],
-    ));
+      child: GoogleLoginWidget(
+        onGoogleLoginRequested: () {
+          screen.loginViaGoogle();
+        },
+      ),
+    );
   }
 }
