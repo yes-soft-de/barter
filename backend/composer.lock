@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64cfc144a7d5d4f27cf0c35e616565c3",
+    "content-hash": "018ff25aa5e4ba08b3e3047e264ad220",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2326,16 +2326,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "2.0.4",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "7cbbb7222e8d8a34e71273d243dfcf383ed6779f"
+                "reference": "88ab4780a5cc573fb943c8a6987da880b3ec0474"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/7cbbb7222e8d8a34e71273d243dfcf383ed6779f",
-                "reference": "7cbbb7222e8d8a34e71273d243dfcf383ed6779f",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/88ab4780a5cc573fb943c8a6987da880b3ec0474",
+                "reference": "88ab4780a5cc573fb943c8a6987da880b3ec0474",
                 "shasum": ""
             },
             "require": {
@@ -2390,7 +2390,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/2.0.4"
+                "source": "https://github.com/thephpleague/flysystem/tree/2.0.0"
             },
             "funding": [
                 {
@@ -2406,7 +2406,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-12T19:37:50+00:00"
+            "time": "2020-11-24T14:30:57+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -2576,16 +2576,16 @@
         },
         {
             "name": "liip/imagine-bundle",
-            "version": "2.5.0",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipImagineBundle.git",
-                "reference": "a04aa405272a9aff3c9e25dd015a1073f9f291a6"
+                "reference": "7c469724fdf818a3611249fe619d8e0001eeb649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/a04aa405272a9aff3c9e25dd015a1073f9f291a6",
-                "reference": "a04aa405272a9aff3c9e25dd015a1073f9f291a6",
+                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/7c469724fdf818a3611249fe619d8e0001eeb649",
+                "reference": "7c469724fdf818a3611249fe619d8e0001eeb649",
                 "shasum": ""
             },
             "require": {
@@ -2606,7 +2606,7 @@
                 "doctrine/persistence": "^1.3|^2.0",
                 "enqueue/enqueue-bundle": "^0.9|^0.10",
                 "ext-gd": "*",
-                "league/flysystem": "^1.0",
+                "league/flysystem": "^1.0|^2.0",
                 "psr/log": "^1.0",
                 "symfony/browser-kit": "^3.4|^4.3|^5.0",
                 "symfony/console": "^3.4|^4.3|^5.0",
@@ -2632,6 +2632,7 @@
                 "monolog/monolog": "A psr/log compatible logger is required to enable logging",
                 "symfony/templating": "required to use deprecated Templating component instead of Twig"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
@@ -2666,9 +2667,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipImagineBundle/issues",
-                "source": "https://github.com/liip/LiipImagineBundle/tree/2.5.0"
+                "source": "https://github.com/liip/LiipImagineBundle/tree/2.x"
             },
-            "time": "2021-02-08T15:10:40+00:00"
+            "time": "2021-02-23T08:57:31+00:00"
         },
         {
             "name": "mark-gerarts/auto-mapper-plus",
@@ -8589,7 +8590,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "liip/imagine-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

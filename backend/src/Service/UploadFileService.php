@@ -9,10 +9,12 @@ use App\Response\SettingResponse;
 use DateTime;
 use Exception;
 use Gedmo\Sluggable\Util\Urlizer;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToWriteFile;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadFileService
@@ -22,7 +24,7 @@ class UploadFileService
     private $params;
     private $settingService;
 
-    public function __construct(FilesystemInterface $fileSystem, FilterService $filterService, ParameterBagInterface $params, SettingService $settingService)
+    public function __construct(Filesystem $fileSystem, FilterService $filterService, ParameterBagInterface $params, SettingService $settingService)
     {
         $this->filterService = $filterService;
         $this->fileSystem = $fileSystem;
@@ -42,10 +44,10 @@ class UploadFileService
 
         $stream = fopen($uploadedFile->getPathname(), 'r');
 
-        $result = $this->fileSystem->writeStream($path . $newFileName, $stream);
-
-        if ($result === false)
-        {
+        try {
+            $this->fileSystem->writeStream($path . $newFileName, $stream);
+            // it is ok!
+        } catch (UnableToWriteFile | FilesystemException $exception) {
             throw new Exception(sprintf('Could not write uploaded file "%s"', $newFileName));
         }
 
@@ -57,14 +59,9 @@ class UploadFileService
         if ($existingFileName)
         {
             try {
-                $result = $this->fileSystem->delete($path . $existingFileName);
-
-                if ($result === false)
-                {
-                    throw new Exception(sprintf('Could not delete old file "%s"', $existingFileName));
-                }
+                $this->fileSystem->delete($path . $existingFileName);
             } catch (FileNotFoundException $e) {
-
+                throw new Exception(sprintf('Could not delete old file "%s"', $existingFileName));
             }
         }
 
