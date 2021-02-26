@@ -10,7 +10,7 @@ RUN  composer update
 RUN composer update symfony/flex --no-plugins --no-scripts
 RUN composer install
 RUN composer require symfony/translation && composer require doctrine/annotations && composer require symfony/orm-pack
-RUN composer require liip/imagine-bundle
+
 
 FROM php:7.4-apache
 RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev
@@ -20,7 +20,7 @@ RUN a2enmod rewrite
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/.env /var/www/html
 RUN apt update -y && apt install zip -y && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer update symfony/flex --no-plugins --no-scripts
-Run composer require liip/imagine-bundle
+
 #@2RUN composer dump-env prod
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/.htaccess /var/www/html/public
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/jwt/ /var/www/html/config/jwt
