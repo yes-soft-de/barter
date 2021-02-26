@@ -2,12 +2,15 @@ FROM php:7.4-fpm AS vendor
 WORKDIR /tmp/
 COPY composer.json composer.json
 COPY composer.lock composer.lock
+
+
+
 RUN apt update -y && apt install zip -y && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN  composer update 
 RUN composer update symfony/flex --no-plugins --no-scripts
-
 RUN composer install
 RUN composer require symfony/translation && composer require doctrine/annotations && composer require symfony/orm-pack
+
 
 FROM php:7.4-apache
 RUN apt-get update && apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev
