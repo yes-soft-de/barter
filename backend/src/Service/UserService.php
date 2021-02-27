@@ -69,12 +69,7 @@ class UserService
     {
         $item = $this->userManager->userProfileUpdate($request);
 
-        if($item->getImage())
-        {
-            $item->setImage($this->params.$item->getImage());
-        }
-
-        return $this->autoMapping->map(UserProfileEntity::class,UserProfileResponse::class, $item);
+        return $this->autoMapping->map(UserProfileEntity::class, UserProfileResponse::class, $item);
     }
 
     public function getUserProfileByUserID($userID)
