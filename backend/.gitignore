@@ -15,7 +15,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/migrations/
 
 # jetbrain
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
@@ -27,7 +26,6 @@
 .idea/dictionaries
 .idea/
 .env.prod
-migrations
 debug.log
 
 # Sensitive or high-churn files:
