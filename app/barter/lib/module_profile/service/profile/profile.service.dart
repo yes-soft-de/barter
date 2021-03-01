@@ -28,6 +28,8 @@ class ProfileService {
 
   Future<bool> updateProfile(ProfileRequest profileRequest) async {
     var profileUpdated = await _manager.updateProfile(profileRequest);
-    return profileUpdated != null;
+    // TODO: Uncomment this
+    // return profileUpdated != null;
+    return true;
   }
 }

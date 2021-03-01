@@ -7,12 +7,3 @@ abstract class EditProfileState {
 
   Widget getUI(BuildContext context);
 }
-
-class EditProfileStateInit extends EditProfileState {
-  EditProfileStateInit(EditProfileScreenState screenState) : super(screenState);
-
-  @override
-  Widget getUI(BuildContext context) {
-    return Scaffold();
-  }
-}

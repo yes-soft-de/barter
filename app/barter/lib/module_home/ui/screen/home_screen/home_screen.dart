@@ -1,3 +1,4 @@
+import 'package:barter/module_services/ui/widget/create_service_form.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 
@@ -6,8 +7,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Home'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CreateServiceForm(onServiceAdd: (ServiceModel ) {  }, categories: ['S'],)
+            ],
+          ),
+        ),
       ),
     );
   }

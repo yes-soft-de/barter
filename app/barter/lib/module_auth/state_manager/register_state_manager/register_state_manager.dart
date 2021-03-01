@@ -43,7 +43,7 @@ class RegisterStateManager {
           .add(RegisterStateError(_registerScreenState, err.toString()));
     });
 
-    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_CAPTAIN);
+    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_FREELANCE);
   }
 
   void registerOwner(String email, String name, String password,
@@ -63,10 +63,10 @@ class RegisterStateManager {
     });
 
     _authService.registerWithEmailAndPassword(
-        email, password, name, UserRole.ROLE_OWNER);
+        email, password, name, UserRole.ROLE_COMPANY);
   }
 
   void confirmCaptainCode(String smsCode) {
-    _authService.confirmWithCode(smsCode, UserRole.ROLE_CAPTAIN);
+    _authService.confirmWithCode(smsCode, UserRole.ROLE_FREELANCE);
   }
 }

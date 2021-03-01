@@ -1,4 +1,4 @@
 enum UserRole {
-  ROLE_CAPTAIN,
-  ROLE_OWNER
+  ROLE_FREELANCE,
+  ROLE_COMPANY
 }

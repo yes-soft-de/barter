@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           FutureBuilder(
             future: widget._authService.userRole,
             builder: (BuildContext context, AsyncSnapshot<UserRole> snapshot) {
-              if (snapshot.data == UserRole.ROLE_OWNER) {
+              if (snapshot.data == UserRole.ROLE_COMPANY) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -219,7 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<Widget> _getCaptainStateSwitch() async {
     var userRole = await widget._authService.userRole;
     print('${userRole}');
-    if (userRole == UserRole.ROLE_OWNER) {
+    if (userRole == UserRole.ROLE_COMPANY) {
       return Container();
     } else {
       // The User is a captain

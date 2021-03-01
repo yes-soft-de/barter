@@ -55,7 +55,7 @@ class LoginStateManager {
           _loginScreenState, err.toString(), _email, _password));
     });
 
-    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_OWNER);
+    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_COMPANY);
   }
 
   void loginOwner(
@@ -78,17 +78,17 @@ class LoginStateManager {
     });
 
     _authService.signInWithEmailAndPassword(
-        email, password, UserRole.ROLE_OWNER);
+        email, password, UserRole.ROLE_COMPANY);
   }
 
   void confirmSMSCode(String smsCode, LoginScreen screenState) {
     _screenState = screenState;
-    _authService.confirmWithCode(smsCode, UserRole.ROLE_OWNER);
+    _authService.confirmWithCode(smsCode, UserRole.ROLE_COMPANY);
   }
 
   void loginViaGoogle(LoginScreen loginScreen) {
     _screenState = loginScreen;
-    _authService.verifyWithGoogle(UserRole.ROLE_OWNER);
+    _authService.verifyWithGoogle(UserRole.ROLE_COMPANY);
   }
 
   void refresh(LoginState state) {
