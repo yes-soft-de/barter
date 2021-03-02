@@ -33,7 +33,7 @@ class _YesCarouselState extends State<YesCarousel> {
       });
     }
     return Container(
-      height: 240,
+      height: 180,
       child: Stack(
         children: [
           Positioned(

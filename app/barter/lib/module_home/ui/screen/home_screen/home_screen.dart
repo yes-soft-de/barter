@@ -1,5 +1,6 @@
 import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
+import 'package:barter/module_chat/ui/screens/active_chats/active_chats.dart';
 import 'package:barter/module_profile/ui/screen/edit_profile/edit_profile.dart';
 import 'package:barter/module_services/services_routes.dart';
 import 'package:barter/module_services/ui/screen/services_screen.dart';
@@ -13,12 +14,14 @@ class HomeScreen extends StatefulWidget {
   final ServicesScreen _servicesScreen;
   final EditProfileScreen _profileScreen;
   final AuthService _authService;
+  final ActiveChatsScreen _activeChats;
 
   HomeScreen(
     this._settingsScreen,
     this._servicesScreen,
     this._profileScreen,
     this._authService,
+    this._activeChats,
   );
 
   @override
@@ -38,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           widget._authService.isLoggedIn.then((value) {
-            if (!value){
+            if (!value) {
               Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
             } else {
               Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
@@ -63,8 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.miscellaneous_services),
-            label: 'Services',
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_rounded),
+            label: 'Chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -82,6 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return widget._profileScreen;
       case 2:
+        return widget._activeChats;
+      case 3:
         return widget._settingsScreen;
       default:
         return widget._servicesScreen;
