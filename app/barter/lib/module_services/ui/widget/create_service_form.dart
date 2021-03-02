@@ -39,15 +39,7 @@ class CreateServiceForm extends StatelessWidget {
                     hintText: 'Category',
                     hintStyle: TextStyle(fontSize: 12),
                   ),
-                  items: [
-                    DropdownMenuItem(
-                      value: 'cat 01',
-                      child: Text(
-                        'Cat 01',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ],
+                  items: _getCategoriesDropDownList(),
                   onChanged: (s) {},
                 ),
               ),
@@ -62,23 +54,28 @@ class CreateServiceForm extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: Text('This Service Will be active until: ',
-                  style: TextStyle(fontSize: 12),),
+                title: Text(
+                  'This Service Will be active until: ',
+                  style: TextStyle(fontSize: 12),
+                ),
                 trailing: RaisedButton.icon(
-                  color: Theme
-                      .of(context)
-                      .primaryColor,
+                  color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   onPressed: () {
                     DatePicker.showDatePicker(context);
                   },
                   icon: FaIcon(FontAwesomeIcons.clock),
-                  label: Text('2 Days', style: TextStyle(fontSize: 12),),
+                  label: Text(
+                    '2 Days',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ),
               ListTile(
-                title: Text('Time Needed',
-                  style: TextStyle(fontSize: 12),),
+                title: Text(
+                  'Time Needed',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -90,9 +87,7 @@ class CreateServiceForm extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: OutlineButton(
-                  color: Theme
-                      .of(context)
-                      .primaryColor,
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {},
                   child: Text('Submit Service'),
                 ),
@@ -107,14 +102,31 @@ class CreateServiceForm extends StatelessWidget {
   List<Widget> _getChips() {
     const chipPadding = 4.0;
     var chips = <Widget>[];
-    for (int i = 0; i < 4 ; i++) {
+    for (int i = 0; i < 4; i++) {
       chips.add(Padding(
         padding: const EdgeInsets.all(chipPadding),
         child: Chip(
-          label: Text('$i Day', style: TextStyle(fontSize: 12),),
+          label: Text(
+            '$i Day',
+            style: TextStyle(fontSize: 12),
+          ),
         ),
       ));
     }
     return chips;
+  }
+
+  List<DropdownMenuItem> _getCategoriesDropDownList() {
+    var items = <DropdownMenuItem>[];
+    categories.forEach((element) {
+      items.add(DropdownMenuItem(
+        value: 'cat 01',
+        child: Text(
+          'Cat 01',
+          style: TextStyle(fontSize: 12),
+        ),
+      ));
+    });
+    return items;
   }
 }

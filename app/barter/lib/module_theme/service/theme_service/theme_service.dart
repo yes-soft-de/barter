@@ -34,6 +34,9 @@ class AppThemeDataService {
         primaryColor: PrimaryColor,
         primaryColorDark: PrimaryDarker,
         accentColor: AccentColor,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 12)
+        ),
         appBarTheme: AppBarTheme(
           centerTitle: true,
           textTheme: TextTheme(),

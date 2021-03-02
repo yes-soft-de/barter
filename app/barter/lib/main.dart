@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:barter/abstracts/module/yes_module.dart';
 import 'package:barter/module_chat/chat_module.dart';
+import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_home/module_home.dart';
 import 'package:barter/module_init/init_account_module.dart';
 import 'package:barter/module_localization/service/localization_service/localization_service.dart';
@@ -156,7 +157,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: S.delegate.supportedLocales,
       title: 'Barter',
       routes: fullRoutesList,
-      initialRoute: SplashRoutes.SPLASH_SCREEN,
+      initialRoute: HomeRoutes.HOME_ROUTE,
     );
   }
 }
