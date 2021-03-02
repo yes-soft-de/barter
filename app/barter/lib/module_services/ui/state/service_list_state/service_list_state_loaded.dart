@@ -14,38 +14,40 @@ class ServiceListStateLoaded extends ServiceListState {
 
   @override
   Widget getUI(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          YesCarousel(cards: <Widget> [
-            Text('Card 01 of the carouser'),
-            Text('Card 02 of the carouser'),
-            Text('Card 03 of the carouser'),
-          ]),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('New companies you may like', textAlign: TextAlign.start,),
-          ),
-          Container(
-            height: 240,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: _getPersonalCards(),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            YesCarousel(cards: <Widget> [
+              Text('Card 01 of the carouser'),
+              Text('Card 02 of the carouser'),
+              Text('Card 03 of the carouser'),
+            ]),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('New companies you may like', textAlign: TextAlign.start,),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('People in this service', textAlign: TextAlign.start,),
-          ),
-          Container(
-            height: 240,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: _getCompanyCards(),
+            Container(
+              height: 240,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: _getPersonalCards(),
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('People in this service', textAlign: TextAlign.start,),
+            ),
+            Container(
+              height: 240,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: _getCompanyCards(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

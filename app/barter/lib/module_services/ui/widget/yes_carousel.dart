@@ -34,19 +34,21 @@ class _YesCarouselState extends State<YesCarousel> {
     }
     return Container(
       height: 240,
-      width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
-          Positioned.fill(
+          Positioned(
+            top: 12,
+            bottom: 12,
+            left: 8,
+            right: 8,
             child: Container(
               padding: const EdgeInsets.all(4.0),
-              child: Container(
-                padding: const EdgeInsets.all(4.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor, width: 4),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: PageView(
                   controller: _carouselController,
                   onPageChanged: (pos) {
@@ -60,10 +62,13 @@ class _YesCarouselState extends State<YesCarousel> {
             ),
           ),
           Positioned(
-            child: _getIndicator(),
-            bottom: 8,
+            bottom: 4,
             left: 0,
             right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [_getIndicator()],
+            ),
           ),
         ],
       ),
@@ -73,16 +78,32 @@ class _YesCarouselState extends State<YesCarousel> {
   Widget _getIndicator() {
     var circles = <Widget>[];
     for (int i = 0; i < widget.cards.length; i++) {
-      circles.add(Container(
-        height: 8,
-        width: 8,
-        color: i <= currentIndex ? Theme.of(context).primaryColor : Colors.grey,
+      circles.add(Center(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+          child: Container(
+            height: 8,
+            width: 8,
+            decoration: BoxDecoration(
+                color: i <= currentIndex
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                shape: BoxShape.circle),
+          ),
+        ),
       ));
     }
     return Container(
-      width: 16,
-      height: 16,
+      padding: EdgeInsets.all(4),
       alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          width: 2,
+          color: Theme.of(context).primaryColor,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
       child: Flex(
         direction: Axis.horizontal,
         children: circles,
