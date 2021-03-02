@@ -59,6 +59,33 @@ methods: GET
 methods: GET
 ```
 
+### Category
+#### Create new category
+```
+/category
+methods: POST
+```
+#### Update existing category
+```
+/category
+methods: PUT
+```
+#### Delete existing category
+```
+/category/{id}
+methods: DELETE
+```
+#### Get all categories
+```
+/categories
+methods: GET
+```
+#### Get category by id
+```
+/category/{id}
+methods: GET
+```
+
 ### Services
 #### Create new service
 ```
