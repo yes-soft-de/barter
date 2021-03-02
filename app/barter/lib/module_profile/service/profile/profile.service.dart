@@ -22,14 +22,12 @@ class ProfileService {
     this._authService,
   );
 
-  Future<ProfileResponseModel> getProfile() async {
+  Future<ProfileResponseModel> getProfile() {
     return _manager.getProfile();
   }
 
   Future<bool> updateProfile(ProfileRequest profileRequest) async {
     var profileUpdated = await _manager.updateProfile(profileRequest);
-    // TODO: Uncomment this
-    // return profileUpdated != null;
-    return true;
+    return profileUpdated != null;
   }
 }

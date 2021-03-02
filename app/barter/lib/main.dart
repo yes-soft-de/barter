@@ -23,6 +23,7 @@ import 'package:inject/inject.dart';
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_auth/authoriazation_module.dart';
+import 'module_services/services_module.dart';
 import 'module_settings/settings_module.dart';
 import 'module_splash/splash_routes.dart';
 
@@ -66,6 +67,7 @@ class MyApp extends StatefulWidget {
   final ProfileModule _profileModule;
   final FireNotificationService _fireNotificationService;
   final HomeModule _homeModule;
+  final ServicesModule _servicesModule;
 
   MyApp(
     this._themeDataService,
@@ -76,6 +78,7 @@ class MyApp extends StatefulWidget {
     this._initAccountModule,
     this._settingsModule,
     this._authorizationModule,
+    this._servicesModule,
     this._profileModule,
     this._homeModule,
   );
@@ -116,6 +119,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutes.addAll(widget._chatModule.getRoutes());
     fullRoutes.addAll(widget._profileModule.getRoutes());
     fullRoutes.addAll(widget._homeModule.getRoutes());
+    fullRoutes.addAll(widget._servicesModule.getRoutes());
 
     return FutureBuilder(
       initialData: ThemeData.light(),
