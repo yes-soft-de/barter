@@ -15,6 +15,8 @@ class ServicesGetResponse
 
     public $categoryID;
 
+    public $categoryName;
+
     public $activeUntil;
 
     public $enabled;

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\CategoryEntity;
 use App\Entity\ServicesEntity;
 use App\Entity\UserProfileEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -45,7 +46,14 @@ class ServicesEntityRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('service')
             ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
-             'service.activeUntil', 'service.enabled', 'service.tags')
+             'category.name as categoryName', 'service.activeUntil', 'service.enabled', 'service.tags')
+
+            ->leftJoin(
+                CategoryEntity::class,
+                'category',
+                Join::WITH,
+                'category.id = service.categoryID'
+            ) 
 
             ->andWhere('service.createdBy = :userID')
             ->setParameter('userID', $userID)
@@ -65,11 +73,9 @@ class ServicesEntityRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult();
 
-        //dd($userID);
-
         return $this->createQueryBuilder('service')
             ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
-             'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
+            'category.name as categoryName', 'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
 
             ->leftJoin(
                 UserProfileEntity::class,
@@ -77,6 +83,13 @@ class ServicesEntityRepository extends ServiceEntityRepository
                 Join::WITH,
                 'userProfile.userID = service.createdBy'
             )
+
+            ->leftJoin(
+                CategoryEntity::class,
+                'category',
+                Join::WITH,
+                'category.id = service.categoryID'
+            ) 
 
             ->andWhere('service.createdBy = :userID')
             ->setParameter('userID', $userID['createdBy'])
