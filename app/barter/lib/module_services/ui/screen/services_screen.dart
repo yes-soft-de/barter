@@ -8,6 +8,7 @@ import 'package:inject/inject.dart';
 @provide
 class ServicesScreen extends StatefulWidget {
   final ServiceScreenStateManager _manager;
+
   ServicesScreen(this._manager);
 
   @override
@@ -31,7 +32,21 @@ class _ServicesScreenState extends State<ServicesScreen> {
   Widget build(BuildContext context) {
     _currentState ??= ServiceListStateLoading(widget);
     return Scaffold(
-        body: _currentState.getUI(context),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text('NA', style: TextStyle(color: Colors.white),),
+          ),
+        ),
+        title: Text('Barter'),
+      ),
+      body: _currentState.getUI(context),
     );
   }
 }

@@ -34,12 +34,15 @@ class AppThemeDataService {
         primaryColor: PrimaryColor,
         primaryColorDark: PrimaryDarker,
         accentColor: AccentColor,
-        textTheme: TextTheme(
-          bodyText1: TextStyle(fontSize: 12)
-        ),
+        textTheme: TextTheme(bodyText1: TextStyle(fontSize: 12)),
         appBarTheme: AppBarTheme(
-          centerTitle: true,
-          textTheme: TextTheme(),
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
           brightness: Brightness.dark,
           color: Colors.black,
           iconTheme: IconThemeData(color: Colors.white),
@@ -51,7 +54,15 @@ class AppThemeDataService {
       primaryColor: PrimaryColor,
       primaryColorDark: PrimaryDarker,
       accentColor: AccentColor,
-      appBarTheme: AppBarTheme(centerTitle: true, color: Colors.white),
+      appBarTheme: AppBarTheme(
+          color: Colors.cyan[200],
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          )),
     );
   }
 
