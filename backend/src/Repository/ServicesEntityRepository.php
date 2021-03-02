@@ -53,4 +53,35 @@ class ServicesEntityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getServicesBySpecificAccount($serviceID)
+    {
+        $userID = $this->createQueryBuilder('service')
+        ->select('service.id', 'service.createdBy')
+
+        ->andWhere('service.id = :serviceID')
+        ->setParameter('serviceID', $serviceID)
+
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        //dd($userID);
+
+        return $this->createQueryBuilder('service')
+            ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
+             'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
+
+            ->leftJoin(
+                UserProfileEntity::class,
+                'userProfile',
+                Join::WITH,
+                'userProfile.userID = service.createdBy'
+            )
+
+            ->andWhere('service.createdBy = :userID')
+            ->setParameter('userID', $userID['createdBy'])
+
+            ->getQuery()
+            ->getResult();
+    }
 }

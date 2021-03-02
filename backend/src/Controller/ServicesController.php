@@ -118,4 +118,13 @@ class ServicesController extends BaseController
         return $this->response($result, self::FETCH);
     }
 
+    /**
+     * @Route("servicesbyid/{serviceID}", name="getServicesBySpecificAccount", methods={"GET"})
+     */
+    public function getServicesBySpecificAccount($serviceID)
+    {
+        $result = $this->servicesService->getServicesBySpecificAccount($serviceID);
+
+        return $this->response($result, self::FETCH);
+    }
 }

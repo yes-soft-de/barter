@@ -85,5 +85,10 @@ methods: GET
 /myservices
 methods: GET
 ```
+#### Get services of personal/company account by service ID
+```
+servicesbyid/{serviceID}
+methods: GET
+```
 
 this edited by tools repository for more informatin about this repository please visit https://yes-soft.de/category/blog/

@@ -83,4 +83,20 @@ class ServicesService
 
         return $servicesResponse;
     }
+
+    public function getServicesBySpecificAccount($serviceID)
+    {
+        $servicesResponse = [];
+
+        $results = $this->servicesManager->getServicesBySpecificAccount($serviceID);
+
+        foreach($results as $result)
+        {
+            $result['userImage'] = $this->params . $result['userImage'];
+
+            $servicesResponse[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
+        }
+
+        return $servicesResponse;
+    }
 }

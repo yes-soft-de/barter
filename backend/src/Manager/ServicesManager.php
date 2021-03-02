@@ -88,4 +88,9 @@ class ServicesManager
         return $this->servicesEntityRepository->getServicesOfUser($userID);
     }
 
+    public function getServicesBySpecificAccount($serviceID)
+    {
+        return $this->servicesEntityRepository->getServicesBySpecificAccount($serviceID);
+    }
+
 }
