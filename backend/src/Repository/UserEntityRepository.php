@@ -2,12 +2,15 @@
 
 namespace App\Repository;
 
+use App\Entity\ServicesEntity;
 use App\Entity\UserEntity;
+use App\Entity\UserProfileEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method UserEntity|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,5 +59,36 @@ class UserEntityRepository extends ServiceEntityRepository implements PasswordUp
             ->getQuery()
             ->getOneOrNullResult()
             ;
+    }
+
+    public function getUsersByRole($role)
+    {
+        return $this->createQueryBuilder('user')
+            ->select('user.id', 'user.roles', 'user.userID', 'profile.userName', 'profile.image', 'profile.story', 
+            'services.id as serviceID', 'services.serviceTitle', 'services.description', 'services.createdBy', 'services.categoryID', 
+            'services.activeUntil', 'services.enabled', 'services.tags')
+
+            ->leftJoin(
+                UserProfileEntity::class,
+                'profile',
+                Join::WITH,
+                'profile.userID = user.userID'
+            )
+
+            ->leftJoin(
+                ServicesEntity::class,
+                'services',
+                Join::WITH,
+                'services.createdBy = user.userID'
+            )
+            
+            ->andWhere('user.roles LIKE :roles')
+            ->setParameter('roles', '%"'.$role.'"%')
+
+            ->andWhere("services.enabled = 1")
+            ->groupBy('user.id')
+
+            ->getQuery()
+            ->getResult();
     }
 }

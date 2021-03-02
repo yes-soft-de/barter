@@ -11,6 +11,7 @@ use App\Manager\UserManager;
 use App\Request\UserProfileCreateRequest;
 use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
+use App\Response\MembersGetResponse;
 use App\Response\UserProfileCreateResponse;
 use App\Response\UserProfileResponse;
 use App\Response\UserRegisterResponse;
@@ -83,5 +84,21 @@ class UserService
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
 
+    }
+
+    public function getUsersByRole($role)
+    {
+        $response = [];
+
+        $results = $this->userManager->getUsersByRole($role);
+
+        foreach($results as $result)
+        {
+            $result['image'] = $this->params . $result['image'];
+
+            $response[] = $this->autoMapping->map('array', MembersGetResponse::class, $result);;
+        }
+
+        return $response;
     }
 }

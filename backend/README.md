@@ -51,4 +51,39 @@ methods: PUT
 /userprofile
 methods: GET
 ```
+
+### Main
+#### Get all members
+```
+/members
+methods: GET
+```
+
+### Services
+#### Create new service
+```
+/service
+methods: POST
+```
+#### Update existing service
+```
+/service
+methods: PUT
+```
+#### Delete existing service
+```
+/service/{id}
+methods: DELETE
+```
+#### Get services of a category
+```
+/services/{categoryID}
+methods: GET
+```
+#### Get services of signed in user
+```
+/myservices
+methods: GET
+```
+
 this edited by tools repository for more informatin about this repository please visit https://yes-soft.de/category/blog/
