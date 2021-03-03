@@ -8,7 +8,7 @@ composer update
 ```
 ### Database setup
 First add to** .env** file correct connection string
-`DATABASE_URL=mysql://root@127.0.0.1:3306/animeDB?serverVersion=5.7`
+`DATABASE_URL=mysql://root@127.0.0.1:3306/barterDB?serverVersion=5.7`
 
 Then create database
 ```
@@ -25,6 +25,12 @@ Finaly run migration versions to create tables
 php bin/console doctrine:migration:migrate
 ```
 
+### APIs Guide
+* [Account](#account)
+* [Main](#main)
+* [Category](#category)
+* [Services](#services)
+
 ### Account
 #### Create new user
 ```
@@ -34,11 +40,6 @@ methods: POST
 #### login
 ```
 /login_check
-methods: POST
-```
-#### Create user profile
-```
-/userprofile
 methods: POST
 ```
 #### Update user profile
