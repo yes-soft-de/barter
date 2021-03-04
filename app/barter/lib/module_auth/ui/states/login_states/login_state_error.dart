@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 
 class LoginStateError extends LoginState {
   String errorMsg;
-  UserRole userType = UserRole.ROLE_OWNER;
+  UserRole userType = UserRole.ROLE_COMPANY;
   final loginTypeController =
-      PageController(initialPage: UserRole.ROLE_OWNER.index);
+      PageController(initialPage: UserRole.ROLE_COMPANY.index);
   bool loading = false;
 
   String email;

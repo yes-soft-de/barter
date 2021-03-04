@@ -55,10 +55,14 @@ jobs:
         env:
           FIREBASE_CONFIG: ${{secrets.FIREBASE_CONFIG}}
 
+      - name: Upgrade Flutter 
+        run: |
+          flutter upgrade
+
       - name: Get Flutter Packages tools
         run: |
           cd ./app/barter
-          flutter pub upgrade
+          flutter pub get
           flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Install bundle

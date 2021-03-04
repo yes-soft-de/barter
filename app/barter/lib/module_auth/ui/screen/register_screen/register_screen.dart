@@ -48,22 +48,22 @@ class RegisterScreenState extends State<RegisterScreen> {
   }
 
   void registerCaptain(String phoneNumber) {
-    currentUserRole = UserRole.ROLE_CAPTAIN;
+    currentUserRole = UserRole.ROLE_FREELANCE;
     widget._stateManager.registerCaptain(phoneNumber, this);
   }
 
   void registerOwner(String email, String username, String password) {
-    currentUserRole = UserRole.ROLE_OWNER;
+    currentUserRole = UserRole.ROLE_COMPANY;
     widget._stateManager.registerOwner(email, username, password, this);
   }
 
   void confirmCaptainSMS(String smsCode) {
-    currentUserRole = UserRole.ROLE_CAPTAIN;
+    currentUserRole = UserRole.ROLE_FREELANCE;
     widget._stateManager.confirmCaptainCode(smsCode);
   }
 
   void retryPhone() {
-    currentUserRole = UserRole.ROLE_CAPTAIN;
+    currentUserRole = UserRole.ROLE_FREELANCE;
     _currentState = RegisterStateInit(this);
   }
 

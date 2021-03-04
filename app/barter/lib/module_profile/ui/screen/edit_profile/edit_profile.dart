@@ -1,4 +1,5 @@
 import 'package:barter/generated/l10n.dart';
+import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:barter/module_profile/state_manager/edit_profile/edit_profile.dart';
 import 'package:barter/module_profile/ui/states/profile_loading/profile_loading.dart';
@@ -21,6 +22,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   void saveProfile(ProfileRequest request) {
     widget._stateManager.submitProfile(this, request);
+  }
+
+  void moveToLogin() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
+    });
   }
 
   void uploadImage(ProfileRequest request) {

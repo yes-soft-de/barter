@@ -7,9 +7,9 @@ import 'package:barter/module_auth/ui/widget/user_type_selector/user_type_select
 import 'package:flutter/material.dart';
 
 class RegisterStateInit extends RegisterState {
-  UserRole userType = UserRole.ROLE_OWNER;
+  UserRole userType = UserRole.ROLE_COMPANY;
   final registerTypeController =
-      PageController(initialPage: UserRole.ROLE_OWNER.index);
+      PageController(initialPage: UserRole.ROLE_COMPANY.index);
   bool loading = false;
 
   RegisterStateInit(RegisterScreenState screen) : super(screen);

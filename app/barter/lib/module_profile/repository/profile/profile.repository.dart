@@ -1,4 +1,5 @@
 import 'package:barter/consts/urls.dart';
+import 'package:barter/module_auth/exceptions/auth_exception.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:barter/module_profile/request/branch/create_branch_request.dart';
@@ -21,7 +22,13 @@ class ProfileRepository {
 
   Future<ProfileResponseModel> getProfile() async {
     await _authService.refreshToken();
-    var token = await _authService.getToken();
+    String token;
+    try {
+      token = await _authService.getToken();
+    } catch (e) {
+      throw UnauthorizedException('Get Profile Null Token');
+    }
+    if (token == null) throw UnauthorizedException('Get Profile Null Token');
     dynamic response = await _apiClient.get(
       Urls.PROFILE_API,
       headers: {'Authorization': 'Bearer ' + token},

@@ -34,9 +34,15 @@ class AppThemeDataService {
         primaryColor: PrimaryColor,
         primaryColorDark: PrimaryDarker,
         accentColor: AccentColor,
+        textTheme: TextTheme(bodyText1: TextStyle(fontSize: 12)),
         appBarTheme: AppBarTheme(
-          centerTitle: true,
-          textTheme: TextTheme(),
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
           brightness: Brightness.dark,
           color: Colors.black,
           iconTheme: IconThemeData(color: Colors.white),
@@ -44,12 +50,27 @@ class AppThemeDataService {
       );
     }
     return ThemeData(
-      brightness: Brightness.light,
-      primaryColor: PrimaryColor,
-      primaryColorDark: PrimaryDarker,
-      accentColor: AccentColor,
-      appBarTheme: AppBarTheme(centerTitle: true, color: Colors.white),
-    );
+        brightness: Brightness.light,
+        primaryColor: PrimaryColor,
+        primaryColorDark: PrimaryDarker,
+        accentColor: AccentColor,
+        appBarTheme: AppBarTheme(
+            color: Colors.cyan[200],
+            textTheme: TextTheme(
+              headline6: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            )),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedIconTheme: IconThemeData(color: Colors.blue),
+          unselectedIconTheme: IconThemeData(color: Colors.black54),
+          selectedLabelStyle: TextStyle(color: Colors.blue),
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.black54,
+        ));
   }
 
   Future<void> switchDarkMode(bool darkMode) async {

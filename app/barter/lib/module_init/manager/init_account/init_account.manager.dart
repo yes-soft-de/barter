@@ -16,11 +16,6 @@ class InitAccountManager {
   Future<bool> subscribePackage(int packageId) async =>
       await _repository.subscribePackage(packageId);
 
-  Future<dynamic> createCaptainProfile(CreateCaptainProfileRequest request) =>
-      _repository.createCaptainProfile(request);
-
-  Future<dynamic> createBankAccount(
-      CreateBankAccountRequest createBankAccountRequest) {
-    return _repository.createBankAccount(createBankAccountRequest);
-  }
+  Future<dynamic> createProfile(CreateCaptainProfileRequest request) =>
+      _repository.createProfile(request);
 }

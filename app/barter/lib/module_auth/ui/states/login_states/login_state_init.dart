@@ -5,9 +5,9 @@ import 'package:barter/module_auth/ui/widget/google_login/google_login.dart';
 import 'package:flutter/material.dart';
 
 class LoginStateInit extends LoginState {
-  UserRole userType = UserRole.ROLE_OWNER;
+  UserRole userType = UserRole.ROLE_COMPANY;
   final loginTypeController =
-      PageController(initialPage: UserRole.ROLE_OWNER.index);
+      PageController(initialPage: UserRole.ROLE_COMPANY.index);
 
   LoginStateInit(LoginScreen screen) : super(screen);
 

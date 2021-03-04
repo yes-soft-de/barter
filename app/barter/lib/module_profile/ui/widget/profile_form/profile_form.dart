@@ -1,9 +1,9 @@
-import 'dart:io';
-
 import 'package:barter/consts/urls.dart';
 import 'package:barter/generated/l10n.dart';
+import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileFormWidget extends StatefulWidget {
@@ -32,8 +32,12 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
   String theImage;
+  UserRole userRole = UserRole.ROLE_FREELANCE;
+  var acceptUsagePolicy = false;
+  var acceptMarketingEmails = false;
 
-  final _formKey = GlobalKey<FormState>();
+  final _personalFormKey = GlobalKey<FormState>();
+  final _companyFormKey = GlobalKey<FormState>();
 
   _ProfileFormWidgetState(
     String firstName,
@@ -63,19 +67,21 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
             ),
           ),
           Container(
-            color: Colors.teal[500],
+            color: Theme.of(context).primaryColor,
             height: 4,
           ),
           Container(
             padding: EdgeInsets.all(24.0),
-            decoration: BoxDecoration(color: Colors.cyan[200]),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
             child: Row(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.info,
-                    color: Colors.cyan,
+                    color: Colors.white,
                   ),
                 ),
                 Expanded(
@@ -84,7 +90,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                     child: Text(
                       'Please First we need to complete your profile info',
                       style: TextStyle(
-                        color: Color(0xff219653),
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -92,18 +98,104 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
               ],
             ),
           ),
-          getPersonalForm(),
+          Container(
+            height: 16,
+          ),
+          getAccountSwitcher(),
+          AnimatedSwitcher(
+            duration: Duration(seconds: 1),
+            child: userRole == UserRole.ROLE_COMPANY
+                ? getCompanyForm()
+                : getPersonalForm(),
+          ),
+
         ],
       ),
     );
   }
 
+  Widget privacyAndMarketting() {
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        CheckboxListTile(
+          value: acceptMarketingEmails,
+          title: Text('Don\'t mind marketing emails'),
+          onChanged: (value) {
+            acceptMarketingEmails = value;
+            if (mounted) setState(() {});
+          },
+        ),
+        CheckboxListTile(
+          value: acceptUsagePolicy,
+          title: Text('Accept Usage Policy'),
+          onChanged: (bool value) {
+            acceptUsagePolicy = value;
+            if (mounted) setState(() {});
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget getAccountSwitcher() {
+    var iconSize = 36.0;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        GestureDetector(
+          onTap: () {
+            userRole = UserRole.ROLE_FREELANCE;
+            if (mounted) {
+              setState(() {});
+            }
+          },
+          child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: userRole == UserRole.ROLE_FREELANCE
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                'assets/images/freelance.svg',
+                height: iconSize,
+                width: iconSize,
+              )),
+        ),
+        GestureDetector(
+          onTap: () {
+            userRole = UserRole.ROLE_COMPANY;
+            if (mounted) {
+              setState(() {});
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: userRole == UserRole.ROLE_COMPANY
+                  ? Theme.of(context).primaryColor
+                  : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+            child: SvgPicture.asset(
+              'assets/images/company.svg',
+              height: iconSize,
+              width: iconSize,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget getPersonalForm() {
     return Padding(
-      key: ObjectKey('false'),
+      key: ObjectKey(UserRole.ROLE_FREELANCE),
       padding: const EdgeInsets.all(16.0),
       child: Form(
-        key: _formKey,
+        key: _personalFormKey,
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -226,11 +318,12 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 return null;
               },
             ),
+            privacyAndMarketting(),
             RaisedButton(
                 color: Theme.of(context).primaryColor,
                 child: Text(S.of(context).save),
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_personalFormKey.currentState.validate()) {
                     widget.onProfileSaved(
                       ProfileRequest(
                         firstName: _firstNameController.text,
@@ -238,6 +331,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                         phone: _phoneController.text,
                         location: _locationController.text,
                         image: theImage,
+                        type: 'personal',
                       ),
                     );
                   } else {
@@ -253,10 +347,10 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
 
   Widget getCompanyForm() {
     return Padding(
-      key: ObjectKey('true'),
+      key: ObjectKey(UserRole.ROLE_COMPANY),
       padding: const EdgeInsets.all(16.0),
       child: Form(
-        key: _formKey,
+        key: _companyFormKey,
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -363,19 +457,20 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 return null;
               },
             ),
+            privacyAndMarketting(),
             RaisedButton(
                 color: Theme.of(context).primaryColor,
                 child: Text(S.of(context).save),
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_companyFormKey.currentState.validate()) {
                     widget.onProfileSaved(
                       ProfileRequest(
-                        firstName: _firstNameController.text,
-                        lastName: _lastNameController.text,
-                        phone: _phoneController.text,
-                        location: _locationController.text,
-                        image: theImage,
-                      ),
+                          firstName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          phone: _phoneController.text,
+                          location: _locationController.text,
+                          image: theImage,
+                          type: 'company'),
                     );
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(

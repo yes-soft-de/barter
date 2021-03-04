@@ -22,7 +22,7 @@ class ProfileService {
     this._authService,
   );
 
-  Future<ProfileResponseModel> getProfile() async {
+  Future<ProfileResponseModel> getProfile() {
     return _manager.getProfile();
   }
 

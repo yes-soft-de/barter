@@ -221,6 +221,9 @@ class AuthService {
     String uid = await _prefsHelper.getUserId();
     String password = await _prefsHelper.getPassword();
     String email = await _prefsHelper.getEmail();
+    if (email == null || password == null) {
+      throw UnauthorizedException('Not Logged in!');
+    }
     LoginResponse loginResponse = await _authManager.login(LoginRequest(
       username: email ?? uid,
       password: password,

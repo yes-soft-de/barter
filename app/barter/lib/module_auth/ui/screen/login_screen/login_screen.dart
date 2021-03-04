@@ -71,9 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: _currentStates.getUI(context),
-      ),
+      appBar: AppBar(title: Text('Barter'),),
+      body: _currentStates.getUI(context),
     );
   }
 

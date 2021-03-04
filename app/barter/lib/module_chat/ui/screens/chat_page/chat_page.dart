@@ -56,6 +56,8 @@ class ChatPageState extends State<ChatPage> {
       widget._chatPageBloc.getMessages(chatRoomId);
     }
 
+    print('in Chat');
+
     return Scaffold(
       body: Column(
         // direction: Axis.vertical,

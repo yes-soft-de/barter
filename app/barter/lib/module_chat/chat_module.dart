@@ -16,16 +16,7 @@ class ChatModule extends YesModule {
   @override
   Map<String, WidgetBuilder> getRoutes() {
     return {
-      ChatRoutes.chatRoute: (context) => FutureBuilder(
-            future: _authService.isLoggedIn,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.data == true) {
-                return _chatPage;
-              }
-
-              return Scaffold();
-            },
-          ),
+      ChatRoutes.chatRoute: (context) => _chatPage
     };
   }
 }
