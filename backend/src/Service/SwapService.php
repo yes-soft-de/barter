@@ -139,6 +139,15 @@ class SwapService
 
     public function updateSwap(SwapUpdateRequest $request)
     {
+        /* First, we have to get the userID of the service in order 
+           to store it the userIdTwo field */
+        
+        $userID = $this->servicesService->getUserByServiceID($request->getSwapItemsTwo()[0])['createdBy'];
+        
+        $request->setUserIdTwo($userID);
+   
+        // Now, we can continue with the creating request
+
         $item = $this->swapManager->updateSwap($request);
 
         // $this->sendNotification($request, 'update');
@@ -149,7 +158,7 @@ class SwapService
     public function getSwapsByUserID($userID)
     {
         $itemsResponse = [];
-        
+
         $items = $this->swapManager->getSwapsByUserID($userID);
 
         foreach ($items as $item)
