@@ -115,13 +115,45 @@ methods: GET
 ```
 #### Get services of personal/company account by service ID
 ```
-servicesbyid/{serviceID}
+/servicesbyid/{serviceID}
 methods: GET
 ```
 #### Search services by either categoryID or name or both
 ```
-searchservices
+/searchservices
 methods: POST
+```
+
+### Swap
+#### Create new swap
+```
+/swap
+methods: POST
+```
+#### Get all swaps
+```
+/swap
+methods: GET
+```
+#### Get swap by id
+```
+/swapbyid/{id}
+methods: GET
+```
+#### Delete exisiting swap 
+```
+/swap/{id}
+methods: DELETE
+```
+#### Update exisitng swap by id
+```
+/swap 
+methods: PUT
+```
+#### Get swaps of signed in user
+```
+/swapbyuserID 
+methods: GET
 ```
 
 this edited by tools repository for more informatin about this repository please visit https://yes-soft.de/category/blog/
