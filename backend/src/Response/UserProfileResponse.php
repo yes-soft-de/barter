@@ -6,10 +6,6 @@ namespace App\Response;
 
 class UserProfileResponse
 {
-//    public $id;
-//
-//    public $userID;
-
     public $userName;
 
     public $city;
@@ -17,4 +13,16 @@ class UserProfileResponse
     public $story;
 
     public $image;
+
+    public $servicesNumber;
+
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
 }

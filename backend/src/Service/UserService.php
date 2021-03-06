@@ -8,11 +8,9 @@ use App\AutoMapping;
 use App\Entity\UserEntity;
 use App\Entity\UserProfileEntity;
 use App\Manager\UserManager;
-use App\Request\UserProfileCreateRequest;
 use App\Request\UserProfileUpdateRequest;
 use App\Request\UserRegisterRequest;
 use App\Response\MembersGetResponse;
-use App\Response\UserProfileCreateResponse;
 use App\Response\UserProfileResponse;
 use App\Response\UserRegisterResponse;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -22,11 +20,14 @@ class UserService
     private $autoMapping;
     private $userManager;
     private $params;
+    private $servicesService;
 
-    public function __construct(AutoMapping $autoMapping, UserManager $userManager, ParameterBagInterface $params)
+    public function __construct(AutoMapping $autoMapping, UserManager $userManager, ParameterBagInterface $params, 
+    ServicesService $servicesService)
     {
         $this->autoMapping = $autoMapping;
         $this->userManager = $userManager;
+        $this->servicesService = $servicesService;
 
         $this->params = $params->get('upload_base_url').'/';
     }
@@ -77,9 +78,13 @@ class UserService
     {
         $item = $this->userManager->getProfileByUserID($userID);
 
+        $servicesNumber = $this->servicesService->getCountOfEnabledServicesOfUser($userID)['1'];
+
         if(isset($item['image']))
         {
             $item['image'] = $this->params . $item['image'];
+
+            $item['servicesNumber'] = $servicesNumber;
         }
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);

@@ -88,9 +88,34 @@ class ServicesManager
         return $this->servicesEntityRepository->getServicesOfUser($userID);
     }
 
+    public function getCountOfEnabledServicesOfUser($userID)
+    {
+        return $this->servicesEntityRepository->getCountOfEnabledServicesOfUser($userID);
+    }
+
     public function getServicesBySpecificAccount($serviceID)
     {
         return $this->servicesEntityRepository->getServicesBySpecificAccount($serviceID);
+    }
+
+    public function getUserByServiceID($serviceID)
+    {
+        return $this->servicesEntityRepository->getUserByServiceID($serviceID);
+    }
+
+    public function getServicesByCategoryAndName($categoryID, $name)
+    {
+        return $this->servicesEntityRepository->getServicesByCategoryAndName($categoryID, $name);
+    }
+
+    public function getServicesByName($name)
+    {
+        return $this->servicesEntityRepository->getServicesByName($name);
+    }
+
+    public function getServicesByIDsArray($services)
+    {
+        return $this->servicesEntityRepository->getServicesByIDsArray($services);
     }
 
 }

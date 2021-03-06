@@ -8,6 +8,7 @@ use App\AutoMapping;
 use App\Entity\ServicesEntity;
 use App\Manager\ServicesManager;
 use App\Request\ServiceCreateRequest;
+use App\Request\ServicesSearchRequest;
 use App\Request\ServiceUpdateRequest;
 use App\Response\ServiceCreateResponse;
 use App\Response\ServiceGetByIdResponse;
@@ -84,6 +85,11 @@ class ServicesService
         return $servicesResponse;
     }
 
+    public function getCountOfEnabledServicesOfUser($userID)
+    {
+        return $this->servicesManager->getCountOfEnabledServicesOfUser($userID);
+    }
+
     public function getServicesBySpecificAccount($serviceID)
     {
         $servicesResponse = [];
@@ -98,5 +104,54 @@ class ServicesService
         }
 
         return $servicesResponse;
+    }
+
+    public function getUserByServiceID($serviceID)
+    {
+        return $this->servicesManager->getUserByServiceID($serviceID);
+    }
+
+    public function filter(ServicesSearchRequest $request)
+    {
+        $response = [];
+        
+        $name = $request->getName();
+        $categoryID = $request->getCategoryID();
+
+        if($name != null && $categoryID != null)
+        {
+            $results = $this->servicesManager->getServicesByCategoryAndName($categoryID, $name);
+
+            foreach($results as $result)
+            {
+                $result['userImage'] = $this->params . $result['userImage'];
+
+                $response[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
+            }
+
+            return $response;
+        }
+        elseif($name != null && $categoryID == null)
+        {
+            $results = $this->servicesManager->getServicesByName($name);
+
+            foreach($results as $result)
+            {
+                $result['userImage'] = $this->params . $result['userImage'];
+
+                $response[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
+            }
+
+            return $response;
+        }
+        elseif($name == null && $categoryID != null)
+        {
+            return $this->getServicesByCategoryID($categoryID);
+        }
+    }
+
+    public function getServicesByIDsArray($services)
+    {
+        return $this->servicesManager->getServicesByIDsArray($services);
     }
 }
