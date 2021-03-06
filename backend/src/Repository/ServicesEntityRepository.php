@@ -35,6 +35,7 @@ class ServicesEntityRepository extends ServiceEntityRepository
                 'userProfile.userID = service.createdBy'
             )
 
+            ->andWhere('service.enabled = 1')
             ->andWhere('service.categoryID = :categoryID')
             ->setParameter('categoryID', $categoryID)
 
@@ -60,6 +61,19 @@ class ServicesEntityRepository extends ServiceEntityRepository
 
             ->getQuery()
             ->getResult();
+    }
+
+    public function getCountOfEnabledServicesOfUser($userID)
+    {
+        return $this->createQueryBuilder('service')
+            ->select('count(service.id)', 'service.enabled') 
+
+            ->andWhere('service.enabled = 1')
+            ->andWhere('service.createdBy = :userID')
+            ->setParameter('userID', $userID)
+
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function getServicesBySpecificAccount($serviceID)
@@ -91,10 +105,89 @@ class ServicesEntityRepository extends ServiceEntityRepository
                 'category.id = service.categoryID'
             ) 
 
+            ->andWhere('service.enabled = 1')
             ->andWhere('service.createdBy = :userID')
             ->setParameter('userID', $userID['createdBy'])
 
             ->getQuery()
             ->getResult();
+    }
+
+    public function getUserByServiceID($serviceID)
+    {
+        return $this->createQueryBuilder('service')
+        ->select('service.id', 'service.createdBy')
+
+        ->andWhere('service.id = :serviceID')
+        ->setParameter('serviceID', $serviceID)
+
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
+
+    public function getServicesByCategoryAndName($categoryID, $name)
+    {
+        return $this->createQueryBuilder('service')
+            ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
+             'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
+
+            ->leftJoin(
+                UserProfileEntity::class,
+                'userProfile',
+                Join::WITH,
+                'userProfile.userID = service.createdBy'
+            )
+
+            ->andWhere('service.enabled = 1')
+            ->andWhere('service.categoryID = :categoryID')
+            ->andWhere('service.serviceTitle LIKE :name')
+
+            ->setParameter('categoryID', $categoryID)
+            ->setParameter('name', '%'.$name.'%')
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getServicesByName($name)
+    {
+        return $this->createQueryBuilder('service')
+            ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
+            'category.name as categoryName', 'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
+
+            ->leftJoin(
+                UserProfileEntity::class,
+                'userProfile',
+                Join::WITH,
+                'userProfile.userID = service.createdBy'
+            )
+
+            ->leftJoin(
+                CategoryEntity::class,
+                'category',
+                Join::WITH,
+                'category.id = service.categoryID'
+            ) 
+
+            ->andWhere('service.enabled = 1')
+            ->andWhere('service.serviceTitle LIKE :name')
+            
+            ->setParameter('name', '%'.$name.'%')
+
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getServicesByIDsArray($services)
+    {
+        return $this->createQueryBuilder('service')
+            ->select('service.id', 'service.serviceTitle')
+
+            ->andWhere('service.id IN (:IDs)')
+            
+            ->setParameter('IDs', $services)
+
+            ->getQuery()
+            ->getArrayResult();
     }
 }
