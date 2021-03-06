@@ -118,5 +118,10 @@ methods: GET
 servicesbyid/{serviceID}
 methods: GET
 ```
+#### Search services by either categoryID or name or both
+```
+searchservices
+methods: POST
+```
 
 this edited by tools repository for more informatin about this repository please visit https://yes-soft.de/category/blog/
