@@ -29,7 +29,7 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swap", name="swapCreate", methods={"POST"})
+     * @Route("swap", name="swapCreate", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */
@@ -54,7 +54,7 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swap", name="swap", methods={"GET"})
+     * @Route("swap", name="swap", methods={"GET"})
      * @return JsonResponse
      */
     public function getSwapItems()
@@ -65,7 +65,7 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swapbyid/{id}", name="swapById", methods="GET")
+     * @Route("swapbyid/{id}", name="swapById", methods="GET")
      * @param Request $request
      * @return JsonResponse
      */
@@ -77,7 +77,7 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swap/{id}", name="deleteSwap",methods={"DELETE"})
+     * @Route("swap/{id}", name="deleteSwap",methods={"DELETE"})
      * @param Request $request
      * @return JsonResponse
      */
@@ -89,7 +89,7 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swap", name="updateSwap", methods={"PUT"})
+     * @Route("swap", name="updateSwap", methods={"PUT"})
      * @param Request $request
      * @return JsonResponse
      */
@@ -107,13 +107,13 @@ class SwapController extends BaseController
     }
 
     /**
-     * @Route("/swapbyuserid/{id}", name="getSwapItemsByUserID", methods={"GET"})
+     * @Route("swapbyuserid", name="getSwapItemsByUserID", methods={"GET"})
      *  @param Request $request
      * @return JsonResponse
      */
     public function getSwapItemsByUserID(Request $request)
     {
-        $response = $this->swapService->getSwapsByUserID($request->get('id'));
+        $response = $this->swapService->getSwapsByUserID($this->getUserId());
 
         return $this->response($response,self::FETCH);
     }
