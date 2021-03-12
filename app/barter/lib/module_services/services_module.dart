@@ -6,8 +6,9 @@ import 'package:inject/inject.dart';
 
 @provide
 class ServicesModule extends YesModule {
-  AddServiceScreen _addServiceScreen;
-  ServicesModule();
+  final AddServiceScreen _addServiceScreen;
+  ServicesModule(this._addServiceScreen);
+
   @override
   Map<String, WidgetBuilder> getRoutes() {
     return {

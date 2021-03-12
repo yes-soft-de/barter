@@ -1,14 +1,22 @@
+import 'package:barter/module_services/model/category_model.dart';
 import 'package:barter/module_services/model/service_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CreateServiceForm extends StatelessWidget {
-  final List<String> categories;
+class CreateServiceForm extends StatefulWidget {
+  final List<CategoryModel> categories;
   final Function(ServiceModel) onServiceAdd;
 
   CreateServiceForm({@required this.categories, @required this.onServiceAdd});
+
+  @override
+  State<StatefulWidget> createState() => _CreateServiceFormState();
+}
+
+class _CreateServiceFormState extends State<CreateServiceForm> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +30,14 @@ class CreateServiceForm extends StatelessWidget {
               ListTile(
                 title: Text(
                   'Add Service',
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
               ListTile(
                 title: TextFormField(
                   decoration: InputDecoration(
                     hintText: 'Service Name',
-                    hintStyle: TextStyle(fontSize: 12),
+                    hintStyle: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -37,7 +45,7 @@ class CreateServiceForm extends StatelessWidget {
                 title: DropdownButtonFormField(
                   decoration: InputDecoration(
                     hintText: 'Category',
-                    hintStyle: TextStyle(fontSize: 12),
+                    hintStyle: TextStyle(fontSize: 16),
                   ),
                   items: _getCategoriesDropDownList(),
                   onChanged: (s) {},
@@ -49,14 +57,14 @@ class CreateServiceForm extends StatelessWidget {
                   maxLines: 5,
                   decoration: InputDecoration(
                     hintText: 'Service Description',
-                    hintStyle: TextStyle(fontSize: 12),
+                    hintStyle: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
               ListTile(
                 title: Text(
                   'This Service Will be active until: ',
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 16),
                 ),
                 trailing: RaisedButton.icon(
                   color: Theme.of(context).primaryColor,
@@ -67,14 +75,14 @@ class CreateServiceForm extends StatelessWidget {
                   icon: FaIcon(FontAwesomeIcons.clock),
                   label: Text(
                     '2 Days',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
               ListTile(
                 title: Text(
                   'Time Needed',
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
@@ -108,7 +116,7 @@ class CreateServiceForm extends StatelessWidget {
         child: Chip(
           label: Text(
             '$i Day',
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 16),
           ),
         ),
       ));
@@ -118,12 +126,12 @@ class CreateServiceForm extends StatelessWidget {
 
   List<DropdownMenuItem> _getCategoriesDropDownList() {
     var items = <DropdownMenuItem>[];
-    categories.forEach((element) {
+    widget.categories.forEach((element) {
       items.add(DropdownMenuItem(
-        value: 'cat 01',
+        value: element.id,
         child: Text(
-          'Cat 01',
-          style: TextStyle(fontSize: 12),
+          '${element.name}',
+          style: TextStyle(fontSize: 16),
         ),
       ));
     });

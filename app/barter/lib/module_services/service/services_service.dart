@@ -1,8 +1,10 @@
+import 'package:barter/module_services/model/category_model.dart';
 import 'package:barter/module_services/model/member_model.dart';
 import 'package:barter/module_services/model/members_model.dart';
 import 'package:barter/module_services/model/service_details_model.dart';
 import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/repository/services_repository.dart';
+import 'package:barter/module_services/request/add_service_request.dart';
 import 'package:barter/module_services/utils/service_factory.dart';
 import 'package:inject/inject.dart';
 
@@ -46,7 +48,29 @@ class ServicesService {
     return members;
   }
 
-  Future<dynamic> addService() async {
+  Future<bool> addService(ServiceModel serviceModel) async {
+    var request = AddServiceRequest(
+      serviceTitle: serviceModel.name,
+      description: serviceModel.description,
+      activeUntil: serviceModel.activeUntil.toIso8601String(),
+    );
+
+    await _repository.createService(request);
     return true;
+  }
+
+  Future<List<CategoryModel>> getCategories() async {
+    var response = await _repository.getCategories();
+    if (response == null) {
+      print('No Cats!');
+      return null;
+    } else {
+      print('Got Cats!');
+      var cats = <CategoryModel>[];
+      response.data.forEach((element) {
+        cats.add(CategoryModel(element.name, element.id.toString()));
+      });
+      return cats;
+    }
   }
 }
