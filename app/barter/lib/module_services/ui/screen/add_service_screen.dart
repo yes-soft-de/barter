@@ -1,3 +1,4 @@
+import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/state_manager/add_service_state_manager.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state_loading.dart';
@@ -9,6 +10,10 @@ import 'package:inject/inject.dart';
 class AddServiceScreen extends StatefulWidget {
   final AddServiceStateManager _stateManager;
   AddServiceScreen(this._stateManager);
+
+  void addService(ServiceModel serviceModel) {
+    _stateManager.addService(this, serviceModel);
+  }
 
   @override
   State<StatefulWidget> createState() => _AddServiceScreenState();

@@ -17,7 +17,7 @@ class AddServiceStateManager {
 
   void addService(AddServiceScreen screen, ServiceModel serviceModel) {
     _service.addService(serviceModel).then((value) {
-      if (value == null) {
+      if (value != null) {
         stateStream.add(AddServiceStateSuccess(screen));
       } else {
         stateStream.add(AddServiceStateError(screen, 'Error Saving the service'));

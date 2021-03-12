@@ -71,7 +71,7 @@ class ApiClient {
       var response = await _client.post(
         url,
         queryParameters: queryParams,
-        data: json.encode(payLoad),
+        data: payLoad,
       );
       return _processResponse(response);
     } catch (e) {

@@ -52,20 +52,20 @@ class ServicesService {
     var request = AddServiceRequest(
       serviceTitle: serviceModel.name,
       description: serviceModel.description,
-      activeUntil: serviceModel.activeUntil.toIso8601String(),
+      activeUntil: serviceModel.activeUntil?.toIso8601String() ?? '-1',
+      categoryID: serviceModel.categoryId,
+      tags: []
     );
 
-    await _repository.createService(request);
-    return true;
+    var response = await _repository.createService(request);
+    return response != null;
   }
 
   Future<List<CategoryModel>> getCategories() async {
     var response = await _repository.getCategories();
     if (response == null) {
-      print('No Cats!');
       return null;
     } else {
-      print('Got Cats!');
       var cats = <CategoryModel>[];
       response.data.forEach((element) {
         cats.add(CategoryModel(element.name, element.id.toString()));

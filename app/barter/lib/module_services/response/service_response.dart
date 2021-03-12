@@ -37,8 +37,8 @@ class Data {
   Duration activeUntil;
   bool enabled;
   List<String> tags;
-  Null userName;
-  Null userImage;
+  String userName;
+  String userImage;
 
   Data(
       {this.id,

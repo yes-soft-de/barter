@@ -114,7 +114,7 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
                     widget.onServiceAdd(ServiceModel(
                       name: _nameController.text,
                       description: _descriptionController.text,
-                      categoryId: _category
+                      categoryId: _category,
                     ));
                   },
                   child: Text('Submit Service'),

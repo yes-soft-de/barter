@@ -2,6 +2,7 @@ import 'package:barter/consts/urls.dart';
 import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:barter/module_services/request/add_service_request.dart';
 import 'package:barter/module_services/response/category_list_response.dart';
+import 'package:barter/module_services/response/create_service_response.dart';
 import 'package:barter/module_services/response/members_response.dart';
 import 'package:barter/module_services/response/service_details_response.dart';
 import 'package:barter/module_services/response/service_response.dart';
@@ -11,12 +12,12 @@ import 'package:inject/inject.dart';
 class ServicesRepository {
   final client = ApiClient();
 
-  Future<ServicesResponse> createService(AddServiceRequest request) async {
+  Future<CreateServiceResponse> createService(AddServiceRequest request) async {
     var response = await client.post(Urls.CREATE_SERVICE_API, request.toJson());
 
     if (response == null) return null;
 
-    return ServicesResponse.fromJson(response);
+    return CreateServiceResponse.fromJson(response);
   }
 
   Future<ServicesResponse> getServices() async {
