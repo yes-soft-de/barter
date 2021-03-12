@@ -20,7 +20,10 @@ class EditProfileStateManager {
   final ImageUploadService _imageUploadService;
   final ProfileService _profileService;
 
-  EditProfileStateManager(this._imageUploadService, this._profileService);
+  EditProfileStateManager(
+    this._imageUploadService,
+    this._profileService,
+  );
 
   Stream<ProfileState> get stateStream => _stateSubject.stream;
 

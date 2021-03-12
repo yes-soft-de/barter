@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:barter/consts/urls.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_firebase_performance/dio_firebase_performance.dart';
 import 'package:inject/inject.dart';
@@ -8,12 +9,18 @@ import 'package:barter/utils/logger/logger.dart';
 @provide
 class ApiClient {
   String token;
-  final Logger _logger;
+  final _logger = Logger();
   final String tag = 'ApiClient';
 
   final performanceInterceptor = DioFirebasePerformanceInterceptor();
+  final _client = Dio(BaseOptions(
+    sendTimeout: 60000,
+    receiveTimeout: 60000,
+    connectTimeout: 60000,
+    baseUrl: Urls.BASE_API,
+  ));
 
-  ApiClient(this._logger);
+  ApiClient();
 
   Future<Map<String, dynamic>> get(
     String url, {
@@ -24,20 +31,16 @@ class ApiClient {
       _logger.info(tag, 'Requesting GET to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
-      Dio client = Dio(BaseOptions(
-        sendTimeout: 60000,
-        receiveTimeout: 60000,
-        connectTimeout: 60000,
-      ));
-      client.interceptors.add(performanceInterceptor);
+      
+      _client.interceptors.add(performanceInterceptor);
 
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
-          client.options.headers['Authorization'] = headers['Authorization'];
+          _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
-      var response = await client.get(
+      var response = await _client.get(
         url,
         queryParameters: queryParams,
       );

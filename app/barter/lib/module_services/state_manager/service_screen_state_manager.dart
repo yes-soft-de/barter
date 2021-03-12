@@ -15,10 +15,8 @@ class ServiceScreenStateManager {
   ServiceScreenStateManager(this._servicesService);
 
   void getServices(ServicesScreen screen) {
-    stateSubject.add(
-      ServiceListStateLoading(screen),
-    );
-    _servicesService.getServices().then((value) {
+    stateSubject.add(ServiceListStateLoading(screen));
+    _servicesService.getMembers().then((value) {
       stateSubject.add(
         ServiceListStateLoaded(screen, value),
       );
