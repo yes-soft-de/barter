@@ -13,4 +13,16 @@ class SwapService {
     // TODO(Implement This: map swap response to swap model list)
     return [];
   }
+
+  Future<List<SwapModel>> updateSwap(String swapId, SwapModel swapModel) async {
+    await _manager.getSwaps();
+    // TODO(Implement This: map swap response to swap model list)
+    return [];
+  }
+
+  Future<List<SwapModel>> createSwap(SwapModel swapModel) async {
+    await _manager.getSwaps();
+    // TODO(Implement This: map swap response to swap model list)
+    return [];
+  }
 }
