@@ -10,7 +10,6 @@ import 'package:inject/inject.dart';
 @provide
 class EditProfileScreen extends StatefulWidget {
   final EditProfileStateManager _stateManager;
-
   EditProfileScreen(this._stateManager);
 
   @override
