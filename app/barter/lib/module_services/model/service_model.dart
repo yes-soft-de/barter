@@ -4,6 +4,7 @@ class ServiceModel {
   final UserRole type;
   final String name;
   final String description;
+  final String categoryId;
   final String image;
   final double rate;
   final int servicesNumber;
@@ -15,6 +16,7 @@ class ServiceModel {
     this.image,
     this.rate,
     this.activeUntil,
+    this.categoryId,
     this.description,
     this.servicesNumber,
   });

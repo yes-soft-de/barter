@@ -16,7 +16,13 @@ class CreateServiceForm extends StatefulWidget {
 }
 
 class _CreateServiceFormState extends State<CreateServiceForm> {
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _validUntilController = TextEditingController();
 
+  String _category;
+  DateTime _validUntil;
+  int _daysToFinish;
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +34,18 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
             direction: Axis.vertical,
             children: [
               ListTile(
-                title: Text(
-                  'Add Service',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              ListTile(
                 title: TextFormField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: 'Service Name',
                     hintStyle: TextStyle(fontSize: 16),
                   ),
+                  validator: (s) {
+                    if (s.isEmpty) {
+                      return 'Service name is required!';
+                    }
+                    return null;
+                  },
                 ),
               ),
               ListTile(
@@ -48,11 +55,14 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
                     hintStyle: TextStyle(fontSize: 16),
                   ),
                   items: _getCategoriesDropDownList(),
-                  onChanged: (s) {},
+                  onChanged: (s) {
+                    _category = s;
+                  },
                 ),
               ),
               ListTile(
                 title: TextFormField(
+                  controller: _descriptionController,
                   minLines: 3,
                   maxLines: 5,
                   decoration: InputDecoration(
@@ -70,11 +80,15 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   onPressed: () {
-                    DatePicker.showDatePicker(context);
+                    DatePicker.showDatePicker(context).then((value) {
+                      _validUntil = value;
+                    });
                   },
                   icon: FaIcon(FontAwesomeIcons.clock),
                   label: Text(
-                    '2 Days',
+                    _validUntil == null
+                        ? 'Forever'
+                        : '${_validUntil.month}/${_validUntil.year}',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -96,7 +110,13 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
                 padding: const EdgeInsets.all(16.0),
                 child: OutlineButton(
                   color: Theme.of(context).primaryColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onServiceAdd(ServiceModel(
+                      name: _nameController.text,
+                      description: _descriptionController.text,
+                      categoryId: _category
+                    ));
+                  },
                   child: Text('Submit Service'),
                 ),
               )
@@ -111,12 +131,19 @@ class _CreateServiceFormState extends State<CreateServiceForm> {
     const chipPadding = 4.0;
     var chips = <Widget>[];
     for (int i = 0; i < 4; i++) {
-      chips.add(Padding(
-        padding: const EdgeInsets.all(chipPadding),
-        child: Chip(
-          label: Text(
-            '$i Day',
-            style: TextStyle(fontSize: 16),
+      chips.add(GestureDetector(
+        onTap: () {
+          _daysToFinish = i;
+          if (mounted) setState(() {});
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(chipPadding),
+          child: Chip(
+            backgroundColor: i == _daysToFinish ? Theme.of(context).primaryColor : Colors.grey,
+            label: Text(
+              '$i Day',
+              style: TextStyle(fontSize: 16),
+            ),
           ),
         ),
       ));
