@@ -20,6 +20,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   void initState() {
     widget._stateManager.stateSubject.stream.listen((event) {
       _currentState = event;
+      if (mounted) setState(() {});
     });
     super.initState();
   }
@@ -27,11 +28,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     if (_currentState == null) {
-      // Request User Details
+      var param = ModalRoute.of(context).settings.arguments;
+      widget._stateManager.getUserInfoByServiceId(widget, null);
     }
     _currentState ??= UserProfileStateLoading(widget);
     return Scaffold(
-      appBar: AppBar(),
       body: _currentState.getUI(context),
     );
   }

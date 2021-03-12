@@ -223,7 +223,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return Container();
     } else {
       // The User is a captain
-      var profile = await widget._profileService.getProfile();
+      var profile = await widget._profileService.getMyProfile();
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(

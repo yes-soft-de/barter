@@ -48,7 +48,7 @@ class EditProfileStateManager {
 
   void getProfile(EditProfileScreenState screenState) {
     _stateSubject.add(ProfileStateLoading(screenState));
-    _profileService.getProfile().then((value) {
+    _profileService.getMyProfile().then((value) {
       if (value == null) {
         _stateSubject.add(ProfileStateNoProfile(screenState, ProfileRequest()));
       } else {

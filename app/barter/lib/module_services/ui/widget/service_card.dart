@@ -2,14 +2,14 @@ import 'package:barter/consts/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ServiceCard extends StatelessWidget {
+class MemberCard extends StatelessWidget {
   final String type;
   final String name;
   final String image;
   final double rate;
   final int servicesNumber;
 
-  ServiceCard(this.type, this.name, this.image, this.rate, this.servicesNumber);
+  MemberCard(this.type, this.name, this.image, this.rate, this.servicesNumber);
 
   @override
   Widget build(BuildContext context) {

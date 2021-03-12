@@ -50,12 +50,11 @@ class ServicesService {
 
   Future<bool> addService(ServiceModel serviceModel) async {
     var request = AddServiceRequest(
-      serviceTitle: serviceModel.name,
-      description: serviceModel.description,
-      activeUntil: serviceModel.activeUntil?.toIso8601String() ?? '-1',
-      categoryID: serviceModel.categoryId,
-      tags: []
-    );
+        serviceTitle: serviceModel.name,
+        description: serviceModel.description,
+        activeUntil: serviceModel.activeUntil?.toIso8601String() ?? '-1',
+        categoryID: serviceModel.categoryId,
+        tags: []);
 
     var response = await _repository.createService(request);
     return response != null;
@@ -68,7 +67,12 @@ class ServicesService {
     } else {
       var cats = <CategoryModel>[];
       response.data.forEach((element) {
-        cats.add(CategoryModel(element.name, element.id.toString()));
+        cats.add(
+          CategoryModel(
+            element.name,
+            element.id.toString(),
+          ),
+        );
       });
       return cats;
     }

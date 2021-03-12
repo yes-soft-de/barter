@@ -56,7 +56,7 @@ class ServiceListStateLoaded extends ServiceListState {
   List<Widget> _getPersonalCards() {
     var cards = <Widget>[];
     members.personalAccounts.forEach((element) {
-      cards.add(ServiceCard(
+      cards.add(MemberCard(
         'Personal',
         element.name,
         element.image,
@@ -71,7 +71,7 @@ class ServiceListStateLoaded extends ServiceListState {
   List<Widget> _getCompanyCards() {
     var cards = <Widget>[];
     members.companyAccounts.forEach((element) {
-      cards.add(ServiceCard(
+      cards.add(MemberCard(
         'Company',
         element.name,
         element.image,
