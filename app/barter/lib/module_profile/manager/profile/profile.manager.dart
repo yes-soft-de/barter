@@ -15,7 +15,10 @@ class ProfileManager {
     this._repository,
   );
 
-  Future<ProfileResponseModel> getProfile() => _repository.getProfile();
+  Future<ProfileResponseModel> getMyProfile() => _repository.getMyProfile();
+
+  Future<ProfileResponseModel> getUserProfile(String userId) =>
+      _repository.getUserProfile(userId);
 
   Future<ProfileResponse> updateProfile(ProfileRequest profileRequest) =>
       _repository.updateProfile(profileRequest);

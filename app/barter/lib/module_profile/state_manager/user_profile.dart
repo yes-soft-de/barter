@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class UserProfileStateManager {
   final stateSubject = PublishSubject();
 
-  getUserInfo() {
+  void getUserInfo(String serviceId) {
 
   }
 }

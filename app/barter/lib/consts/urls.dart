@@ -12,6 +12,7 @@ class Urls {
   static const APPOINTMENT_API = '/dating';
   static const NOTIFICATION_API = '/notificationtoken';
   static const SERVICES_API = '/myservices';
+  static const SERVICES_BY_ID_API = '/servicesbyid';
   static const MEMBERS_API = '/members';
 
 }

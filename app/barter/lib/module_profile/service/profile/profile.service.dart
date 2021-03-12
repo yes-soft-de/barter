@@ -8,26 +8,34 @@ import 'package:barter/module_profile/request/branch/create_branch_request.dart'
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:barter/module_profile/response/create_branch_response.dart';
 import 'package:barter/module_profile/response/profile_response.dart';
+import 'package:barter/module_services/service/services_service.dart';
 import 'package:inject/inject.dart';
 
 @provide
 class ProfileService {
   final ProfileManager _manager;
   final ProfilePreferencesHelper _preferencesHelper;
+  final ServicesService _servicesService;
   final AuthService _authService;
 
-  ProfileService(
-    this._manager,
-    this._preferencesHelper,
-    this._authService,
-  );
+  ProfileService(this._manager,
+      this._preferencesHelper,
+      this._authService,
+      this._servicesService,);
 
   Future<ProfileResponseModel> getProfile() {
-    return _manager.getProfile();
+    return _manager.getMyProfile();
   }
 
   Future<bool> updateProfile(ProfileRequest profileRequest) async {
     var profileUpdated = await _manager.updateProfile(profileRequest);
     return profileUpdated != null;
+  }
+
+  Future<dynamic> getProfileFromServiceId(String serviceId) async {
+    var service = await _servicesService.getServiceById(serviceId);
+
+    var profile = await _manager.getUserProfile(service.userId);
+    return profile;
   }
 }
