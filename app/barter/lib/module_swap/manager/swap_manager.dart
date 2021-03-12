@@ -1,4 +1,5 @@
 
+import 'package:barter/module_swap/response/swap_response.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/module_swap/repository/swap_repository.dart';
 
@@ -7,5 +8,5 @@ class SwapManager  {
     final SwapRepository _repository;
     SwapManager(this._repository);
 
-    Future<dynamic> getSwaps() => _repository.getSwaps();
+    Future<SwapListResponse> getSwaps() => _repository.getSwaps();
 }

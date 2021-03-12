@@ -4,6 +4,7 @@ class SwapModel {
   final String userOneImage;
   final String userTowImage;
   final String chatRoomId;
+  final bool accepted;
 
   SwapModel({
     this.userOneName,
@@ -11,5 +12,6 @@ class SwapModel {
     this.userOneImage,
     this.userTowImage,
     this.chatRoomId,
+    this.accepted,
   });
 }

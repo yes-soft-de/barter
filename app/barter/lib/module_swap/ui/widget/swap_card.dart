@@ -19,14 +19,18 @@ class SwapCard extends StatelessWidget {
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/logo.jpg',
                 image: model.userOneImage,
+                fit: BoxFit.fill,
                 imageErrorBuilder: (e, s, o) {
                   return Image.asset('assets/images/logo.jpg');
                 },
               ),
             ),
-            Text(
-              model.userOneImage,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                model.userOneImage,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
@@ -35,6 +39,7 @@ class SwapCard extends StatelessWidget {
           child: Container(
             height: 56,
             width: 56,
+            color: Theme.of(context).primaryColor,
             child: Icon(Icons.swap_calls_sharp),
           ),
         ),
@@ -42,19 +47,22 @@ class SwapCard extends StatelessWidget {
           direction: Axis.vertical,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                model.userTowImage,
+                textAlign: TextAlign.center,
+              ),
+            ),
             Container(
               height: 56,
               child: FadeInImage.assetNetwork(
                 placeholder: 'assets/images/logo.jpg',
-                image: model.userOneImage,
-                imageErrorBuilder: (e, s, o) {
+                image: model.userTowImage,
+                imageErrorBuilder: (_1, _2, _3) {
                   return Image.asset('assets/images/logo.jpg');
                 },
               ),
-            ),
-            Text(
-              model.userOneImage,
-              textAlign: TextAlign.center,
             ),
           ],
         ),

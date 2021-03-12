@@ -7,6 +7,12 @@ class SwapStateInit extends SwapState {
 
   @override
   Widget getUI(BuildContext context) {
-    return Text('Hello!');
+    return Column(
+      children: [
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+      ],
+    );
   }
 }
