@@ -16,6 +16,7 @@ import 'package:barter/utils/logger/logger.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/subjects.dart';
@@ -62,7 +63,7 @@ class AuthService {
 
     // Change This
     LoginResponse loginResult = await _authManager.login(LoginRequest(
-      username: user.email ?? user.uid,
+      username: user.uid,
       password: password,
     ));
 
@@ -94,14 +95,6 @@ class AuthService {
       // Create the profile password
       password = Uuid().v1();
 
-      // Create the profile in our database
-      await _authManager.register(RegisterRequest(
-        userID: user.credential.email ?? user.credential.uid,
-        password: password,
-        // This should change from the API side
-        roles: [user.userRole.toString().split('.')[1]],
-      ));
-
       // Save the profile password in his account
       await store
           .collection('users')
@@ -109,6 +102,18 @@ class AuthService {
           .set({'password': password});
     } else {
       password = await existingProfile.data()['password'];
+    }
+
+    try {
+      // Create the profile in our database
+      await _authManager.register(RegisterRequest(
+        userID: user.credential.uid,
+        password: password,
+        // This should change from the API side
+        roles: user.userRole.toString(),
+      ));
+    } catch (e) {
+      debugPrint('Already Registered');
     }
 
     await _loginApiUser(user.userRole, user.authSource);
@@ -168,7 +173,7 @@ class AuthService {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       await _registerApiUser(
-          AppUser(userCredential.user, AuthSource.PHONE, role));
+          AppUser(userCredential.user, AuthSource.GOOGLE, role));
     } catch (e) {
       Logger().error('AuthStateManager', e.toString(), StackTrace.current);
     }
@@ -265,14 +270,27 @@ class AuthService {
 
   /// refresh API token, this is done using Firebase Token Refresh
   Future<String> refreshToken() async {
-    String uid = await _prefsHelper.getUserId();
-    String password = await _prefsHelper.getPassword();
+    User user = await _auth.currentUser;
     String email = await _prefsHelper.getEmail();
+    var store = FirebaseFirestore.instance;
+    var existingProfile =
+    await store.collection('users').doc(user.uid).get().catchError((e) {
+      _authSubject.addError('Error logging in, firebase account not found');
+      return;
+    });
+    if (existingProfile.data() == null) {
+      _authSubject.addError('Error logging in, firebase account not found');
+      return null;
+    }
+
+    String password = existingProfile.data()['password'];
+
     if (email == null || password == null) {
       throw UnauthorizedException('Not Logged in!');
     }
+
     LoginResponse loginResponse = await _authManager.login(LoginRequest(
-      username: email ?? uid,
+      username: user.uid,
       password: password,
     ));
     await _prefsHelper.setToken(loginResponse.token);

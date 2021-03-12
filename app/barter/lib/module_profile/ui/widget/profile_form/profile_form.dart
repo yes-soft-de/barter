@@ -58,49 +58,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Text(
-              'Complete Profile Info'.toUpperCase(),
-              style: TextStyle(color: Colors.blue),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-            color: Theme.of(context).primaryColor,
-            height: 4,
-          ),
-          Container(
-            padding: EdgeInsets.all(24.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.info,
-                    color: Colors.white,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Please First we need to complete your profile info',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 16,
-          ),
+          ModalRoute.of(context).canPop ? _setupHeader() : Container(),
           getAccountSwitcher(),
           AnimatedSwitcher(
             duration: Duration(seconds: 1),
@@ -111,6 +69,56 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
 
         ],
       ),
+    );
+  }
+
+  Widget _setupHeader() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text(
+            'Complete Profile Info'.toUpperCase(),
+            style: TextStyle(color: Colors.blue),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Container(
+          color: Theme.of(context).primaryColor,
+          height: 4,
+        ),
+        Container(
+          padding: EdgeInsets.all(24.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Please First we need to complete your profile info',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 16,
+        ),
+      ],
     );
   }
 

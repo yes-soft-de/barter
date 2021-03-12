@@ -5,24 +5,23 @@ import 'package:barter/module_swap/manager/swap_manager.dart';
 @provide
 class SwapService {
   final SwapManager _manager;
-
   SwapService(this._manager);
 
   Future<List<SwapModel>> getSwapList() async {
     await _manager.getSwaps();
     // TODO(Implement This: map swap response to swap model list)
-    return [];
+    return <SwapModel>[];
   }
 
   Future<List<SwapModel>> updateSwap(String swapId, SwapModel swapModel) async {
     await _manager.getSwaps();
     // TODO(Implement This: map swap response to swap model list)
-    return [];
+    return <SwapModel>[];
   }
 
   Future<List<SwapModel>> createSwap(SwapModel swapModel) async {
     await _manager.getSwaps();
     // TODO(Implement This: map swap response to swap model list)
-    return [];
+    return <SwapModel>[];
   }
 }
