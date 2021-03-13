@@ -33,9 +33,9 @@ class MainService
     {
         $response = [];
 
-        $response['personal'] = $this->userService->getUsersByRole("user");
+        $response['personal'] = $this->userService->getUsersByRole("ROLE_USER");
 
-        $response['company'] = $this->userService->getUsersByRole("company");
+        $response['company'] = $this->userService->getUsersByRole("ROLE_COMPANY");
 
         return $response;
     }
