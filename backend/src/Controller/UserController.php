@@ -81,7 +81,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Route("userprofile/{serviceID}", name="getUserProfileByID", methods={"GET"})
+     * @Route("userprofile/{serviceID}", name="getUserProfileByServiceID", methods={"GET"})
      * @return JsonResponse
      */
     public function getUserProfileByServiceID($serviceID)
