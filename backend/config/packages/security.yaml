@@ -1,4 +1,7 @@
 security:
+    role_hierarchy:
+        ROLE_COMPANY: ROLE_USER
+
     encoders:
         App\Entity\UserEntity:
             algorithm: auto
