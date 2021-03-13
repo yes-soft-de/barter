@@ -12,6 +12,8 @@ class MembersGetResponse
 
     public $story;
 
+    public $servicesNumber;
+
     public $serviceID;
 
     public $serviceTitle;
