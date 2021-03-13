@@ -52,7 +52,7 @@ class UserManager
 
             if ($request->getRoles() == null)
             {
-                $request->setRoles(['user']);
+                $request->setRoles(['ROLE_USER']);
             }
 
             $userRegister->setRoles($request->getRoles());
@@ -96,36 +96,23 @@ class UserManager
 
     }
 
-    // public function userProfileCreate(UserProfileCreateRequest $request)
-    // {
-    //    $userProfile = $this->getProfileByUserID($request->getUserID());
-    //    if ($userProfile == null) {
-    //         $userProfile = $this->autoMapping->map(UserProfileCreateRequest::class, UserProfileEntity::class, $request);
-
-    //         $this->entityManager->persist($userProfile);
-    //         $this->entityManager->flush();
-    //         $this->entityManager->clear();
-
-    //         return $userProfile;
-    // }
-    //     else {
-    //         return true;
-    //    }
-    // }
-
     public function userProfileUpdate(UserProfileUpdateRequest $request)
     {
-        $item = $this->userProfileEntityRepository->getUserProfile($request->getUserID());
-
-        if ($item)
+        $results = $this->userProfileEntityRepository->getUserProfile($request->getUserID());
+        
+        if ($results)
         {
-            $item = $this->autoMapping->mapToObject(UserProfileUpdateRequest::class,
-                UserProfileEntity::class, $request, $item);
+            // If there are more than one profile, we will update the first one
+            
+            $userProfile = $results[0];
+
+            $userProfile = $this->autoMapping->mapToObject(UserProfileUpdateRequest::class,
+                UserProfileEntity::class, $request, $userProfile);
 
             $this->entityManager->flush();
             $this->entityManager->clear();
 
-            return $item;
+            return $userProfile;
         }
     }
 
@@ -147,5 +134,33 @@ class UserManager
     public function getUsersByRole($role)
     {
         return $this->userRepository->getUsersByRole($role);
+    }
+
+    public function deleteUser($userID)
+    {
+        // Remove the profile of the user first
+
+        $userProfileResults = $this->userProfileEntityRepository->getUserProfile($userID);
+
+        if($userProfileResults)
+        {
+            foreach($userProfileResults as $profile)
+            {
+                $this->entityManager->remove($profile);
+                $this->entityManager->flush();
+            }
+        }
+
+        // Remove user record in the User entity
+
+        $userData = $this->userRepository->getByUserID($userID);
+
+        if($userData)
+        {
+            $this->entityManager->remove($userData);
+            $this->entityManager->flush();
+        }
+
+        return $userData;
     }
 }

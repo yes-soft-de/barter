@@ -52,21 +52,6 @@ class UserService
 
     }
 
-    // public function userProfileCreate(UserProfileCreateRequest $request)
-    // {
-    //     $userProfile = $this->userManager->userProfileCreate($request);
-
-    //     if ($userProfile instanceof UserProfileEntity) {
-
-    //         return $this->autoMapping->map(UserProfileEntity::class,UserProfileCreateResponse::class, $userProfile);
-    //     }
-    //     elseif ($userProfile == true) 
-    //     {
-    //         $user = $this->getUserProfileByUserID($request->getUserID());
-    //         return $user;
-    //     }
-    // }
-
     public function userProfileUpdate(UserProfileUpdateRequest $request)
     {
         $item = $this->userManager->userProfileUpdate($request);
@@ -85,6 +70,31 @@ class UserService
             $item['image'] = $this->params . $item['image'];
 
             $item['servicesNumber'] = $servicesNumber;
+
+            $item['services'] = $this->servicesService->getServicesOfUser($userID);
+        }
+
+        return $this->autoMapping->map('array', UserProfileResponse::class, $item);
+
+    }
+
+    public function getUserProfileByServiceID($serviceID)
+    {
+        // First, we will get the userID
+
+        $userID = $this->servicesService->getUserByServiceID($serviceID)['createdBy'];
+        
+        $item = $this->userManager->getProfileByUserID($userID);
+
+        $servicesNumber = $this->servicesService->getCountOfEnabledServicesOfUser($userID)['1'];
+
+        if(isset($item['image']))
+        {
+            $item['image'] = $this->params . $item['image'];
+
+            $item['servicesNumber'] = $servicesNumber;
+
+            $item['services'] = $this->servicesService->getServicesOfUser($userID);
         }
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
@@ -96,14 +106,23 @@ class UserService
         $response = [];
 
         $results = $this->userManager->getUsersByRole($role);
-
+    
         foreach($results as $result)
         {
             $result['image'] = $this->params . $result['image'];
 
-            $response[] = $this->autoMapping->map('array', MembersGetResponse::class, $result);;
+            $result['servicesNumber'] = $this->servicesService->getCountOfEnabledServicesOfUser($result['userID'])[1];
+
+            $response[] = $this->autoMapping->map('array', MembersGetResponse::class, $result);
         }
 
         return $response;
+    }
+
+    public function deleteUser($userID)
+    {
+        $userResult = $this->userManager->deleteUser($userID);
+
+        return $this->autoMapping->map(UserEntity::class, UserRegisterResponse::class, $userResult);
     }
 }

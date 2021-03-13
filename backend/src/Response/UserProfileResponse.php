@@ -15,6 +15,8 @@ class UserProfileResponse
     public $image;
 
     public $servicesNumber;
+    
+    public $services;
 
     public function getUserName()
     {
