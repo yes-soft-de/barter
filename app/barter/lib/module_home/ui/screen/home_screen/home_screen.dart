@@ -2,6 +2,7 @@ import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_chat/ui/screens/active_chats/active_chats.dart';
 import 'package:barter/module_profile/ui/screen/edit_profile/edit_profile.dart';
+import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_services/services_routes.dart';
 import 'package:barter/module_services/ui/screen/services_screen.dart';
 import 'package:barter/module_settings/ui/settings_page/settings_page.dart';
@@ -12,7 +13,7 @@ import 'package:inject/inject.dart';
 class HomeScreen extends StatefulWidget {
   final SettingsScreen _settingsScreen;
   final ServicesScreen _servicesScreen;
-  final EditProfileScreen _profileScreen;
+  final UserProfileScreen _profileScreen;
   final AuthService _authService;
   final ActiveChatsScreen _activeChats;
 

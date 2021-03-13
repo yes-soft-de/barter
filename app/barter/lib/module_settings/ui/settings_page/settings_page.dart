@@ -1,6 +1,7 @@
 import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_init/init_routes.dart';
 import 'package:barter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
+import 'package:barter/module_profile/profile_routes.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:barter/module_profile/response/profile_response.dart';
 import 'package:barter/module_profile/service/profile/profile.service.dart';
@@ -71,6 +72,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               .then((value) {});
                         })
                   ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(ProfileRoutes.EDIT_PROFILE_SCREEN);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: Colors.black12,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('User Profile'),
+                      Icon(Icons.navigate_next),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -223,7 +249,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return Container();
     } else {
       // The User is a captain
-      var profile = await widget._profileService.getProfile();
+      var profile = await widget._profileService.getMyProfile();
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(

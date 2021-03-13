@@ -20,7 +20,7 @@ class ProfileRepository {
     this._authService,
   );
 
-  Future<ProfileResponseModel> getProfile() async {
+  Future<ProfileResponseModel> getMyProfile() async {
     await _authService.refreshToken();
     String token;
     try {
@@ -33,6 +33,25 @@ class ProfileRepository {
       Urls.PROFILE_API,
       headers: {'Authorization': 'Bearer ' + token},
     );
+
+    try {
+      if (response == null) return null;
+      return ProfileResponse.fromJson(response).data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<ProfileResponseModel> getUserProfile(String userId) async {
+    await _authService.refreshToken();
+    String token;
+    try {
+      token = await _authService.getToken();
+    } catch (e) {
+      throw UnauthorizedException('Get Profile Null Token');
+    }
+    if (token == null) throw UnauthorizedException('Get Profile Null Token');
+    var response = await _apiClient.get('${Urls.PROFILE_API}/$userId');
 
     try {
       if (response == null) return null;

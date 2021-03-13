@@ -20,7 +20,10 @@ class EditProfileStateManager {
   final ImageUploadService _imageUploadService;
   final ProfileService _profileService;
 
-  EditProfileStateManager(this._imageUploadService, this._profileService);
+  EditProfileStateManager(
+    this._imageUploadService,
+    this._profileService,
+  );
 
   Stream<ProfileState> get stateStream => _stateSubject.stream;
 
@@ -45,7 +48,7 @@ class EditProfileStateManager {
 
   void getProfile(EditProfileScreenState screenState) {
     _stateSubject.add(ProfileStateLoading(screenState));
-    _profileService.getProfile().then((value) {
+    _profileService.getMyProfile().then((value) {
       if (value == null) {
         _stateSubject.add(ProfileStateNoProfile(screenState, ProfileRequest()));
       } else {

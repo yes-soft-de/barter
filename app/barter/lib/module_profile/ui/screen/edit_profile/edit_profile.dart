@@ -1,7 +1,7 @@
 import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
-import 'package:barter/module_profile/state_manager/edit_profile/edit_profile.dart';
+import 'package:barter/module_profile/state_manager/edit_profile.dart';
 import 'package:barter/module_profile/ui/states/profile_loading/profile_loading.dart';
 import 'package:barter/module_profile/ui/states/profile_state/profile_state.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'package:inject/inject.dart';
 @provide
 class EditProfileScreen extends StatefulWidget {
   final EditProfileStateManager _stateManager;
-
   EditProfileScreen(this._stateManager);
 
   @override

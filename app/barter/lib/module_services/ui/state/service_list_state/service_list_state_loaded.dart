@@ -1,4 +1,5 @@
 import 'package:barter/module_auth/enums/user_type.dart';
+import 'package:barter/module_services/model/members_model.dart';
 import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/ui/screen/services_screen.dart';
 import 'package:barter/module_services/ui/state/service_list_state/service_list_state.dart';
@@ -8,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ServiceListStateLoaded extends ServiceListState {
-  final List<ServiceModel> services;
+  final MembersModel members;
 
-  ServiceListStateLoaded(ServicesScreen screen, this.services) : super(screen);
+  ServiceListStateLoaded(ServicesScreen screen, this.members) : super(screen);
 
   @override
   Widget getUI(BuildContext context) {
@@ -54,10 +55,9 @@ class ServiceListStateLoaded extends ServiceListState {
 
   List<Widget> _getPersonalCards() {
     var cards = <Widget>[];
-    services.forEach((element) {
-      if (element.type == UserRole.ROLE_COMPANY) return;
-      cards.add(ServiceCard(
-        'Company',
+    members.personalAccounts.forEach((element) {
+      cards.add(MemberCard(
+        'Personal',
         element.name,
         element.image,
         element.rate,
@@ -70,10 +70,9 @@ class ServiceListStateLoaded extends ServiceListState {
 
   List<Widget> _getCompanyCards() {
     var cards = <Widget>[];
-    services.forEach((element) {
-      if (element.type != UserRole.ROLE_COMPANY) return;
-      cards.add(ServiceCard(
-        'Personal',
+    members.companyAccounts.forEach((element) {
+      cards.add(MemberCard(
+        'Company',
         element.name,
         element.image,
         element.rate,
