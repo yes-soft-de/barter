@@ -52,6 +52,11 @@ methods: PUT
 /userprofile
 methods: GET
 ```
+#### Get user profile by serviceID
+```
+/userprofile/serviceID
+methods: GET
+```
 
 ### Main
 #### Get all members
