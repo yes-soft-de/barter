@@ -10,6 +10,7 @@ use App\Request\ServiceCreateRequest;
 use App\Request\ServicesSearchRequest;
 use App\Request\ServiceUpdateRequest;
 use App\Service\ServicesService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,6 +110,7 @@ class ServicesController extends BaseController
     }
 
     /**
+     * @IsGranted("ROLE_USER", message="Access denied")
      * @Route("myservices", name="getServicesOfSignedInUser", methods={"GET"})
      * @return JsonResponse
      */
