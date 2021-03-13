@@ -87,15 +87,15 @@ class UserService
         $item = $this->userManager->getProfileByUserID($userID);
 
         $servicesNumber = $this->servicesService->getCountOfEnabledServicesOfUser($userID)['1'];
-
+        
         if(isset($item['image']))
         {
             $item['image'] = $this->params . $item['image'];
-
-            $item['servicesNumber'] = $servicesNumber;
-
-            $item['services'] = $this->servicesService->getServicesOfUser($userID);
         }
+
+        $item['servicesNumber'] = $servicesNumber;
+
+        $item['services'] = $this->servicesService->getServicesOfUser($userID);
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
 
