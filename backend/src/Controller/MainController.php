@@ -5,10 +5,17 @@ namespace App\Controller;
 
 
 use App\AutoMapping;
+use App\Entity\CategoryEntity;
+use App\Entity\CommentEntity;
+use App\Entity\FavouriteEntity;
+use App\Entity\GradeEntity;
+use App\Entity\RatingEntity;
+use App\Entity\ResetPasswordRequestEntity;
+use App\Entity\ServicesEntity;
 use App\Entity\SettingEntity;
+use App\Entity\SwapEntity;
 use App\Entity\UserEntity;
 use App\Entity\UserProfileEntity;
-use App\Request\FilterRequest;
 use App\Service\MainService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +50,7 @@ class MainController extends BaseController
     }
 
     /**
-     * @Route("/eraseall", name="deleteAllData", methods={"DELETE"})
+     * @Route("eraseall", name="deleteAllData", methods={"DELETE"})
      */
     public function eraseAllData()
     {
@@ -51,20 +58,60 @@ class MainController extends BaseController
         {
             $em = $this->getDoctrine()->getManager();
 
-            // $usersProfiles = $em->getRepository(UserProfileEntity::class)->createQueryBuilder('profile')
-            //     ->delete()
-            //     ->getQuery()
-            //     ->execute();
+            $usersProfiles = $em->getRepository(UserProfileEntity::class)->createQueryBuilder('profile')
+                ->delete()
+                ->getQuery()
+                ->execute();
 
-            // $users = $em->getRepository(UserEntity::class)->createQueryBuilder('user')
-            //     ->delete()
-            //     ->getQuery()
-            //     ->execute();
+            $users = $em->getRepository(UserEntity::class)->createQueryBuilder('user')
+                ->delete()
+                ->getQuery()
+                ->execute();
 
-            // $setting = $em->getRepository(SettingEntity::class)->createQueryBuilder('setting')
-            //     ->delete()
-            //     ->getQuery()
-            //     ->execute();
+            $setting = $em->getRepository(SettingEntity::class)->createQueryBuilder('setting')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $services = $em->getRepository(ServicesEntity::class)->createQueryBuilder('services')
+                ->delete()
+                ->getQuery()
+                ->execute();
+            
+            $comment = $em->getRepository(CommentEntity::class)->createQueryBuilder('comment')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $swap = $em->getRepository(SwapEntity::class)->createQueryBuilder('swap')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $resetPasswordRequest = $em->getRepository(ResetPasswordRequestEntity::class)->createQueryBuilder('resetPasswordRequest')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $rating = $em->getRepository(RatingEntity::class)->createQueryBuilder('rating')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $favourite = $em->getRepository(FavouriteEntity::class)->createQueryBuilder('favourite')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $grade = $em->getRepository(GradeEntity::class)->createQueryBuilder('grade')
+                ->delete()
+                ->getQuery()
+                ->execute();
+
+            $category = $em->getRepository(CategoryEntity::class)->createQueryBuilder('category')
+                ->delete()
+                ->getQuery()
+                ->execute();
             
         }
         catch (\Exception $ex)
