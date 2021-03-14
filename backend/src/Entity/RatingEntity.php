@@ -32,6 +32,11 @@ class RatingEntity
      */
     private $rateValue;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $entityType;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class RatingEntity
     public function setRateValue(float $rateValue): self
     {
         $this->rateValue = $rateValue;
+
+        return $this;
+    }
+
+    public function getEntityType(): ?string
+    {
+        return $this->entityType;
+    }
+
+    public function setEntityType(string $entityType): self
+    {
+        $this->entityType = $entityType;
 
         return $this;
     }
