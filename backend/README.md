@@ -30,6 +30,7 @@ php bin/console doctrine:migration:migrate
 * [Main](#main)
 * [Category](#category)
 * [Services](#services)
+* [Rating](#rating)
 
 ### Account
 #### Create new user
@@ -158,6 +159,19 @@ methods: PUT
 #### Get swaps of signed in user
 ```
 /swapbyuserID 
+methods: GET
+```
+
+### Rating
+#### Create new rating for an account or for a service.
+_Note: entityType takes one of two chars 'A' or 'S', where 'A' refers to Account or 'S' refers to Service_ 
+```
+/rating
+methods: POST
+```
+#### Get average rating for an account or for a service.
+```
+/rating/{entityID}
 methods: GET
 ```
 
