@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\RatingEntity;
 use App\Entity\ServicesEntity;
 use App\Entity\UserEntity;
 use App\Entity\UserProfileEntity;
@@ -66,7 +67,7 @@ class UserEntityRepository extends ServiceEntityRepository implements PasswordUp
         return $this->createQueryBuilder('user')
             ->select('user.id', 'user.roles', 'user.userID', 'profile.userName', 'profile.image', 'profile.story', 
             'services.id as serviceID', 'services.serviceTitle', 'services.description', 'services.createdBy', 'services.categoryID', 
-            'services.activeUntil', 'services.enabled', 'services.tags')
+            'services.activeUntil', 'services.enabled', 'services.tags', 'AVG(rating.rateValue) as avgRating')
 
             ->leftJoin(
                 UserProfileEntity::class,
@@ -80,6 +81,13 @@ class UserEntityRepository extends ServiceEntityRepository implements PasswordUp
                 'services',
                 Join::WITH,
                 'services.createdBy = user.userID'
+            )
+
+            ->leftJoin(
+                RatingEntity::class,
+                'rating',
+                Join::WITH,
+                'rating.entityID = user.userID'
             )
             
             ->andWhere('user.roles LIKE :roles')
