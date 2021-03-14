@@ -25,4 +25,6 @@ class MembersGetResponse
     public $activeUntil;
 
     public $tags;
+
+    public $avgRating;
 }
