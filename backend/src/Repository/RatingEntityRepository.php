@@ -19,32 +19,18 @@ class RatingEntityRepository extends ServiceEntityRepository
         parent::__construct($registry, RatingEntity::class);
     }
 
-    // /**
-    //  * @return RatingEntity[] Returns an array of RatingEntity objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAvgRating($entityID)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        //AVG Rating
+        return $this->createQueryBuilder('rating')
 
-    /*
-    public function findOneBySomeField($value): ?RatingEntity
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('AVG(rating.rateValue) as avgRating')
+
+            ->andWhere('rating.entityID = :entityID')
+            ->setParameter('entityID', $entityID)
+            
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
 }
