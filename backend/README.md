@@ -1,49 +1,55 @@
 # Symfony App Skeleton 🚧
-*. env file and private-public keys not enclosed .*
+*Note: .env file and private-public keys not enclosed.*
 ## Project setup
 
-### Composer thing
+1) Composer thing
 ```
 composer update
 ```
-### Database setup
-First add to** .env** file correct connection string
+
+2) Database setup
+
+First, add the following correct connection string to the _.env_ file:
 `DATABASE_URL=mysql://root@127.0.0.1:3306/barterDB?serverVersion=5.7`
 
-Then create database
+Second, create the database:
 ```
 php bin/console doctrine:database:create
 ```
 
-After that make migration
+After that, make the required migration:
 ```
 php bin/console make:migration
 ```
 
-Finaly run migration versions to create tables
+Finally, run the migration in order to create the tables:
 ```
 php bin/console doctrine:migration:migrate
 ```
+----
+
 
 ### APIs Guide
 * [Account](#account)
+* [File Upload](#file-upload) 
 * [Main](#main)
 * [Category](#category)
 * [Services](#services)
+* [Swap](#swap) 
 * [Rating](#rating)
 
 ### Account
-#### Create new user
+#### Create a new user, and a new profile
 ```
 /user
 methods: POST
 ```
-#### login
+#### Login
 ```
 /login_check
 methods: POST
 ```
-#### Update user profile
+#### Update signed-in user's profile
 ```
 /userprofile
 methods: PUT
@@ -58,16 +64,26 @@ methods: GET
 /userprofile/serviceID
 methods: GET
 ```
+****
+
+### File Upload
+#### Upload an image
+```
+/uploadfile
+methods: POST
+```
+****
 
 ### Main
-#### Get all members
+#### Get all members, either personal or company accounts
 ```
 /members
 methods: GET
 ```
+****
 
 ### Category
-#### Create new category
+#### Create a new category
 ```
 /category
 methods: POST
@@ -77,7 +93,7 @@ methods: POST
 /category
 methods: PUT
 ```
-#### Delete existing category
+#### Delete existing category by id
 ```
 /category/{id}
 methods: DELETE
@@ -92,9 +108,10 @@ methods: GET
 /category/{id}
 methods: GET
 ```
+****
 
 ### Services
-#### Create new service
+#### Create a new service
 ```
 /service
 methods: POST
@@ -104,17 +121,18 @@ methods: POST
 /service
 methods: PUT
 ```
-#### Delete existing service
+#### Delete existing service by id
 ```
 /service/{id}
 methods: DELETE
 ```
-#### Get services of a category
+#### Get services of a specific category
 ```
 /services/{categoryID}
 methods: GET
 ```
-#### Get services of signed in user
+#### Get services of signed-in user
+_Authenticated only for members_ 
 ```
 /myservices
 methods: GET
@@ -129,9 +147,10 @@ methods: GET
 /searchservices
 methods: POST
 ```
+****
 
 ### Swap
-#### Create new swap
+#### Create a new swap
 ```
 /swap
 methods: POST
@@ -146,25 +165,26 @@ methods: GET
 /swapbyid/{id}
 methods: GET
 ```
-#### Delete exisiting swap 
+#### Delete existing swap 
 ```
 /swap/{id}
 methods: DELETE
 ```
-#### Update exisitng swap by id
+#### Update existing swap by id
 ```
 /swap 
 methods: PUT
 ```
-#### Get swaps of signed in user
+#### Get all swaps of signed-in user
 ```
 /swapbyuserID 
 methods: GET
 ```
+****
 
 ### Rating
 #### Create new rating for an account or for a service.
-_Note: entityType takes one of two chars 'A' or 'S', where 'A' refers to Account or 'S' refers to Service_ 
+_Note: entityType takes one of two chars 'A' or 'S', where 'A' refers to Account or 'S' refers to Service. While entityID takes the serviceID exclusively._ 
 ```
 /rating
 methods: POST
@@ -175,4 +195,4 @@ methods: POST
 methods: GET
 ```
 
-this edited by tools repository for more informatin about this repository please visit https://yes-soft.de/category/blog/
+this edited by tools repository for more information about this repository please visit https://yes-soft.de/category/blog/
