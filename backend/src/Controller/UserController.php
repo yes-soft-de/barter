@@ -62,6 +62,7 @@ class UserController extends BaseController
         $data = json_decode($request->getContent(), true);
 
         $request = $this->autoMapping->map(stdClass::class, UserProfileUpdateRequest::class, (object)$data);
+        
         $request->setUserID($this->getUserId());
 
         $response = $this->userService->userProfileUpdate($request);

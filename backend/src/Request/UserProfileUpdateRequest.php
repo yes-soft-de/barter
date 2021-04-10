@@ -16,6 +16,10 @@ class UserProfileUpdateRequest
 
     private $image;
 
+    private $roles;
+
+    private $phoneNumber;
+
 
     /**
      * @return mixed
@@ -95,5 +99,13 @@ class UserProfileUpdateRequest
     public function setImage($image): void
     {
         $this->image = $image;
+    }
+
+    /**
+     * @param mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 }

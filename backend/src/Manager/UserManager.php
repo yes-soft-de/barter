@@ -112,6 +112,15 @@ class UserManager
             $this->entityManager->flush();
             $this->entityManager->clear();
 
+            // Now, we will update the Roles of the user
+
+            $user = $this->userRepository->findOneBy(["userID"=>$request->getUserID()]);
+
+            $user->setRoles($request->getRoles());
+
+            $this->entityManager->flush();
+            $this->entityManager->clear();
+
             return $userProfile;
         }
     }
