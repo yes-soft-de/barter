@@ -72,6 +72,8 @@ class UserService
             $item['servicesNumber'] = $servicesNumber;
 
             $item['services'] = $this->servicesService->getServicesOfUser($userID);
+            
+            $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
         }
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
@@ -96,6 +98,8 @@ class UserService
         $item['servicesNumber'] = $servicesNumber;
 
         $item['services'] = $this->servicesService->getServicesOfUser($userID);
+            
+        $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
 

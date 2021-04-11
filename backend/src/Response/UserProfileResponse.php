@@ -18,6 +18,8 @@ class UserProfileResponse
     
     public $services;
 
+    public $role;
+
     public function getUserName()
     {
         return $this->userName;
@@ -26,5 +28,10 @@ class UserProfileResponse
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function setRoles($role)
+    {
+        $this->role = $role;
     }
 }

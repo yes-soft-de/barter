@@ -172,4 +172,10 @@ class UserManager
 
         return $userData;
     }
+
+    public function findUserByUserID($userID)
+    {
+        return $this->userRepository->findOneBy(["userID"=>$userID]);
+    }
+
 }
