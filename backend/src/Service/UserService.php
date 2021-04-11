@@ -68,13 +68,13 @@ class UserService
         if(isset($item['image']))
         {
             $item['image'] = $this->params . $item['image'];
-
-            $item['servicesNumber'] = $servicesNumber;
-
-            $item['services'] = $this->servicesService->getServicesOfUser($userID);
-            
-            $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
         }
+
+        $item['servicesNumber'] = $servicesNumber;
+
+        $item['services'] = $this->servicesService->getServicesOfUser($userID);
+        
+        $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
 
         return $this->autoMapping->map('array', UserProfileResponse::class, $item);
 
@@ -84,25 +84,31 @@ class UserService
     {
         // First, we will get the userID
 
-        $userID = $this->servicesService->getUserByServiceID($serviceID)['createdBy'];
+        $user = $this->servicesService->getUserByServiceID($serviceID);
         
-        $item = $this->userManager->getProfileByUserID($userID);
-
-        $servicesNumber = $this->servicesService->getCountOfEnabledServicesOfUser($userID)['1'];
-        
-        if(isset($item['image']))
+        if($user)
         {
-            $item['image'] = $this->params . $item['image'];
+            $userID = $user['createdBy'];
+            
+            $item = $this->userManager->getProfileByUserID($userID);
+
+            $servicesNumber = $this->servicesService->getCountOfEnabledServicesOfUser($userID)['1'];
+            
+            if(isset($item['image']))
+            {
+                $item['image'] = $this->params . $item['image'];
+            }
+
+            $item['servicesNumber'] = $servicesNumber;
+
+            $item['services'] = $this->servicesService->getServicesOfUser($userID);
+                
+            $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
+
+            return $this->autoMapping->map('array', UserProfileResponse::class, $item);
         }
 
-        $item['servicesNumber'] = $servicesNumber;
-
-        $item['services'] = $this->servicesService->getServicesOfUser($userID);
-            
-        $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
-
-        return $this->autoMapping->map('array', UserProfileResponse::class, $item);
-
+        return $user;
     }
 
     public function getUsersByRole($role)
