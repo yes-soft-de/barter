@@ -66,7 +66,6 @@ class AuthService {
       username: user.uid,
       password: password,
     ));
-
     if (loginResult == null) {
       _authSubject.addError('Error getting the token from the API');
       throw UnauthorizedException('Error getting the token from the API');
@@ -89,7 +88,6 @@ class AuthService {
     var existingProfile =
         await store.collection('users').doc(user.credential.uid).get();
     String password;
-
     // This means that this guy is not registered
     if (existingProfile.data() == null) {
       // Create the profile password
@@ -104,19 +102,31 @@ class AuthService {
       password = await existingProfile.data()['password'];
     }
 
+    //Because the value of the enum is not taken,
+    // it causes an error while sending data to the server
     try {
       // Create the profile in our database
-      await _authManager.register(RegisterRequest(
+      await _authManager
+          .register(RegisterRequest(
         userID: user.credential.uid,
         password: password,
+        email: user.credential.email,
+        userName: 'user_name'
         // This should change from the API side
-        roles: user.userRole.toString(),
-      ));
+      ))
+          .then((value) {
+
+        if (value) {
+          _authSubject.add(AuthStatus.AUTHORIZED);
+        } else {
+          _authSubject.add(AuthStatus.NOT_LOGGED_IN);
+        }
+      });
     } catch (e) {
       debugPrint('Already Registered');
     }
 
-    await _loginApiUser(user.userRole, user.authSource);
+    //   await _loginApiUser(user.userRole, user.authSource);
   }
 
   void verifyWithPhone(String phone, UserRole role) {
@@ -161,7 +171,6 @@ class AuthService {
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
       // Create a new credential
       final GoogleAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -171,9 +180,9 @@ class AuthService {
       // Once signed in, return the UserCredential
       var userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-
       await _registerApiUser(
           AppUser(userCredential.user, AuthSource.GOOGLE, role));
+      await _loginApiUser(role, AuthSource.GOOGLE);
     } catch (e) {
       Logger().error('AuthStateManager', e.toString(), StackTrace.current);
     }
@@ -188,15 +197,16 @@ class AuthService {
         AppUser(userCredential.user, AuthSource.APPLE, role));
   }
 
-  Future<void> signInWithEmailAndPassword(
-      String email, String password, UserRole role) async {
+  Future<void> signInWithEmailAndPassword(String name, String email,
+      String password, UserRole role) async {
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      await _registerApiUser(
-          AppUser(userCredential.user, AuthSource.EMAIL, role));
+        await _registerApiUser(
+            AppUser(userCredential.user, AuthSource.EMAIL, role, name));
+        await _loginApiUser(role, AuthSource.EMAIL);
     } catch (e) {
       if (e is FirebaseAuthException) {
         FirebaseAuthException x = e;
@@ -213,11 +223,14 @@ class AuthService {
   /// 2. Create an API User
   void registerWithEmailAndPassword(
       String email, String password, String name, UserRole role) {
+        
     _auth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) {
-      signInWithEmailAndPassword(email, password, role);
+
+      signInWithEmailAndPassword(name,email, password, role);
     }).catchError((err) {
+
       if (err is FirebaseAuthException) {
         FirebaseAuthException x = err;
         Logger().info('AuthService', 'Got Authorization Error: ${x.message}');
@@ -274,7 +287,7 @@ class AuthService {
     String email = await _prefsHelper.getEmail();
     var store = FirebaseFirestore.instance;
     var existingProfile =
-    await store.collection('users').doc(user.uid).get().catchError((e) {
+        await store.collection('users').doc(user.uid).get().catchError((e) {
       _authSubject.addError('Error logging in, firebase account not found');
       return;
     });

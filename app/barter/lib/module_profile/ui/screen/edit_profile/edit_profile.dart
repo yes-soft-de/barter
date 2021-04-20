@@ -51,7 +51,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       states.add(ProfileStateLoading(this));
     }
     return Scaffold(
-      body: SafeArea(child: states.last.getUI(context)),
+      body:SafeArea(child: states.last.getUI(context)),
     );
   }
 }

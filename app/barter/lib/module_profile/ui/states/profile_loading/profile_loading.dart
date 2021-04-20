@@ -15,7 +15,7 @@ class ProfileStateLoading extends ProfileState {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(S.of(context).loading),
+          Text('Loading'),//S.of(context).loading),
           CircularProgressIndicator(),
         ],
       ),

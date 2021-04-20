@@ -47,7 +47,8 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
         children: [
           MediaQuery.of(context).viewInsets.bottom == 0
               ? Container(
-                  height: 144, child: Image.asset('assets/images/track.png'))
+                  height: 144, child: Text('  !! Image !!  ')//Image.asset('assets/images/track.png')
+                  )
               : Container(),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -63,15 +64,18 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                   items: [
                     DropdownMenuItem(
                       value: '+966',
-                      child: Text(S.of(context).saudiArabia),
+                      child: Text('Saudi Arabia'//S.of(context).saudiArabia
+                      ),
                     ),
                     DropdownMenuItem(
                       value: '+961',
-                      child: Text(S.of(context).lebanon),
+                      child: Text('Lebanon'//S.of(context).lebanon
+                      ),
                     ),
                     DropdownMenuItem(
                       value: '+963',
-                      child: Text(S.of(context).syria),
+                      child: Text('Syria'//S.of(context).syria
+                      ),
                     ),
                   ],
                 ),
@@ -81,7 +85,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                     child: TextFormField(
                       controller: _phoneController,
                       decoration: InputDecoration(
-                          labelText: S.of(context).phoneNumber,
+                          labelText:'Phone Number',// S.of(context).phoneNumber,
                           hintText: '123 456 789'),
                       validator: (v) {
                         if (v.isEmpty) {
@@ -99,7 +103,8 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           _errorMsg != null ? Text(_errorMsg) : Container(),
           loading == true
               ? Center(
-                  child: Text(S.of(context).loading),
+                  child: Text('Loading'//S.of(context).loading
+                  ),
                 )
               : Container(
                   child: FlatButton(
@@ -118,8 +123,8 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        S.of(context).sendMeCode,
+                      child: Text('Send me code',
+                       // S.of(context).sendMeCode,
                         style: TextStyle(
                           color: Colors.white,
                         ),

@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:barter/abstracts/module/yes_module.dart';
+import 'package:barter/module_auth/repository/auth/auth_repository.dart';
 import 'package:barter/module_chat/chat_module.dart';
 import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_home/module_home.dart';
 import 'package:barter/module_init/init_account_module.dart';
 import 'package:barter/module_localization/service/localization_service/localization_service.dart';
+import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:barter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
 import 'package:barter/module_profile/module_profile.dart';
 import 'package:barter/module_splash/splash_module.dart';
@@ -23,6 +25,13 @@ import 'package:inject/inject.dart';
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_auth/authoriazation_module.dart';
+import 'module_auth/manager/auth_manager/auth_manager.dart';
+import 'module_auth/presistance/auth_prefs_helper.dart';
+import 'module_auth/service/auth_service/auth_service.dart';
+import 'module_auth/state_manager/login_state_manager/login_state_manager.dart';
+import 'module_auth/state_manager/register_state_manager/register_state_manager.dart';
+import 'module_auth/ui/screen/login_screen/login_screen.dart';
+import 'module_auth/ui/screen/register_screen/register_screen.dart';
 import 'module_services/services_module.dart';
 import 'module_settings/settings_module.dart';
 import 'module_splash/splash_routes.dart';
@@ -47,13 +56,22 @@ void main() async {
     };
     await runZoned<Future<void>>(() async {
       // Your App Here
-      runApp(container.app);
+  
+          runApp(MaterialApp(
+        home:LoginScreen(LoginStateManager(AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())))))
+      ));
+      // runApp(MaterialApp(
+      //   home: RegisterScreen(RegisterStateManager(AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())))))
+      // ));
+     // runApp(container.app);
     }, onError: (error, stackTrace) {
       new Logger().error(
           'Main', error.toString() + stackTrace.toString(), StackTrace.current);
     });
   });
 }
+
+
 
 @provide
 class MyApp extends StatefulWidget {
@@ -68,6 +86,7 @@ class MyApp extends StatefulWidget {
   final FireNotificationService _fireNotificationService;
   final HomeModule _homeModule;
   final ServicesModule _servicesModule;
+  
 
   MyApp(
     this._themeDataService,
@@ -81,6 +100,7 @@ class MyApp extends StatefulWidget {
     this._servicesModule,
     this._profileModule,
     this._homeModule,
+
   );
 
   @override
@@ -110,7 +130,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {});
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     Map<String, WidgetBuilder> fullRoutes = {};

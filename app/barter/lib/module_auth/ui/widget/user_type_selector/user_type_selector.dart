@@ -22,7 +22,7 @@ class UserTypeSelector extends StatelessWidget {
               width: 300,
               child: AnimatedAlign(
                   duration: Duration(seconds: 1),
-                  alignment: currentUserType == UserRole.ROLE_FREELANCE
+                  alignment: currentUserType == UserRole.ROLE_USER
                       ? AlignmentDirectional.centerStart
                       : AlignmentDirectional.centerEnd,
                   child: Container(
@@ -50,12 +50,13 @@ class UserTypeSelector extends StatelessWidget {
                     width: 150,
                     child: FlatButton(
                       onPressed: () {
-                        onUserChange(UserRole.ROLE_FREELANCE);
+                        onUserChange(UserRole.ROLE_USER);
                       },
                       child: Text(
-                        S.of(context).captain,
+                        'User',
+                       // S.of(context).captain,
                         style: TextStyle(
-                          color: currentUserType == UserRole.ROLE_FREELANCE
+                          color: currentUserType == UserRole.ROLE_USER
                               ? Colors.white
                               : Theme.of(context).brightness == Brightness.dark
                                   ? Colors.white
@@ -71,7 +72,8 @@ class UserTypeSelector extends StatelessWidget {
                         onUserChange(UserRole.ROLE_COMPANY);
                       },
                       child: Text(
-                        S.of(context).storeOwner,
+                       'Company',
+                      //  S.of(context).storeOwner,
                         style: TextStyle(),
                       ),
                     ),

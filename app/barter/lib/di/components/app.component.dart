@@ -1,3 +1,4 @@
+
 import 'package:inject/inject.dart';
 import 'package:barter/main.dart';
 
@@ -10,6 +11,6 @@ abstract class AppComponent {
   MyApp get app;
 
   static Future<AppComponent> create() async {
-    return await g.AppComponent$Injector.create();
+ //return await g.AppComponent$Injector.create();
   }
 }

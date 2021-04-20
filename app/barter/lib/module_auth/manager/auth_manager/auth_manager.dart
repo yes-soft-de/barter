@@ -9,8 +9,8 @@ class AuthManager {
   final AuthRepository _authRepository;
   AuthManager(this._authRepository);
 
-  Future<bool> register(RegisterRequest registerRequest) =>
-      _authRepository.createUser(registerRequest);
+  Future<bool> register(RegisterRequest registerRequest) async=>
+     await _authRepository.createUser(registerRequest);
 
   Future<LoginResponse> login(LoginRequest loginRequest) =>
       _authRepository.getToken(loginRequest);

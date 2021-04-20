@@ -1,3 +1,4 @@
+import 'package:barter/module_auth/enums/auth_source.dart';
 import 'package:barter/module_auth/enums/auth_status.dart';
 import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
@@ -76,9 +77,9 @@ class LoginStateManager {
       _loginStateSubject.add(LoginStateError(
           _loginScreenState, err.toString(), _email, _password));
     });
-
-    _authService.signInWithEmailAndPassword(
-        email, password, UserRole.ROLE_COMPANY);
+   
+    _authService.signInWithEmailAndPassword('',
+        email, password,UserRole.ROLE_COMPANY);
   }
 
   void confirmSMSCode(String smsCode, LoginScreen screenState) {
@@ -88,7 +89,7 @@ class LoginStateManager {
 
   void loginViaGoogle(LoginScreen loginScreen) {
     _screenState = loginScreen;
-    _authService.verifyWithGoogle(UserRole.ROLE_COMPANY);
+    _authService.verifyWithGoogle(UserRole.ROLE_USER);
   }
 
   void refresh(LoginState state) {

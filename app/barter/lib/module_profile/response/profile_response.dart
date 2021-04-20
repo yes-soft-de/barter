@@ -26,37 +26,39 @@ class ProfileResponse {
 
 class ProfileResponseModel {
   String image;
-  String firstName;
+  String userName;
+  String role;
   String lastName;
   String location;
   String phone;
-  String type;
+  
 
   ProfileResponseModel(
       {this.image,
-      this.firstName,
+      this.userName,
       this.lastName,
       this.location,
       this.phone,
-      this.type});
+      this.role
+      });
 
   ProfileResponseModel.fromJson(Map<String, dynamic> json) {
     image = json['image'];
-    firstName = json['firstName'];
+    userName = json['userName'];
     lastName = json['lastName'];
     location = json['location'];
     phone = json['phone'];
-    type = json['type'];
+    role = json['role'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['image'] = this.image;
-    data['firstName'] = this.firstName;
+    data['userName'] = this.userName;
     data['lastName'] = this.lastName;
     data['location'] = this.location;
     data['phone'] = this.phone;
-    data['type'] = this.type;
+    data['role'] = this.role;
     return data;
   }
 }

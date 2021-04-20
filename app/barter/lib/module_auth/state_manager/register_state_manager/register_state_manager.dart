@@ -43,11 +43,12 @@ class RegisterStateManager {
           .add(RegisterStateError(_registerScreenState, err.toString()));
     });
 
-    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_FREELANCE);
+    _authService.verifyWithPhone(phoneNumber, UserRole.ROLE_USER);
   }
 
-  void registerOwner(String email, String name, String password,
+  void registerCompany(String email, String name, String password,
       RegisterScreenState _registerScreenState) {
+
     _authService.authListener.listen((event) {
       switch (event) {
         case AuthStatus.AUTHORIZED:
@@ -64,9 +65,31 @@ class RegisterStateManager {
 
     _authService.registerWithEmailAndPassword(
         email, password, name, UserRole.ROLE_COMPANY);
+
+  }
+
+    void registerUser(String email, String name, String password,
+      RegisterScreenState _registerScreenState) {
+
+    _authService.authListener.listen((event) {
+      switch (event) {
+        case AuthStatus.AUTHORIZED:
+          _registerStateSubject.add(RegisterStateSuccess(_registerScreenState));
+          break;
+        default:
+          _registerStateSubject.add(RegisterStateInit(_registerScreenState));
+          break;
+      }
+    }).onError((err) {
+      _registerStateSubject
+          .add(RegisterStateError(_registerScreenState, err.toString()));
+    });
+    _authService.registerWithEmailAndPassword(
+        email, password, name, UserRole.ROLE_USER);
+
   }
 
   void confirmCaptainCode(String smsCode) {
-    _authService.confirmWithCode(smsCode, UserRole.ROLE_FREELANCE);
+    _authService.confirmWithCode(smsCode, UserRole.ROLE_USER);
   }
 }

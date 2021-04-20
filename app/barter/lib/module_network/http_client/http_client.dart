@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+
 import 'package:barter/consts/urls.dart';
+import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_firebase_performance/dio_firebase_performance.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/utils/logger/logger.dart';
-
+import 'package:http/http.dart' as http;
 @provide
 class ApiClient {
   String token;
@@ -33,7 +35,7 @@ class ApiClient {
       _logger.info(tag, 'Query: ' + queryParams.toString());
 
       _client.interceptors.add(performanceInterceptor);
-
+      
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
@@ -57,29 +59,29 @@ class ApiClient {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
+
     try {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
       _logger.info(tag, 'Headers: ' + jsonEncode(headers));
+
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
           _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
-      _client.interceptors.add(performanceInterceptor);
-      var response = await _client.post(
-        url,
+    _client.interceptors.add(performanceInterceptor);
+      var response = await _client.post(url,
         queryParameters: queryParams,
-        data: payLoad,
+        data: json.encode(payLoad)
       );
-      return _processResponse(response);
+  return _processResponse(response);
     } catch (e) {
       _logger.error(tag, e.toString() + ', POST: ' + url, StackTrace.current);
       return null;
     }
   }
-
   Future<Map<String, dynamic>> put(
     String url,
     Map<String, dynamic> payLoad, {
@@ -87,6 +89,7 @@ class ApiClient {
     Map<String, String> headers,
   }) async {
     try {
+     
       headers ??= {};
       _client.options.headers['Authorization'] = headers['Authorization'];
       _client.options.headers['Content-Type'] = 'application/json';
@@ -95,9 +98,11 @@ class ApiClient {
       _logger.info(tag, 'PUT: ' + jsonEncode(payLoad));
       _logger.info(tag, 'Headers: ${_client.options.headers}');
 
+
       _client.interceptors.add(performanceInterceptor);
+
       var response = await _client.put(
-        url,
+        '/userprofile',
         queryParameters: queryParams,
         data: json.encode(payLoad),
         options: Options(headers: headers),

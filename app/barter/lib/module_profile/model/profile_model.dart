@@ -5,6 +5,7 @@ class ProfileModel {
   String lastName;
   String phone;
   String image;
+  String type;
   String location;
   List<ServiceModel> services;
 
@@ -15,5 +16,6 @@ class ProfileModel {
     this.image,
     this.phone,
     this.services,
+    this.type
   });
 }

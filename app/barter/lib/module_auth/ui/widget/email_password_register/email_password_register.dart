@@ -1,4 +1,11 @@
 import 'package:barter/generated/l10n.dart';
+import 'package:barter/module_auth/manager/auth_manager/auth_manager.dart';
+import 'package:barter/module_auth/presistance/auth_prefs_helper.dart';
+import 'package:barter/module_auth/repository/auth/auth_repository.dart';
+import 'package:barter/module_auth/service/auth_service/auth_service.dart';
+import 'package:barter/module_auth/state_manager/login_state_manager/login_state_manager.dart';
+import 'package:barter/module_auth/ui/screen/login_screen/login_screen.dart';
+import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:flutter/material.dart';
 
 class EmailPasswordRegisterForm extends StatefulWidget {
@@ -77,14 +84,14 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          labelText: S.of(context).name,
+                          labelText: 'Name'//S.of(context).name,
                         ),
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () => node.nextFocus(),
                         // Move focus to next
                         validator: (result) {
                           if (result.isEmpty) {
-                            return S.of(context).nameIsRequired;
+                            return 'Name is required';//S.of(context).nameIsRequired;
                           }
                           return null;
                         },
@@ -124,14 +131,14 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          labelText: S.of(context).email,
+                          labelText:'Email'// S.of(context).email,
                         ),
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () => node.nextFocus(),
                         // Move focus to next
                         validator: (result) {
                           if (result.isEmpty) {
-                            return S.of(context).emailAddressIsRequired;
+                            return 'Email Address is Required';//S.of(context).emailAddressIsRequired;
                           }
                           return null;
                         },
@@ -171,7 +178,7 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          labelText: S.of(context).password,
+                          labelText:'Password'// S.of(context).password,
                         ),
                         validator: (result) {
                           if (result.length < 5) {
@@ -190,7 +197,8 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
               ],
             ),
             loading == true
-                ? Text(S.of(context).loading)
+                ? Text('Loading'//S.of(context).loading
+                )
                 : Flex(
                     direction: Axis.vertical,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -199,10 +207,13 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
                         padding: const EdgeInsets.all(16.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context)=>
+                              LoginScreen(LoginStateManager(AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())))))
+                            ));
                           },
                           child: Text(
-                            S.of(context).iHaveAnAccount,
+                            'I have an account',//S.of(context).iHaveAnAccount,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -229,7 +240,7 @@ class _EmailPasswordRegisterFormState extends State<EmailPasswordRegisterForm> {
                             }
                           },
                           child: Text(
-                            S.of(context).next,
+                           'Next',// S.of(context).next,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,

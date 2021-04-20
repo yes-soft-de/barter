@@ -1,4 +1,4 @@
-package de.yessoft.barter
+package de.yessoft.barternew
 
 import io.flutter.embedding.android.FlutterActivity
 

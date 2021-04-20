@@ -55,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.blue,
+        unselectedItemColor: Colors.black26,
+        selectedItemColor: Colors.blueAccent,
         currentIndex: _activeIndex,
         onTap: (pos) {
           _activeIndex = pos;
@@ -63,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            
+            icon: Icon(Icons.home ),
             label: 'Home',
           ),
           BottomNavigationBarItem(

@@ -43,7 +43,7 @@ class UserProfileStateLoaded extends UserProfileState {
                   )),
             ),
             Text(
-              '${model.firstName} ${model.lastName}',
+              '${model.firstName} ',
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -69,7 +69,7 @@ class UserProfileStateLoaded extends UserProfileState {
             direction: Axis.vertical,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Personal'),
+              Text(model.type),
               Text('22 Bartered'),
             ],
           ),

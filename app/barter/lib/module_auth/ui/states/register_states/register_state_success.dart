@@ -1,4 +1,4 @@
-import 'package:barter/generated/l10n.dart';
+
 import 'package:barter/module_auth/ui/screen/register_screen/register_screen.dart';
 import 'package:barter/module_auth/ui/states/register_states/register_state.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class RegisterStateSuccess extends RegisterState {
       children: [
         Expanded(
           child: Center(
-            child: Image.asset('assets/images/logo.jpg'),
+            child: Image.asset('assets/images/logo.png'),
           ),
         ),
         RaisedButton(
@@ -23,7 +23,7 @@ class RegisterStateSuccess extends RegisterState {
             screen.moveToNext();
           },
           child: Text(
-            S.of(context).registerSuccessSetupMyProfile,
+           'Register Success, Setup my profile' ,//,S.of(context).registerSuccessSetupMyProfile,
             style: TextStyle(
               color: Colors.white,
             ),

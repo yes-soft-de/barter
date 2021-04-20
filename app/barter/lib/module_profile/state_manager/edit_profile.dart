@@ -55,10 +55,12 @@ class EditProfileStateManager {
         _stateSubject.add(ProfileStateGotProfile(
           screenState,
           ProfileRequest(
-            firstName: value.firstName,
+            userName: value.firstName,
             lastName: value.lastName,
             image: value.image,
             phone: value.phone,
+            type: value.type
+            
           ),
         ));
       }

@@ -269,7 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     widget._notificationService.setCaptainActive(value);
                     widget._profileService.updateProfile(
                       ProfileRequest(
-                        firstName: profile.firstName,
+                        userName: profile.firstName,
                         lastName: profile.lastName,
                         image: profile.image,
                         phone: profile.phone,

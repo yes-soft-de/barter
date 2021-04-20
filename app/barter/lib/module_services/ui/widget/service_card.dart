@@ -55,8 +55,9 @@ class MemberCard extends StatelessWidget {
                   ),
                   fit: BoxFit.cover,
                   onError: (e, s) {
-                    return AssetImage('assets/images/logo.jpg');
-                  }
+                    return AssetImage('assets/images/logo.png');
+                  },
+
                 ),
               ),
             ),

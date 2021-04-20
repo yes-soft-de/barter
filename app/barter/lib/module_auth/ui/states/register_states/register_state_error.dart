@@ -49,23 +49,32 @@ class RegisterStateError extends RegisterState {
             screen.refresh();
           },
           children: [
-            PhoneLoginWidget(
-              codeSent: false,
-              onLoginRequested: (phone) {
-                loading = true;
-                screen.refresh();
-                screen.registerCaptain(phone);
-              },
-              onRetry: () {},
-              onConfirm: (confirmCode) {
-                loading = true;
-                screen.refresh();
-                screen.confirmCaptainSMS(confirmCode);
+            // PhoneLoginWidget(
+            //   codeSent: false,
+            //   onLoginRequested: (phone) {
+            //     loading = true;
+            //     screen.refresh();
+            //     screen.registerUser(phone);
+            //   },
+            //   onRetry: () {},
+            //   onConfirm: (confirmCode) {
+            //     loading = true;
+            //     screen.refresh();
+            //     screen.confirmCaptainSMS(confirmCode);
+            //   },
+            // ),
+               EmailPasswordRegisterForm(
+              onRegisterRequest: (email, name, password) {
+                screen.registerUser(
+                  email,
+                  email,
+                  password,
+                );
               },
             ),
             EmailPasswordRegisterForm(
               onRegisterRequest: (email, name, password) {
-                screen.registerOwner(
+                screen.registerCompany(
                   email,
                   email,
                   password,

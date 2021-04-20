@@ -10,7 +10,7 @@ class ServiceFactory {
       rate: double.parse((Random().nextInt(10) + Random().nextDouble()).toStringAsPrecision(1)),
       image: 'https://images.unsplash.com/photo-1613506543439-e31c1e58852b?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
       servicesNumber: Random().nextInt(10),
-      type: Random().nextBool() ? UserRole.ROLE_COMPANY : UserRole.ROLE_FREELANCE,
+      type: Random().nextBool() ? UserRole.ROLE_COMPANY : UserRole.ROLE_USER,
     );
   }
 
