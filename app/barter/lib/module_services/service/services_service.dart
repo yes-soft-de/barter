@@ -19,9 +19,9 @@ class ServicesService {
     var servicesList = <ServiceModel>[];
     apiResponse.data.forEach((element) {
       servicesList
-          .add(ServiceModel(name: element.userName, image: element.userImage));
+          .add(ServiceModel(name: element.serviceTitle, description: element.description,));
     });
-    return ServiceFactory.getServicesList(10);
+    return servicesList;//ServiceFactory.getServicesList(10);
   }
 
   Future<ServiceDetailsModel> getServiceById(String id) async {

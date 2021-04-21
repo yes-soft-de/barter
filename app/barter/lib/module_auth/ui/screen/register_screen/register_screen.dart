@@ -91,26 +91,9 @@ class RegisterScreenState extends State<RegisterScreen> {
   }
 
   void moveToNext() {
-    AuthService authService = AuthService(
-      AuthPrefsHelper(),
-      AuthManager(AuthRepository(ApiClient())),
-    );
-    ProfileService profileService = ProfileService(
-      ProfileManager(ProfileRepository(ApiClient(), authService)),
-      ProfilePreferencesHelper(),
-      authService,
-      ServicesService(ServicesRepository()),
-    );
-
-    
-   ProfileModule profileModule = ProfileModule(
-        EditProfileScreen(EditProfileStateManager(
-            ImageUploadService(UploadManager(UploadRepository())),
-            profileService)),
-        UserProfileScreen(UserProfileStateManager(profileService)));
 
 
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>profileModule.editProfileScreen) );
+    //Navigator.pushNamed(context, routeName);
     
   }
 }

@@ -49,15 +49,8 @@ class ProfileStateSaveSuccess extends ProfileState {
           Text('Save Success'),//S.of(context).saveSuccess),
           RaisedButton(
             onPressed: () {
-            Navigator.push(context ,MaterialPageRoute(
-              builder: (context){    
-           return  homeeeeee; 
-              },
 
-
-             
-            ));
-           // Navigator.of(context).pushNamed(HomeRoutes.HOME_ROUTE);
+          Navigator.of(context).pushNamed(HomeRoutes.HOME_ROUTE);
             },
             child: Text('Next'),//S.of(context).next),
           ),
@@ -66,17 +59,3 @@ class ProfileStateSaveSuccess extends ProfileState {
     );
   }
 }
-
-
- // Route For Test
-//////////////////////////////////////////
-///
-         ServicesService servicesService = ServicesService(ServicesRepository());
-            AuthService authService =    AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())));
-        ProfileService profileService = ProfileService(ProfileManager(ProfileRepository(ApiClient(),authService)),ProfilePreferencesHelper(),authService,servicesService);
-         HomeScreen  homeeeeee =   HomeScreen(SettingsScreen(authService,LocalizationService(LocalizationPreferencesHelper()),AppThemeDataService(ThemePreferencesHelper()),profileService,FireNotificationService(NotificationsPrefsHelper(),profileService,NotificationRepo(ApiClient(),authService)),),
-               ServicesScreen(ServiceScreenStateManager(servicesService)),
-                UserProfileScreen(UserProfileStateManager(profileService)),
-                 authService,
-                  ActiveChatsScreen()
-                  ); 

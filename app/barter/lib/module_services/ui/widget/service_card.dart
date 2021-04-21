@@ -48,15 +48,16 @@ class MemberCard extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: NetworkImage(
-                    '$image'.contains('http')
-                        ? '$image'
-                        : Urls.IMAGES_ROOT + image,
-                  ),
-                  fit: BoxFit.cover,
-                  onError: (e, s) {
-                    return AssetImage('assets/images/logo.png');
-                  },
+                  image:AssetImage('assets/images/logo.png'),
+                  //  NetworkImage(
+                  //   '$image'.contains('http')
+                  //       ? '$image'
+                  //       : Urls.IMAGES_ROOT + image,
+                  // ),
+                  // fit: BoxFit.cover,
+                  // onError: (e, s) {
+                  //   return AssetImage('assets/images/logo.png');
+                  // },
 
                 ),
               ),

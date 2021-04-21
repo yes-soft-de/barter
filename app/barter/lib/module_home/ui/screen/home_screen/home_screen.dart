@@ -1,7 +1,6 @@
 import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_chat/ui/screens/active_chats/active_chats.dart';
-import 'package:barter/module_profile/ui/screen/edit_profile/edit_profile.dart';
 import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_services/services_routes.dart';
 import 'package:barter/module_services/ui/screen/services_screen.dart';
@@ -45,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
             if (!value) {
               Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
             } else {
-              Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
+    
+Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
             }
           });
         },
