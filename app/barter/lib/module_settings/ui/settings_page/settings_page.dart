@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          S.of(context).settings,
+         'Settings',// S.of(context).settings,
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
@@ -63,7 +63,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(S.of(context).darkMode),
+                    Text(
+                      'Dark Mode',
+                      //S.of(context).darkMode
+                      ),
                     Switch(
                         value: Theme.of(context).brightness == Brightness.dark,
                         onChanged: (mode) {
@@ -101,50 +104,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
           ),
-          FutureBuilder(
-            future: widget._authService.userRole,
-            builder: (BuildContext context, AsyncSnapshot<UserRole> snapshot) {
-              if (snapshot.data == UserRole.ROLE_COMPANY) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: Colors.black12,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Flex(
-                        direction: Axis.horizontal,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(S.of(context).renewSubscription),
-                          IconButton(
-                              icon: Icon(Icons.autorenew_sharp),
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                    InitAccountRoutes.INIT_ACCOUNT_SCREEN);
-                              }),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
-          FutureBuilder(
-            future: _getCaptainStateSwitch(),
-            builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-              if (snapshot.hasData) {
-                return snapshot.data;
-              } else {
-                return Container();
-              }
-            },
-          ),
+          // FutureBuilder(
+          //   future: widget._authService.userRole,
+          //   builder: (BuildContext context, AsyncSnapshot<UserRole> snapshot) {
+          //     if (snapshot.data == UserRole.ROLE_COMPANY) {
+          //       return Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.all(Radius.circular(8)),
+          //             color: Colors.black12,
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: Flex(
+          //               direction: Axis.horizontal,
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Text(
+          //                   'Renew Subscription',
+          //                   //S.of(context).renewSubscription
+          //                   ),
+          //                 IconButton(
+          //                     icon: Icon(Icons.autorenew_sharp),
+          //                     onPressed: () {
+          //                       Navigator.of(context).pushNamed(
+          //                           InitAccountRoutes.INIT_ACCOUNT_SCREEN);
+          //                     }),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     } else {
+          //       return Container();
+          //     }
+          //   },
+          // ),
+          // FutureBuilder(
+          //   future: _getCaptainStateSwitch(),
+          //   builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          //     if (snapshot.hasData) {
+          //       return snapshot.data;
+          //     } else {
+          //       return Container();
+          //     }
+          //   },
+          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -158,7 +164,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(S.of(context).language),
+                    Text(
+                      'Language',
+                      //S.of(context).language
+                      ),
                     FutureBuilder(
                       future: widget._localizationService.getLanguage(),
                       builder: (BuildContext context,
@@ -204,7 +213,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         direction: Axis.horizontal,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(S.of(context).signOut),
+                          Text(
+                            'Sign out',
+                            //S.of(context).signOut
+                            ),
                           IconButton(
                               icon: Icon(Icons.logout),
                               onPressed: () {
@@ -222,7 +234,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         direction: Axis.horizontal,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(S.of(context).login),
+                          Text(
+                            'Login',
+                           // S.of(context).login
+                            ),
                           IconButton(
                               icon: Icon(Icons.login),
                               onPressed: () {
@@ -263,7 +278,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               direction: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(S.of(context).myStatus),
+                Text(
+                  'My Status',
+                 // S.of(context).myStatus
+                  ),
                 Switch(
                   onChanged: (bool value) {
                     widget._notificationService.setCaptainActive(value);

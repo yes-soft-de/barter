@@ -66,43 +66,61 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ModalRoute.of(context).canPop ? _setupHeader() : Container(),
-        Expanded(
-          child: PageIndicatorContainer(
-              align: IndicatorAlign.top,
-              indicatorColor: Colors.black26,
-              indicatorSelectorColor: Colors.red,
-              pageView: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        getAccountSwitcher(),
-                        AnimatedSwitcher(
-                          duration: Duration(seconds: 1),
-                          child: userRole == UserRole.ROLE_COMPANY
-                              ? getCompanyForm()
-                              : getPersonalForm(),
-                        ),
-                      ],
-                    ),
-                  ),
-                 getServiceForm()
-                ],
-              ),
-              length: 2),
-        )
-      ],
-    );
+    return SingleChildScrollView(
+           scrollDirection: Axis.vertical,
+           child: Column(
+             children: [
+               SizedBox(
+                 height: 20.0,
+               ),
+                ModalRoute.of(context).canPop ? _setupHeader() : Container(),
+               getAccountSwitcher(),
+               AnimatedSwitcher(
+                 duration: Duration(seconds: 1),
+                 child: userRole == UserRole.ROLE_COMPANY
+                     ? getCompanyForm()
+                     : getPersonalForm(),
+               ),
+             ],
+           ),
+         );
+    // return Column(
+    //   children: [
+    //     ModalRoute.of(context).canPop ? _setupHeader() : Container(),
+    //     Expanded(
+    //       child: PageIndicatorContainer(
+    //           align: IndicatorAlign.top,
+    //           indicatorColor: Colors.black26,
+    //           indicatorSelectorColor: Colors.red,
+    //           pageView: PageView(
+    //             physics: NeverScrollableScrollPhysics(),
+    //             controller: _pageController,
+    //             scrollDirection: Axis.horizontal,
+    //             children: [
+    //               SingleChildScrollView(
+    //                 scrollDirection: Axis.vertical,
+    //                 child: Column(
+    //                   children: [
+    //                     SizedBox(
+    //                       height: 20.0,
+    //                     ),
+    //                     getAccountSwitcher(),
+    //                     AnimatedSwitcher(
+    //                       duration: Duration(seconds: 1),
+    //                       child: userRole == UserRole.ROLE_COMPANY
+    //                           ? getCompanyForm()
+    //                           : getPersonalForm(),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //              getServiceForm()
+    //             ],
+    //           ),
+    //           length: 2),
+    //     )
+    //   ],
+    // );
   }
 
   Widget getServiceForm() {
@@ -530,18 +548,18 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 child: Text('Next'), //S.of(context).save),
                 onPressed: () {
                   if (_personalFormKey.currentState.validate()) {
-                    _pageController.jumpToPage(1);
-                    // widget.onProfileSaved(
-                    //   ProfileRequest(
-                    //     roles: ['${UserRole.values[userRole.index]}'],
-                    //     userName: _firstNameController.text,
-                    //     lastName: _lastNameController.text,
-                    //     phone: _phoneController.text,
-                    //     location: _locationController.text,
-                    //     image: theImage,
-                    //     type: 'personal',
-                    //   ),
-                    // );
+                   
+                    widget.onProfileSaved(
+                      ProfileRequest(
+                        roles: ['${UserRole.values[userRole.index]}'],
+                        userName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        phone: _phoneController.text,
+                        location: _locationController.text,
+                        image: theImage,
+                        type: 'personal',
+                      ),
+                    );
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text(
@@ -672,17 +690,17 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 child: Text('Next'), //S.of(context).save),
                 onPressed: () {
                   if (_companyFormKey.currentState.validate()) {
-                    _pageController.jumpToPage(1);
-                    // widget.onProfileSaved(
-                    //   ProfileRequest(
-                    //       roles: ['${UserRole.values[userRole.index]}'],
-                    //       userName: _firstNameController.text,
-                    //       lastName: _lastNameController.text,
-                    //       phone: _phoneController.text,
-                    //       location: _locationController.text,
-                    //       image: theImage,
-                    //       type: 'company'),
-                    // );
+                  
+                    widget.onProfileSaved(
+                      ProfileRequest(
+                          roles: ['${UserRole.values[userRole.index]}'],
+                          userName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          phone: _phoneController.text,
+                          location: _locationController.text,
+                          image: theImage,
+                          type: 'company'),
+                    );
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text(

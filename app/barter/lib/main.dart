@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:barter/module_auth/repository/auth/auth_repository.dart';
+import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_home/module_home.dart';
 import 'package:barter/module_localization/service/localization_service/localization_service.dart';
 import 'package:barter/module_network/http_client/http_client.dart';
@@ -40,6 +41,7 @@ import 'module_services/state_manager/add_service_state_manager.dart';
 import 'module_services/state_manager/service_screen_state_manager.dart';
 import 'module_services/ui/screen/add_service_screen.dart';
 import 'module_services/ui/screen/services_screen.dart';
+import 'module_settings/settings_module.dart';
 import 'module_settings/ui/settings_page/settings_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'module_theme/pressistance/theme_preferences_helper.dart';
@@ -154,7 +156,42 @@ void main() async {
               ))),
               AuthService(
                   AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
-              ActiveChatsScreen()))));
+              ActiveChatsScreen())),
+          SettingsModule(SettingsScreen(
+              AuthService(
+                  AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
+              LocalizationService(LocalizationPreferencesHelper()),
+              AppThemeDataService(ThemePreferencesHelper()),
+              ProfileService(
+                ProfileManager(ProfileRepository(
+                    ApiClient(),
+                    AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient()))))),
+                ProfilePreferencesHelper(),
+                AuthService(AuthPrefsHelper(),
+                    AuthManager(AuthRepository(ApiClient()))),
+                ServicesService(ServicesRepository(AuthService(
+                    AuthPrefsHelper(),
+                    AuthManager(AuthRepository(ApiClient()))))),
+              ),
+              FireNotificationService(
+                  NotificationsPrefsHelper(),
+                  ProfileService(
+                    ProfileManager(ProfileRepository(
+                        ApiClient(),
+                        AuthService(AuthPrefsHelper(),
+                            AuthManager(AuthRepository(ApiClient()))))),
+                    ProfilePreferencesHelper(),
+                    AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient()))),
+                    ServicesService(ServicesRepository(AuthService(
+                        AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient()))))),
+                  ),
+                  NotificationRepo(
+                      ApiClient(),
+                      AuthService(AuthPrefsHelper(),
+                          AuthManager(AuthRepository(ApiClient())))))))));
     }, onError: (error, stackTrace) {
       new Logger().error(
           'Main', error.toString() + stackTrace.toString(), StackTrace.current);
@@ -168,13 +205,10 @@ class MyApp extends StatefulWidget {
   final ProfileModule _profileModule;
   final HomeModule _homeModule;
   final ServicesModule _servicesModule;
+  final SettingsModule _settingsModule;
 
-  MyApp(
-    this._authorizationModule,
-    this._servicesModule,
-    this._profileModule,
-    this._homeModule,
-  );
+  MyApp(this._authorizationModule, this._servicesModule, this._profileModule,
+      this._homeModule, this._settingsModule);
 
   @override
   State<StatefulWidget> createState() => _MyAppState();
@@ -193,6 +227,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutes.addAll(widget._profileModule.getRoutes());
     fullRoutes.addAll(widget._homeModule.getRoutes());
     fullRoutes.addAll(widget._servicesModule.getRoutes());
+    fullRoutes.addAll(widget._settingsModule.getRoutes());
 
     return getConfiguratedApp(
       fullRoutes,
@@ -206,7 +241,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Barter',
       routes: fullRoutesList,
-      initialRoute: AuthorizationRoutes.LOGIN_SCREEN,
+      initialRoute: HomeRoutes.HOME_ROUTE,
     );
   }
 }

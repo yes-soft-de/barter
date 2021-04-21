@@ -2,7 +2,6 @@ import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/state_manager/add_service_state_manager.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state_loading.dart';
-import 'package:barter/module_services/ui/widget/create_service_form.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 
