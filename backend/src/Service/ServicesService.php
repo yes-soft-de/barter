@@ -116,9 +116,12 @@ class ServicesService
     {
         $result = $this->servicesManager->getServiceByID($serviceID);
         
-        if($result['userImage'])
+        if(isset($result))
         {
-            $result['userImage'] = $this->params . $result['userImage'];
+            if(isset($result['userImage']))
+            {
+                $result['userImage'] = $this->params . $result['userImage'];
+            }
         }
 
         return $this->autoMapping->map('array', ServicesGetResponse::class, $result);
