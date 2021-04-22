@@ -100,7 +100,7 @@ class ServicesManager
 
     public function getServiceByID($serviceID)
     {
-        return $this->servicesEntityRepository->getServiceByID($serviceID)[0];
+        return $this->servicesEntityRepository->getServiceByID($serviceID);
     }
 
     public function getUserByServiceID($serviceID)

@@ -131,7 +131,7 @@ class ServicesEntityRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
 
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
     public function getUserByServiceID($serviceID)
