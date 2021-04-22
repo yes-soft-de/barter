@@ -132,6 +132,16 @@ class ServicesController extends BaseController
     }
 
     /**
+     * @Route("servicebyid/{serviceID}", name="getServiceByID", methods={"GET"})
+     */
+    public function getServiceByID($serviceID)
+    {
+        $result = $this->servicesService->getServiceByID($serviceID);
+
+        return $this->response($result, self::FETCH);
+    }
+
+    /**
      * @Route("searchservices", name="getServicesByCategoryAndName", methods={"POST"})
      */
     public function getServicesByCategoryAndName(Request $request)

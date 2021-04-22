@@ -113,6 +113,27 @@ class ServicesEntityRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getServiceByID($id)
+    {
+        return $this->createQueryBuilder('service')
+            ->select('service.id', 'service.serviceTitle', 'service.description', 'service.duration', 'service.createdBy', 'service.categoryID',
+             'service.activeUntil', 'service.enabled', 'service.tags', 'userProfile.userName', 'userProfile.image as userImage')
+
+            ->leftJoin(
+                UserProfileEntity::class,
+                'userProfile',
+                Join::WITH,
+                'userProfile.userID = service.createdBy'
+            )
+
+            ->andWhere('service.enabled = 1')
+            ->andWhere('service.id = :id')
+            ->setParameter('id', $id)
+
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getUserByServiceID($serviceID)
     {
         return $this->createQueryBuilder('service')

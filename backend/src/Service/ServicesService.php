@@ -106,6 +106,16 @@ class ServicesService
         return $servicesResponse;
     }
 
+    public function getServiceByID($serviceID)
+    {
+        $result = $this->servicesManager->getServiceByID($serviceID);
+        
+        $result['userImage'] = $this->params . $result['userImage'];
+
+        return $this->autoMapping->map('array', ServicesGetResponse::class, $result);
+
+    }
+
     public function getUserByServiceID($serviceID)
     {
         return $this->servicesManager->getUserByServiceID($serviceID);

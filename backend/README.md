@@ -142,6 +142,11 @@ methods: GET
 /servicesbyid/{serviceID}
 methods: GET
 ```
+#### Get service by service ID
+```
+/servicebyid/{serviceID}
+methods: GET
+```
 #### Search services by either categoryID or name or both
 ```
 /searchservices
