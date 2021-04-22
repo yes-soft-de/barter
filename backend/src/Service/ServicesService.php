@@ -63,7 +63,10 @@ class ServicesService
 
         foreach($results as $result)
         {
-            $result['userImage'] = $this->params . $result['userImage'];
+            if($result['userImage'])
+            {
+                $result['userImage'] = $this->params . $result['userImage'];
+            }    
 
             $servicesResponse[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
         }
@@ -98,7 +101,10 @@ class ServicesService
 
         foreach($results as $result)
         {
-            $result['userImage'] = $this->params . $result['userImage'];
+            if($result['userImage'])
+            {
+                $result['userImage'] = $this->params . $result['userImage'];
+            }
 
             $servicesResponse[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
         }
@@ -110,7 +116,10 @@ class ServicesService
     {
         $result = $this->servicesManager->getServiceByID($serviceID);
         
-        $result['userImage'] = $this->params . $result['userImage'];
+        if($result['userImage'])
+        {
+            $result['userImage'] = $this->params . $result['userImage'];
+        }
 
         return $this->autoMapping->map('array', ServicesGetResponse::class, $result);
 
@@ -134,7 +143,10 @@ class ServicesService
 
             foreach($results as $result)
             {
-                $result['userImage'] = $this->params . $result['userImage'];
+                if($result['userImage'])
+                {
+                    $result['userImage'] = $this->params . $result['userImage'];
+                }    
 
                 $response[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
             }
@@ -147,7 +159,10 @@ class ServicesService
 
             foreach($results as $result)
             {
-                $result['userImage'] = $this->params . $result['userImage'];
+                if($result['userImage'])
+                {
+                    $result['userImage'] = $this->params . $result['userImage'];
+                }
 
                 $response[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
             }
