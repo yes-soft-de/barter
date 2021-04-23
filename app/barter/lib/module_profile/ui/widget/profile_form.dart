@@ -1,15 +1,9 @@
 import 'package:barter/consts/urls.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
-import 'package:barter/module_services/repository/services_repository.dart';
-import 'package:barter/module_services/service/services_service.dart';
-import 'package:barter/module_services/state_manager/add_service_state_manager.dart';
-import 'package:barter/module_services/ui/screen/add_service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:page_indicator/page_indicator.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   final Function(ProfileRequest) onProfileSaved;

@@ -13,6 +13,7 @@ class Urls {
   static const SERVICES_API = '/myservices';
   static const CREATE_SERVICE_API = '/service';
   static const SERVICES_BY_ID_API = '/servicesbyid';
+   static const SERVICE_BY_ID_API = '/servicebyid';
   static const MEMBERS_API = '/members';
   static const CATEGORY_LIST_API = '/categories';
   static const SWAP_LIST_API = '/swap';

@@ -49,10 +49,10 @@ class ProfileService {
     return profileUpdated != null;
   }
 
-  Future<dynamic> getProfileFromServiceId(String serviceId) async {
-    var service = await _servicesService.getServiceById(serviceId);
+  // Future<dynamic> getProfileFromServiceId(String serviceId) async {
+  //   var service = await _servicesService.getServiceById(serviceId);
 
-    var profile = await _manager.getUserProfile(service.userId);
-    return profile;
-  }
+  //   var profile = await _manager.getUserProfile(service.userId);
+  //   return profile;
+  // }
 }

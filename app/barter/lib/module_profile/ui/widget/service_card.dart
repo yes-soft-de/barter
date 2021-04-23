@@ -1,12 +1,15 @@
+import 'package:barter/module_services/services_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServiceCard extends StatelessWidget {
+  final String id;
   final String name;
   final String description;
   final double rate;
 
   ServiceCard({
+    this.id,
     this.description,
     this.name,
     this.rate,
@@ -64,6 +67,9 @@ class ServiceCard extends StatelessWidget {
                         size: 16,
                       ),
                     ),
+                    Spacer(),
+                    
+
                   ],
                 ),
               ),
@@ -71,6 +77,12 @@ class ServiceCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('$description', maxLines: 2,),
               ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.pushNamed(context,ServicesRoutes.ROUTE_EDIT_SERVICE,arguments: id);
+                },
+                child: Text('Edit'),
+              )
             ],
           ),
         ),

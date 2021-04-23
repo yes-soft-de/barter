@@ -1,4 +1,3 @@
-import 'package:barter/consts/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -48,7 +47,7 @@ class MemberCard extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image:AssetImage('assets/images/logo.png'),
+                  image: AssetImage('assets/images/logo.png'),
                   //  NetworkImage(
                   //   '$image'.contains('http')
                   //       ? '$image'
@@ -58,7 +57,6 @@ class MemberCard extends StatelessWidget {
                   // onError: (e, s) {
                   //   return AssetImage('assets/images/logo.png');
                   // },
-
                 ),
               ),
             ),

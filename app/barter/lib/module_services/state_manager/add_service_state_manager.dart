@@ -4,7 +4,6 @@ import 'package:barter/module_services/ui/screen/add_service_screen.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state_categories_loaded.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state_error.dart';
-import 'package:barter/module_services/ui/state/add_service_state/add_service_state_loading.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state_success.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';

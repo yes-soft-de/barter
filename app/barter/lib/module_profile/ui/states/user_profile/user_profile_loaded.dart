@@ -98,6 +98,7 @@ class UserProfileStateLoaded extends UserProfileState {
     var children = <Widget>[];
     model.services.forEach((e) {
       var card = new ServiceCard(
+        id: e.id.toString(),
         name: e.name,
         description: e.image,
         rate: e.rate,

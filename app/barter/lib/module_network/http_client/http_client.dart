@@ -102,7 +102,7 @@ class ApiClient {
       _client.interceptors.add(performanceInterceptor);
 
       var response = await _client.put(
-        '/userprofile',
+        url,
         queryParameters: queryParams,
         data: json.encode(payLoad),
         options: Options(headers: headers),

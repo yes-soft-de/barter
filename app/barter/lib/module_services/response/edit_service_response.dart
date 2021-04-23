@@ -1,11 +1,11 @@
-class CreateServiceResponse {
+class EditServiceResponse {
   String statusCode;
   String msg;
   Data data;
 
-  CreateServiceResponse({this.statusCode, this.msg, this.data});
+  EditServiceResponse({this.statusCode, this.msg, this.data});
 
-  CreateServiceResponse.fromJson(Map<String, dynamic> json) {
+  EditServiceResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
     data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
@@ -23,6 +23,7 @@ class CreateServiceResponse {
 }
 
 class Data {
+  String id;
   String serviceTitle;
   String description;
   Duration duration;
@@ -32,22 +33,23 @@ class Data {
   List<String> tags;
 
   Data(
-      {
-        this.serviceTitle,
-        this.description,
-        this.duration,
-        this.categoryID,
-        this.activeUntil,
-        this.enabled,
-        this.tags});
+      {this.id,
+      this.serviceTitle,
+      this.description,
+      this.duration,
+      this.categoryID,
+      this.activeUntil,
+      this.enabled,
+      this.tags});
 
   Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString();
     serviceTitle = json['serviceTitle'];
     description = json['description'];
     duration = json['duration'] != null
         ? new Duration.fromJson(json['duration'])
         : null;
-    categoryID = json['categoryID'];
+    categoryID = json['categoryID'].toString();
     activeUntil = json['activeUntil'] != null
         ? new Duration.fromJson(json['activeUntil'])
         : null;
@@ -57,6 +59,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['serviceTitle'] = this.serviceTitle;
     data['description'] = this.description;
     if (this.duration != null) {

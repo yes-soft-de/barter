@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-         'Settings',// S.of(context).settings,
+          'Settings', // S.of(context).settings,
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
@@ -66,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       'Dark Mode',
                       //S.of(context).darkMode
-                      ),
+                    ),
                     Switch(
                         value: Theme.of(context).brightness == Brightness.dark,
                         onChanged: (mode) {
@@ -83,7 +83,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(ProfileRoutes.EDIT_PROFILE_SCREEN);
+                Navigator.of(context)
+                    .pushNamed(ProfileRoutes.EDIT_PROFILE_SCREEN);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -167,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       'Language',
                       //S.of(context).language
-                      ),
+                    ),
                     FutureBuilder(
                       future: widget._localizationService.getLanguage(),
                       builder: (BuildContext context,
@@ -216,7 +217,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Text(
                             'Sign out',
                             //S.of(context).signOut
-                            ),
+                          ),
                           IconButton(
                               icon: Icon(Icons.logout),
                               onPressed: () {
@@ -236,8 +237,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         children: [
                           Text(
                             'Login',
-                           // S.of(context).login
-                            ),
+                            // S.of(context).login
+                          ),
                           IconButton(
                               icon: Icon(Icons.login),
                               onPressed: () {
@@ -280,8 +281,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Text(
                   'My Status',
-                 // S.of(context).myStatus
-                  ),
+                  // S.of(context).myStatus
+                ),
                 Switch(
                   onChanged: (bool value) {
                     widget._notificationService.setCaptainActive(value);

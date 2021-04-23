@@ -6,6 +6,8 @@ import 'package:barter/module_localization/service/localization_service/localiza
 import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:barter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
 import 'package:barter/module_profile/module_profile.dart';
+import 'package:barter/module_services/state_manager/edit_service_state_manager.dart';
+import 'package:barter/module_services/ui/screen/edit_service_screen.dart';
 import 'package:barter/module_theme/service/theme_service/theme_service.dart';
 import 'package:barter/utils/logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +17,6 @@ import 'package:flutter/services.dart';
 import 'package:inject/inject.dart';
 import 'di/components/app.component.dart';
 import 'module_auth/authoriazation_module.dart';
-import 'module_auth/authorization_routes.dart';
 import 'module_auth/manager/auth_manager/auth_manager.dart';
 import 'module_auth/presistance/auth_prefs_helper.dart';
 import 'module_auth/service/auth_service/auth_service.dart';
@@ -72,9 +73,13 @@ void main() async {
               LoginScreen(LoginStateManager(AuthService(AuthPrefsHelper(),
                   AuthManager(AuthRepository(ApiClient()))))),
               null),
-          ServicesModule(AddServiceScreen(AddServiceStateManager(
-              ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
-                  AuthManager(AuthRepository(ApiClient())))))))),
+          ServicesModule(
+              AddServiceScreen(AddServiceStateManager(ServicesService(
+                  ServicesRepository(AuthService(AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient()))))))),
+              EditServiceScreen(EditServiceStateManager(ServicesService(
+                  ServicesRepository(AuthService(AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient())))))))),
           ProfileModule(
               EditProfileScreen(EditProfileStateManager(
                   ImageUploadService(UploadManager(UploadRepository())),
@@ -158,8 +163,7 @@ void main() async {
                   AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
               ActiveChatsScreen())),
           SettingsModule(SettingsScreen(
-              AuthService(
-                  AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
+              AuthService(AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
               LocalizationService(LocalizationPreferencesHelper()),
               AppThemeDataService(ThemePreferencesHelper()),
               ProfileService(
@@ -188,10 +192,7 @@ void main() async {
                         AuthPrefsHelper(),
                         AuthManager(AuthRepository(ApiClient()))))),
                   ),
-                  NotificationRepo(
-                      ApiClient(),
-                      AuthService(AuthPrefsHelper(),
-                          AuthManager(AuthRepository(ApiClient())))))))));
+                  NotificationRepo(ApiClient(), AuthService(AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient())))))))));
     }, onError: (error, stackTrace) {
       new Logger().error(
           'Main', error.toString() + stackTrace.toString(), StackTrace.current);

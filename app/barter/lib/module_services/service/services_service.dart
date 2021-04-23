@@ -1,11 +1,10 @@
 import 'package:barter/module_services/model/category_model.dart';
 import 'package:barter/module_services/model/member_model.dart';
 import 'package:barter/module_services/model/members_model.dart';
-import 'package:barter/module_services/model/service_details_model.dart';
 import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/repository/services_repository.dart';
 import 'package:barter/module_services/request/add_service_request.dart';
-import 'package:barter/module_services/utils/service_factory.dart';
+import 'package:barter/module_services/request/edit_service_request.dart';
 import 'package:inject/inject.dart';
 
 @provide
@@ -18,15 +17,35 @@ class ServicesService {
     var apiResponse = await _repository.getServices();
     var servicesList = <ServiceModel>[];
     apiResponse.data.forEach((element) {
-      servicesList
-          .add(ServiceModel(name: element.serviceTitle, description: element.description,));
+      servicesList.add(ServiceModel(
+        id: element.id.toString(),
+        name: element.serviceTitle,
+        description: element.description,
+      ));
     });
-    return servicesList;//ServiceFactory.getServicesList(10);
+    return servicesList;
   }
 
-  Future<ServiceDetailsModel> getServiceById(String id) async {
+  Future<ServiceModel> getServiceById(String id) async {
     var apiResponse = await _repository.getService(id);
-    return ServiceDetailsModel(apiResponse.data[0].id.toString());
+    return ServiceModel(
+        id: apiResponse.data.id.toString(),
+        name: apiResponse.data.serviceTitle,
+        description: apiResponse.data.description);
+  }
+
+  Future<bool> editService(ServiceModel serviceModel) async {
+    var request = EditServiceRequest(
+        id: serviceModel.id,
+        serviceTitle: serviceModel.name,
+        description: serviceModel.description,
+        activeUntil: serviceModel.activeUntil?.toIso8601String() ?? '-1',
+        categoryID: serviceModel.categoryId,
+        enabled: true,
+        tags: []);
+
+    var response = await _repository.editService(request);
+    return response != null;
   }
 
   Future<MembersModel> getMembers() async {
@@ -54,6 +73,7 @@ class ServicesService {
         description: serviceModel.description,
         activeUntil: serviceModel.activeUntil?.toIso8601String() ?? '-1',
         categoryID: serviceModel.categoryId,
+        enabled: true,
         tags: []);
 
     var response = await _repository.createService(request);

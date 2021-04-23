@@ -10,6 +10,8 @@ class UserProfileStateLoading extends UserProfileState {
   @override
   Widget getUI(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Center(
           child: CircularProgressIndicator(),
