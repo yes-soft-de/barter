@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_auth/repository/auth/auth_repository.dart';
 import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_home/module_home.dart';
@@ -242,7 +243,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Barter',
       routes: fullRoutesList,
-      initialRoute: HomeRoutes.HOME_ROUTE,
+      initialRoute: AuthorizationRoutes.LOGIN_SCREEN,
     );
   }
 }
