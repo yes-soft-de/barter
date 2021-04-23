@@ -126,7 +126,7 @@ class ServicesEntityRepository extends ServiceEntityRepository
                 'userProfile.userID = service.createdBy'
             )
 
-            ->andWhere('service.enabled = 1')
+            // ->andWhere('service.enabled = 1')
             ->andWhere('service.id = :id')
             ->setParameter('id', $id)
 
