@@ -1,5 +1,3 @@
-import 'package:barter/generated/l10n.dart';
-import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_profile/manager/profile/profile.manager.dart';
 import 'package:barter/module_profile/model/profile_model.dart';
@@ -27,15 +25,14 @@ class ProfileService {
   Future<ProfileModel> getMyProfile() async {
     ProfileResponseModel responseModel = await _manager.getMyProfile();
     print(responseModel.role);
-   String role =  responseModel.role =='ROLE_COMPANY'?'Company':'User';
-    List<ServiceModel> _services  =await _servicesService.getServices();
+    String role = responseModel.role == 'ROLE_COMPANY' ? 'Company' : 'User';
+    List<ServiceModel> _services = await _servicesService.getServices();
     return ProfileModel(
-      firstName: responseModel.userName,
-      lastName: responseModel.lastName,
-      image: responseModel.image,
-      type: role,
-      services:_services
-    );
+        firstName: responseModel.userName,
+        lastName: responseModel.lastName,
+        image: responseModel.image,
+        type: role,
+        services: _services);
   }
 
   Future<bool> updateProfile(ProfileRequest profileRequest) async {

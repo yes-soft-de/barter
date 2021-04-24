@@ -8,7 +8,7 @@ class ProfileResponse {
   ProfileResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['Data'] != null
+    data = json['Data'] != null 
         ? new ProfileResponseModel.fromJson(json['Data'])
         : null;
   }

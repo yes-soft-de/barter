@@ -35,7 +35,10 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   final PageController _pageController = PageController();
 
   int _currentStep = 0;
-  List<String> _tags =['tag 1', 'tag 2',];
+  List<String> _tags = [
+    'tag 1',
+    'tag 2',
+  ];
   String theImage;
   UserRole userRole = UserRole.ROLE_USER;
   var acceptUsagePolicy = false;
@@ -61,224 +64,22 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-           scrollDirection: Axis.vertical,
-           child: Column(
-             children: [
-               SizedBox(
-                 height: 20.0,
-               ),
-                ModalRoute.of(context).canPop ? _setupHeader() : Container(),
-               getAccountSwitcher(),
-               AnimatedSwitcher(
-                 duration: Duration(seconds: 1),
-                 child: userRole == UserRole.ROLE_COMPANY
-                     ? getCompanyForm()
-                     : getPersonalForm(),
-               ),
-             ],
-           ),
-         );
-    // return Column(
-    //   children: [
-    //     ModalRoute.of(context).canPop ? _setupHeader() : Container(),
-    //     Expanded(
-    //       child: PageIndicatorContainer(
-    //           align: IndicatorAlign.top,
-    //           indicatorColor: Colors.black26,
-    //           indicatorSelectorColor: Colors.red,
-    //           pageView: PageView(
-    //             physics: NeverScrollableScrollPhysics(),
-    //             controller: _pageController,
-    //             scrollDirection: Axis.horizontal,
-    //             children: [
-    //               SingleChildScrollView(
-    //                 scrollDirection: Axis.vertical,
-    //                 child: Column(
-    //                   children: [
-    //                     SizedBox(
-    //                       height: 20.0,
-    //                     ),
-    //                     getAccountSwitcher(),
-    //                     AnimatedSwitcher(
-    //                       duration: Duration(seconds: 1),
-    //                       child: userRole == UserRole.ROLE_COMPANY
-    //                           ? getCompanyForm()
-    //                           : getPersonalForm(),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //              getServiceForm()
-    //             ],
-    //           ),
-    //           length: 2),
-    //     )
-    //   ],
-    // );
-  }
-
-  Widget getServiceForm() {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      scrollDirection: Axis.vertical,
+      child: Column(
         children: [
           SizedBox(
             height: 20.0,
           ),
-         // AddServiceScreen(AddServiceStateManager(ServicesService(ServicesRepository()))),
-
-          Container(
-           
-            padding: EdgeInsets.all(10),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.black26)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Add service you can provide '),
-                TextFormField(
-                  controller: _serviceTitleController,
-                  decoration: InputDecoration(
-                    hintText: 'Service Title',
-                    labelText: 'Service Title',
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black26,
-                      ),
-                      borderRadius: BorderRadius.circular(5)),
-                  width: 150,
-                  child: PopupMenuButton<String>(
-                      onSelected: (category) {},
-                      child: ListTile(
-                        title: Text('Category'),
-                        trailing: Icon(Icons.arrow_drop_down),
-                      ),
-                      itemBuilder: (context) {
-                        return <PopupMenuItem<String>>[
-                          PopupMenuItem(
-                            child: Text('category 1'),
-                            value: "1",
-                          ),
-                          PopupMenuItem(
-                            child: Text('category 2'),
-                            value: "2",
-                          ),
-                        ];
-                      }),
-                ),
-                TextFormField(
-                  controller: _serviceDescriptionController,
-                  decoration: InputDecoration(
-                    hintText: 'Service Description',
-                    labelText: 'Service Description',
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    
-                    FlatButton(
-                      child: Text('+ Add tag'),
-                      onPressed: (){
-                       return showDialog(context: context,builder: (context){
-                         return AlertDialog(
-                           actions: [
-                             IconButton(icon: Icon(Icons.add), onPressed: (){
-
-                             })
-                           ],
-                           content: Container(
-                             height: 200,
-                             child:TextFormField(
-                  controller: _serviceTitleController,
-                  decoration: InputDecoration(
-                    hintText: 'Service Title',
-                    labelText: 'Service Title',
-                  ),
-                ),
-                             color: Colors.red,),
-                         );
-
-                       });
-                      },
-                      ),
-
-                      
-
-                  ],
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                     child: Row(
-                    children:List.generate(_tags.length, (index) =>Container(
-                      child: Text(_tags[index].toString(),style: TextStyle(color: Colors.white),),
-                      margin: EdgeInsets.only(left: 10),
-                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.cyan,
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                    ))
-                  ),
-                ),
-  
-              ],
-            ),
+          ModalRoute.of(context).canPop ? _setupHeader() : Container(),
+          getAccountSwitcher(),
+          AnimatedSwitcher(
+            duration: Duration(seconds: 1),
+            child: userRole == UserRole.ROLE_COMPANY
+                ? getCompanyForm()
+                : getPersonalForm(),
           ),
-          privacyAndMarketting(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Text('Cancel'), //S.of(context).save),
-                  onPressed: () {
-                    _pageController.jumpToPage(0);
-                    // if (_companyFormKey.currentState.validate()) {
-
-                    //   // widget.onProfileSaved(
-                    //   //   ProfileRequest(
-                    //   //       roles: ['${UserRole.values[userRole.index]}'],
-                    //   //       userName: _firstNameController.text,
-                    //   //       lastName: _lastNameController.text,
-                    //   //       phone: _phoneController.text,
-                    //   //       location: _locationController.text,
-                    //   //       image: theImage,
-                    //   //       type: 'company'),
-                    //   // );
-                    // } else {
-                    //   Scaffold.of(context).showSnackBar(SnackBar(
-                    //       content: Text(
-                    //           'Please Complete the Form'))); //S.of(context).pleaseCompleteTheForm)));
-                    // }
-                  }),
-              RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Text('Done'), //S.of(context).save),
-                  onPressed: () {
-                    widget.onProfileSaved(
-                      ProfileRequest(
-                        roles: ['${UserRole.values[userRole.index]}'],
-                        userName: _firstNameController.text,
-                        lastName: _lastNameController.text,
-                        phone: _phoneController.text,
-                        location: _locationController.text,
-                        image: theImage,
-                        type:  userRole == UserRole.ROLE_COMPANY?'company':'personal',
-                      ),
-                    );
-                  })
-            ],
-          )
         ],
-      )),
+      ),
     );
   }
 
@@ -458,10 +259,11 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        widget.request.image.contains('http')
-                                            ? widget.request.image
-                                            : Urls.IMAGES_ROOT +
-                                                widget.request.image,
+                                        'https://images.unsplash.com/photo-1613506543439-e31c1e58852b?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+                                        // widget.request.image.contains('http')
+                                        //     ? widget.request.image
+                                        //     : Urls.IMAGES_ROOT +
+                                        //         widget.request.image,
                                       ),
                                       fit: BoxFit.cover,
                                     )),
@@ -542,7 +344,6 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 child: Text('Next'), //S.of(context).save),
                 onPressed: () {
                   if (_personalFormKey.currentState.validate()) {
-                   
                     widget.onProfileSaved(
                       ProfileRequest(
                         roles: ['${UserRole.values[userRole.index]}'],
@@ -684,7 +485,6 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 child: Text('Next'), //S.of(context).save),
                 onPressed: () {
                   if (_companyFormKey.currentState.validate()) {
-                  
                     widget.onProfileSaved(
                       ProfileRequest(
                           roles: ['${UserRole.values[userRole.index]}'],

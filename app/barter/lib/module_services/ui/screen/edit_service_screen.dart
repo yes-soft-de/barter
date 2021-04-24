@@ -30,15 +30,12 @@ class _EditServiceScreenState extends State<EditServiceScreen> {
     super.initState();
   }
 
-  bool getService = true;
   @override
   Widget build(BuildContext context) {
     // To separate the recall from the work of the Flutter engine
-    if (getService) {
+    if (_currentState == null) {
       String _id = ModalRoute.of(context).settings.arguments;
       widget._stateManager.getServiceById(widget, _id);
-      getService = !getService;
-      setState(() {});
     }
 
     _currentState ??= EditServiceStateLoading(widget);

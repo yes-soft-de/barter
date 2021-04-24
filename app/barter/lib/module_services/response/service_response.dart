@@ -8,11 +8,15 @@ class ServicesResponse {
   ServicesResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['Data'] != null) {
+
+    // The second section of the condition when there are no services
+    if (json['Data'] != null && !(json['Data'] is String)) {
       data = new List<Data>();
       json['Data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });
+    } else {
+      data = List();
     }
   }
 
@@ -42,16 +46,16 @@ class Data {
 
   Data(
       {this.id,
-        this.serviceTitle,
-        this.description,
-        this.duration,
-        this.categoryID,
-        this.categoryName,
-        this.activeUntil,
-        this.enabled,
-        this.tags,
-        this.userName,
-        this.userImage});
+      this.serviceTitle,
+      this.description,
+      this.duration,
+      this.categoryID,
+      this.categoryName,
+      this.activeUntil,
+      this.enabled,
+      this.tags,
+      this.userName,
+      this.userImage});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

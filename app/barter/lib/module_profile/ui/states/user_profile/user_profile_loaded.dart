@@ -1,4 +1,3 @@
-import 'package:barter/consts/urls.dart';
 import 'package:barter/module_profile/model/profile_model.dart';
 import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_state.dart';
@@ -95,18 +94,25 @@ class UserProfileStateLoaded extends UserProfileState {
   }
 
   Widget _getServiceCards() {
-    var children = <Widget>[];
-    model.services.forEach((e) {
-      var card = new ServiceCard(
-        id: e.id.toString(),
-        name: e.name,
-        description: e.image,
-        rate: e.rate,
+    // There is data
+    if (model.services.length > 0) {
+      var children = <Widget>[];
+      model.services.forEach((e) {
+        var card = new ServiceCard(
+          id: e.id.toString(),
+          name: e.name,
+          description: e.image,
+          rate: e.rate,
+        );
+        children.add(card);
+      });
+      return Column(
+        children: children,
       );
-      children.add(card);
-    });
-    return Column(
-      children: children,
-    );
+    } else
+      return Center(
+        child: Text('There are no services',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+      );
   }
 }
