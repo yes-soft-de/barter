@@ -63,7 +63,7 @@ class ServicesService
 
         foreach($results as $result)
         {
-            if($result['userImage'])
+            if(isset($result['userImage']))
             {
                 $result['userImage'] = $this->params . $result['userImage'];
             }    
@@ -85,7 +85,13 @@ class ServicesService
             $servicesResponse[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
         }
 
-        return $servicesResponse;
+        if($servicesResponse)
+        {
+            return $servicesResponse;
+        }
+
+        return "Required data was not found!";
+        
     }
 
     public function getCountOfEnabledServicesOfUser($userID)
@@ -101,7 +107,7 @@ class ServicesService
 
         foreach($results as $result)
         {
-            if($result['userImage'])
+            if(isset($result['userImage']))
             {
                 $result['userImage'] = $this->params . $result['userImage'];
             }
@@ -162,7 +168,7 @@ class ServicesService
 
             foreach($results as $result)
             {
-                if($result['userImage'])
+                if(isset($result['userImage']))
                 {
                     $result['userImage'] = $this->params . $result['userImage'];
                 }
