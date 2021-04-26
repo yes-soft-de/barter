@@ -189,7 +189,7 @@ methods: GET
 
 ### Rating
 #### Create new rating for an account or for a service.
-_Note: entityType takes one of two chars 'A' or 'S', where 'A' refers to Account or 'S' refers to Service. While entityID takes the serviceID exclusively._ 
+_Note: entityType takes one of two words 'Account' or 'Service', where each word refers to the type of the entity being rated. While entityID takes the serviceID exclusively._ 
 ```
 /rating
 methods: POST
