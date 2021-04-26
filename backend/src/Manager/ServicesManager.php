@@ -16,12 +16,15 @@ class ServicesManager
 {
     private $autoMapping;
     private $entityManager;
+    private $ratingManager;
     private $servicesEntityRepository;
 
-    public function __construct(AutoMapping $autoMapping, EntityManagerInterface $entityManager, ServicesEntityRepository $servicesEntityRepository)
+    public function __construct(AutoMapping $autoMapping, EntityManagerInterface $entityManager, ServicesEntityRepository $servicesEntityRepository,
+     RatingManager $ratingManager)
     {
         $this->autoMapping = $autoMapping;
         $this->entityManager = $entityManager;
+        $this->ratingManager = $ratingManager;
         $this->servicesEntityRepository = $servicesEntityRepository;
     }
 
@@ -121,6 +124,11 @@ class ServicesManager
     public function getServicesByIDsArray($services)
     {
         return $this->servicesEntityRepository->getServicesByIDsArray($services);
+    }
+
+    public function getAvgRatingOfService($serviceID)
+    {
+        return $this->ratingManager->getAvgRating($serviceID, "Service");
     }
 
 }

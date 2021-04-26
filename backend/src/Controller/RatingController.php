@@ -80,13 +80,14 @@ class RatingController extends BaseController
     // }
 
     /**
-     * @Route("rating/{entityID}", name="getAvgRatingByEntityID", methods={"GET"})
+     * @Route("rating/{entityID}/{entityType}", name="getAvgRatingByEntityID", methods={"GET"})
+     * @param $entityType
      * @param $entityID
      * @return JsonResponse
      */
-    public function getAverageRatings($entityID)
+    public function getAverageRatings($entityID, $entityType)
     {
-        $result = $this->ratingService->getAvgRating($entityID);
+        $result = $this->ratingService->getAvgRating($entityID, $entityType);
 
         return $this->response($result, self::FETCH);
     }

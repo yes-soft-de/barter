@@ -28,7 +28,7 @@ class RatingService
         // First, we have to check if the rating is for Account
         // If it is, then we have to gain the userID
         
-        if ($request->getEntityType() == "A")
+        if ($request->getEntityType() == "Account")
         {
             $userID = $this->servicesService->getUserByServiceID($request->getEntityID())['createdBy'];
 
@@ -47,9 +47,9 @@ class RatingService
     //     return $this->autoMapping->map(Rating::class, UpdateRatingResponse::class, $ratingResult);   
     // }
 
-    public function getAvgRating($entityID)
+    public function getAvgRating($entityID, $entityType)
     {
-        $result = $this->ratingManager->getAvgRating($entityID);
+        $result = $this->ratingManager->getAvgRating($entityID, $entityType);
         
         return $this->autoMapping->map('array', AverageRatingGetResponse::class, $result[0]);
     }

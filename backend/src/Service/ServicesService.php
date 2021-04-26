@@ -82,6 +82,13 @@ class ServicesService
 
         foreach($results as $result)
         {
+            $avgRating = $this->servicesManager->getAvgRatingOfService($result['id']);
+            
+            if($avgRating)
+            {
+                $result['avgRating'] = $avgRating['avgRating'];
+            }
+
             $servicesResponse[] = $this->autoMapping->map('array', ServicesGetResponse::class, $result);
         }
 

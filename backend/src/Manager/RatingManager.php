@@ -46,9 +46,9 @@ class RatingManager
     //     return $ratingEntity;
     // }
 
-    public function getAvgRating($entityID)
+    public function getAvgRating($entityID, $entityType)
     {
-        return $this->ratingRepository->getAvgRating($entityID);
+        return $this->ratingRepository->getAvgRating($entityID, $entityType);
     }
 
 }

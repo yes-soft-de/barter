@@ -6,9 +6,9 @@ class RatingCreateRequest
 {
     private $createdBy;
 
-    private $entityType;
+    private $entityType;    // 'Account' refers to Account. 'Service' refers to Service.
     
-    private $entityID;      // Char 'A' refers to Account. Char 'S' refers to Service.
+    private $entityID;      
     
     private $rateValue;
 

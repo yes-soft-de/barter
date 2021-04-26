@@ -19,7 +19,7 @@ class RatingEntityRepository extends ServiceEntityRepository
         parent::__construct($registry, RatingEntity::class);
     }
 
-    public function getAvgRating($entityID)
+    public function getAvgRating($entityID, $entityType)
     {
         //AVG Rating
         return $this->createQueryBuilder('rating')
@@ -29,8 +29,11 @@ class RatingEntityRepository extends ServiceEntityRepository
             ->andWhere('rating.entityID = :entityID')
             ->setParameter('entityID', $entityID)
             
+            ->andWhere('rating.entityType = :entityType')
+            ->setParameter('entityType', $entityType)
+
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
 }

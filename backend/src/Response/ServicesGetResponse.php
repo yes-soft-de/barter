@@ -26,4 +26,6 @@ class ServicesGetResponse
     public $userName;
 
     public $userImage;
+
+    public $avgRating;
 }
