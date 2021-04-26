@@ -25,7 +25,7 @@ RUN composer update symfony/flex --no-plugins --no-scripts
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/.htaccess /var/www/html/public
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/jwt/ /var/www/html/config/jwt
 
-RUN mkdir -p /var/www/upload && mkdir -p /var/upload
+RUN mkdir -p /var/www/upload/image
 
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
