@@ -32,17 +32,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
     _currentState ??= ServiceListStateLoading(widget);
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Text('NA', style: TextStyle(color: Colors.white),),
-          ),
-        ),
         title: Text('Barter'),
       ),
       body: _currentState.getUI(context),

@@ -7,7 +7,7 @@ class ServiceModel {
   final String description;
   final String categoryId;
   final String image;
-  final double rate;
+  final String rate;
   final int servicesNumber;
   final DateTime activeUntil;
 

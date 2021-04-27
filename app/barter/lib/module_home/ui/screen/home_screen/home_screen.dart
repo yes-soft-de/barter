@@ -44,8 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (!value) {
               Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
             } else {
-    
-Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
+              Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
             }
           });
         },
@@ -66,8 +65,7 @@ Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
         },
         items: [
           BottomNavigationBarItem(
-            
-            icon: Icon(Icons.home ),
+            icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(

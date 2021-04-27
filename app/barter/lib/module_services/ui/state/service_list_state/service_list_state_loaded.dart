@@ -1,6 +1,4 @@
-import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_services/model/members_model.dart';
-import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/ui/screen/services_screen.dart';
 import 'package:barter/module_services/ui/state/service_list_state/service_list_state.dart';
 import 'package:barter/module_services/ui/widget/service_card.dart';
@@ -20,31 +18,37 @@ class ServiceListStateLoaded extends ServiceListState {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            YesCarousel(cards: <Widget> [
+            YesCarousel(cards: <Widget>[
               Text('Card 01 of the carouser'),
               Text('Card 02 of the carouser'),
               Text('Card 03 of the carouser'),
             ]),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('New companies you may like', textAlign: TextAlign.start,),
-            ),
-            Container(
-              height: 240,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: _getPersonalCards(),
+              child: Text(
+                'New companies you may like',
+                textAlign: TextAlign.start,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('People in this service', textAlign: TextAlign.start,),
             ),
             Container(
               height: 240,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: _getCompanyCards(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'People in this service',
+                textAlign: TextAlign.start,
+              ),
+            ),
+            Container(
+              height: 240,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: _getPersonalCards(),
               ),
             ),
           ],
@@ -58,28 +62,29 @@ class ServiceListStateLoaded extends ServiceListState {
     members.personalAccounts.forEach((element) {
       cards.add(MemberCard(
         'Personal',
+        element.serviceId,
         element.name,
         element.image,
         element.rate,
         element.servicesNumber,
       ));
     });
-
     return cards;
   }
 
   List<Widget> _getCompanyCards() {
+
     var cards = <Widget>[];
     members.companyAccounts.forEach((element) {
       cards.add(MemberCard(
         'Company',
+        element.serviceId,
         element.name,
         element.image,
         element.rate,
         element.servicesNumber,
       ));
     });
-
     return cards;
   }
 }

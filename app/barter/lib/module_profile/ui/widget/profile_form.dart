@@ -1,20 +1,26 @@
 import 'package:barter/consts/urls.dart';
 import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
+
+import 'package:barter/module_profile/ui/widget/service_edit_card.dart';
+import 'package:barter/module_services/model/service_model.dart';
+import 'package:barter/module_services/services_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_indicator/page_indicator.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   final Function(ProfileRequest) onProfileSaved;
   final Function(ProfileRequest) onImageUpload;
   final ProfileRequest request;
+  final List<ServiceModel> services;
 
-  ProfileFormWidget({
-    @required this.onProfileSaved,
-    @required this.onImageUpload,
-    this.request,
-  });
+  ProfileFormWidget(
+      {@required this.onProfileSaved,
+      @required this.onImageUpload,
+      this.request,
+      this.services});
 
   @override
   State<StatefulWidget> createState() => _ProfileFormWidgetState(
@@ -63,24 +69,116 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
+    return PageIndicatorContainer(
+      padding: EdgeInsets.only(top: 10),
+      length: 2,
+      align: IndicatorAlign.top,
+      indicatorColor: Colors.black26,
+      indicatorSelectorColor: Colors.red,
+      pageView: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _pageController,
         children: [
-          SizedBox(
-            height: 20.0,
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20.0,
+                ),
+                ModalRoute.of(context).canPop ? _setupHeader() : Container(),
+                getAccountSwitcher(),
+                AnimatedSwitcher(
+                  duration: Duration(seconds: 1),
+                  child: userRole == UserRole.ROLE_COMPANY
+                      ? getCompanyForm()
+                      : getPersonalForm(),
+                ),
+              ],
+            ),
           ),
-          ModalRoute.of(context).canPop ? _setupHeader() : Container(),
-          getAccountSwitcher(),
-          AnimatedSwitcher(
-            duration: Duration(seconds: 1),
-            child: userRole == UserRole.ROLE_COMPANY
-                ? getCompanyForm()
-                : getPersonalForm(),
-          ),
+          getUserServicesForm()
         ],
       ),
     );
+  }
+
+  Widget getUserServicesForm() {
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child:  _getServiceCards(),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text('Cancel'), //S.of(context).save),
+                  onPressed: () {
+                    _pageController.jumpToPage(0);
+                  }),
+                  SizedBox(width: 10,),
+              RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text('Done'), //S.of(context).save),
+                  onPressed: () {
+                    widget.onProfileSaved(
+                      ProfileRequest(
+                        roles: ['${UserRole.values[userRole.index]}'],
+                        userName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        phone: _phoneController.text,
+                        location: _locationController.text,
+                        image: theImage,
+                        type: (userRole == UserRole.ROLE_USER)
+                            ? 'personal'
+                            : 'company',
+                      ),
+                    );
+                  })
+            ],
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Widget _getServiceCards() {
+    // There is data
+    print(widget.services);
+    if (widget.services.length > 0) {
+      var children = <Widget>[];
+      widget.services.forEach((e) {
+        var card = new ServiceEditCard(
+          id: e.id.toString(),
+          name: e.name,
+          description: e.description,
+          rate: e.rate,
+        );
+        children.add(card);
+      });
+      return Column(
+        children: children,
+      );
+    } else
+      return Center(
+        child: Text('There are no services',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+      );
   }
 
   Widget _setupHeader() {
@@ -343,23 +441,24 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 color: Theme.of(context).primaryColor,
                 child: Text('Next'), //S.of(context).save),
                 onPressed: () {
-                  if (_personalFormKey.currentState.validate()) {
-                    widget.onProfileSaved(
-                      ProfileRequest(
-                        roles: ['${UserRole.values[userRole.index]}'],
-                        userName: _firstNameController.text,
-                        lastName: _lastNameController.text,
-                        phone: _phoneController.text,
-                        location: _locationController.text,
-                        image: theImage,
-                        type: 'personal',
-                      ),
-                    );
-                  } else {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            'Please Complete the Form'))); //S.of(context).pleaseCompleteTheForm)));
-                  }
+                  _pageController.jumpToPage(1);
+                  //   if (_personalFormKey.currentState.validate()) {
+                  //     widget.onProfileSaved(
+                  //       ProfileRequest(
+                  //         roles: ['${UserRole.values[userRole.index]}'],
+                  //         userName: _firstNameController.text,
+                  //         lastName: _lastNameController.text,
+                  //         phone: _phoneController.text,
+                  //         location: _locationController.text,
+                  //         image: theImage,
+                  //         type: 'personal',
+                  //       ),
+                  //     );
+                  //   } else {
+                  //     Scaffold.of(context).showSnackBar(SnackBar(
+                  //         content: Text(
+                  //             'Please Complete the Form'))); //S.of(context).pleaseCompleteTheForm)));
+                  //   }
                 })
           ],
         ),

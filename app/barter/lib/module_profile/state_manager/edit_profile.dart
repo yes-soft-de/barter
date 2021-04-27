@@ -41,7 +41,7 @@ class EditProfileStateManager {
       if (value) {
         _stateSubject.add(ProfileStateSaveSuccess(screenState));
       } else {
-        _stateSubject.add(ProfileStateGotProfile(screenState, request));
+        _stateSubject.add(ProfileStateGotProfile(screenState, request, null));
       }
     });
   }
@@ -52,17 +52,18 @@ class EditProfileStateManager {
       if (value == null) {
         _stateSubject.add(ProfileStateNoProfile(screenState, ProfileRequest()));
       } else {
-        _stateSubject.add(ProfileStateGotProfile(
-          screenState,
-          ProfileRequest(
-            userName: value.firstName,
-            lastName: value.lastName,
-            image: value.image,
-            phone: value.phone,
-            type: value.type
-            
-          ),
-        ));
+        _stateSubject.add(
+          ProfileStateGotProfile(
+              screenState,
+              ProfileRequest(
+                userName: value.firstName,
+                lastName: value.lastName,
+                image: value.image,
+                phone: value.phone,
+                type: value.type,
+              ),
+              value.services),
+        );
       }
     }).catchError((e) {
       debugPrint(e.toString());

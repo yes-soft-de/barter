@@ -18,10 +18,10 @@ class ServicesService {
     var servicesList = <ServiceModel>[];
     apiResponse.data.forEach((element) {
       servicesList.add(ServiceModel(
-        id: element.id.toString(),
-        name: element.serviceTitle,
-        description: element.description,
-      ));
+          id: element.id.toString(),
+          name: element.serviceTitle,
+          description: element.description,
+          rate: element.avgRating));
     });
     return servicesList;
   }
@@ -53,16 +53,20 @@ class ServicesService {
     var members = MembersModel([], []);
     apiResponse.data.personal.forEach((element) {
       members.personalAccounts.add(MemberModel(
-        name: element.userName,
-        image: element.image,
-      ));
+          serviceId: element.serviceID,
+          name: element.userName,
+          image: element.image,
+          rate: 0.6, //element.avgRating,
+          servicesNumber: element.servicesNumber));
     });
 
     apiResponse.data.company.forEach((element) {
-      members.personalAccounts.add(MemberModel(
-        name: element.userName,
-        image: element.image,
-      ));
+      members.companyAccounts.add(MemberModel(
+          serviceId: element.serviceID,
+          name: element.userName,
+          image: element.image,
+          rate: 0.5, // element.avgRating,
+          servicesNumber: element.servicesNumber));
     });
     return members;
   }

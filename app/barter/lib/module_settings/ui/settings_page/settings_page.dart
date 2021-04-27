@@ -222,10 +222,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               icon: Icon(Icons.logout),
                               onPressed: () {
                                 widget._authService.logout().then((value) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      AuthorizationRoutes.LOGIN_SCREEN,
-                                      (route) => false);
+                                 Navigator.of(context).pushReplacementNamed(AuthorizationRoutes.LOGIN_SCREEN,);
                                 });
                               })
                         ],

@@ -12,9 +12,16 @@ class UserProfileStateManager {
   final ProfileService _service;
   UserProfileStateManager(this._service);
 
-  void getUserInfoByServiceId(UserProfileScreen screen, String serviceId) {
-    _service.getMyProfile().then((value) {
-      stateSubject.add(UserProfileStateLoaded(screen, value));
-    });
+  void getUserInfoByServiceId(UserProfileScreen screen, int serviceId) {
+
+    if (serviceId.toString() == null) {
+      _service.getMyProfile().then((value) {
+        stateSubject.add(UserProfileStateLoaded(screen, value));
+      });
+    } else {
+        _service.getUserProfile(serviceId).then((value) {
+        stateSubject.add(UserProfileStateLoaded(screen, value));
+      });
+    }
   }
 }

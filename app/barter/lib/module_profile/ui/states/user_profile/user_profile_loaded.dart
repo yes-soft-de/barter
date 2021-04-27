@@ -68,8 +68,7 @@ class UserProfileStateLoaded extends UserProfileState {
             direction: Axis.vertical,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(model.type),
-              Text('22 Bartered'),
+              Text((model.type == 'User')?'Personal Account':model.type +' Account'),
             ],
           ),
         ),
@@ -101,7 +100,7 @@ class UserProfileStateLoaded extends UserProfileState {
         var card = new ServiceCard(
           id: e.id.toString(),
           name: e.name,
-          description: e.image,
+          description: e.description,
           rate: e.rate,
         );
         children.add(card);

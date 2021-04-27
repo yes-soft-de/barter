@@ -4,6 +4,7 @@ import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_network/http_client/http_client.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:barter/module_profile/response/profile_response.dart';
+import 'package:barter/module_profile/response/user_profile_response.dart';
 import 'package:inject/inject.dart';
 
 @provide
@@ -38,7 +39,27 @@ class ProfileRepository {
     }
   }
 
-  Future<ProfileResponseModel> getUserProfile(String userId) async {
+  // Future<ProfileResponseModel> getUserProfile(String userId) async {
+  //   await _authService.refreshToken();
+  //   String token;
+  //   try {
+  //     token = await _authService.getToken();
+  //   } catch (e) {
+  //     throw UnauthorizedException('Get Profile Null Token');
+  //   }
+  //   if (token == null) throw UnauthorizedException('Get Profile Null Token');
+  //   var response = await _apiClient.get('${Urls.PROFILE_API}/$userId');
+
+  //   try {
+  //     if (response == null) return null;
+  //     return ProfileResponse.fromJson(response).data;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
+
+  Future<UserProfileResponseModel> getUserProfile(int serviceId) async {
+
     await _authService.refreshToken();
     String token;
     try {
@@ -47,18 +68,16 @@ class ProfileRepository {
       throw UnauthorizedException('Get Profile Null Token');
     }
     if (token == null) throw UnauthorizedException('Get Profile Null Token');
-    var response = await _apiClient.get('${Urls.PROFILE_API}/$userId');
+    var response = await _apiClient.get('${Urls.PROFILE_API}/$serviceId');
 
     try {
       if (response == null) return null;
-      return ProfileResponse.fromJson(response).data;
+      return UserProfileResponse.fromJson(response).data;
     } catch (e) {
       return null;
     }
   }
-
   Future<ProfileResponse> updateProfile(ProfileRequest profileRequest) async {
-
     var token = await _authService.getToken();
     Map<String, dynamic> response;
     try {
@@ -67,9 +86,10 @@ class ProfileRepository {
         profileRequest.toJson(),
         headers: {'Authorization': 'Bearer ' + token},
       );
-    } catch (e) {}
-    if (response == null) return null;
-
-    return ProfileResponse.fromJson(response);
+      if (response == null) return null;
+      return ProfileResponse.fromJson(response);
+    } catch (e) {
+      return null;
+    }
   }
 }

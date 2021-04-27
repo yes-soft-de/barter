@@ -243,7 +243,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Barter',
       routes: fullRoutesList,
-      initialRoute: AuthorizationRoutes.LOGIN_SCREEN,
+      initialRoute:HomeRoutes.HOME_ROUTE
     );
   }
 }

@@ -1,14 +1,16 @@
-class MembersResponse {
+class UserProfileResponse {
   String statusCode;
   String msg;
-  Data data;
+  UserProfileResponseModel data;
 
-  MembersResponse({this.statusCode, this.msg, this.data});
+  UserProfileResponse({this.statusCode, this.msg, this.data});
 
-  MembersResponse.fromJson(Map<String, dynamic> json) {
+  UserProfileResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
+    data = json['Data'] != null
+        ? new UserProfileResponseModel.fromJson(json['Data'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,108 +24,124 @@ class MembersResponse {
   }
 }
 
-class Data {
-  List<Personal> personal;
-  List<Company> company;
+class UserProfileResponseModel {
+  String image;
+  String userName;
+  String role;
+  String lastName;
+  String location;
+  String phone;
+  List<Data> services;
 
-  Data({this.personal, this.company});
+  UserProfileResponseModel(
+      {this.image,
+      this.userName,
+      this.lastName,
+      this.location,
+      this.phone,
+      this.role,
+      this.services});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['personal'] != null) {
-      personal = <Personal>[];
-      json['personal'].forEach((v) {
-        personal.add(new Personal.fromJson(v));
-      });
-    }
-    if (json['company'] != null) {
-      company = new List<Company>();
-      json['company'].forEach((v) {
-        company.add(new Company.fromJson(v));
-      });
-    }
+  UserProfileResponseModel.fromJson(Map<String, dynamic> json) {
+    image = json['image'];
+    userName = json['userName'];
+    lastName = json['lastName'];
+    location = json['location'];
+    phone = json['phone'];
+    role = json['role'];
+    services = (json['services'] as List).map((e) => Data.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.personal != null) {
-      data['personal'] = this.personal.map((v) => v.toJson()).toList();
-    }
-    if (this.company != null) {
-      data['company'] = this.company.map((v) => v.toJson()).toList();
-    }
+    data['image'] = this.image;
+    data['userName'] = this.userName;
+    data['lastName'] = this.lastName;
+    data['location'] = this.location;
+    data['phone'] = this.phone;
+    data['role'] = this.role;
+    data['services'] = this.services;
     return data;
   }
 }
 
-class Company {
-  String userName;
-  String image;
-  String story;
-  int serviceID;
-  int servicesNumber;
+class Data {
+  int id;
   String serviceTitle;
   String description;
+  Duration duration;
   int categoryID;
-  double avgRating;
-  ActiveUntil activeUntil;
+  String categoryName;
+  Duration activeUntil;
+  bool enabled;
+  String avgRating;
   List<String> tags;
+  String userName;
+  String userImage;
 
-  Company(
-      {this.userName,
-      this.image,
-      this.story,
-      this.serviceID,
-      this.servicesNumber,
+  Data(
+      {this.id,
       this.serviceTitle,
       this.description,
+      this.duration,
       this.categoryID,
-      this.avgRating,
+      this.categoryName,
       this.activeUntil,
-      this.tags});
+      this.enabled,
+      this.avgRating,
+      this.tags,
+      this.userName,
+      this.userImage});
 
-  Company.fromJson(Map<String, dynamic> json) {
-    userName = json['userName'];
-    image = json['image'];
-    story = json['story'];
-    serviceID = json['serviceID'];
-    servicesNumber = json['servicesNumber'];
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     serviceTitle = json['serviceTitle'];
     description = json['description'];
-    categoryID = json['categoryID'];
-    avgRating = json['avgRating'];
-    activeUntil = json['activeUntil'] != null
-        ? new ActiveUntil.fromJson(json['activeUntil'])
+    duration = json['duration'] != null
+        ? new Duration.fromJson(json['duration'])
         : null;
+    categoryID = json['categoryID'];
+    categoryName = json['categoryName'];
+    activeUntil = json['activeUntil'] != null
+        ? new Duration.fromJson(json['activeUntil'])
+        : null;
+    enabled = json['enabled'];
+    avgRating = json['avgRating'];
     tags = json['tags'].cast<String>();
+    userName = json['userName'];
+    userImage = json['userImage'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userName'] = this.userName;
-    data['image'] = this.image;
-    data['story'] = this.story;
-    data['serviceID'] = this.serviceID;
-    data['servicesNumber'] = this.servicesNumber;
+    data['id'] = this.id;
     data['serviceTitle'] = this.serviceTitle;
     data['description'] = this.description;
+    if (this.duration != null) {
+      data['duration'] = this.duration.toJson();
+    }
     data['categoryID'] = this.categoryID;
-    data['avgRating'] = this.avgRating;
+    data['categoryName'] = this.categoryName;
     if (this.activeUntil != null) {
       data['activeUntil'] = this.activeUntil.toJson();
     }
+    data['enabled'] = this.enabled;
+    data['avgRating'] = this.avgRating;
     data['tags'] = this.tags;
+    data['userName'] = this.userName;
+    data['userImage'] = this.userImage;
     return data;
   }
 }
 
-class ActiveUntil {
+class Duration {
   Timezone timezone;
   int offset;
   int timestamp;
 
-  ActiveUntil({this.timezone, this.offset, this.timestamp});
+  Duration({this.timezone, this.offset, this.timestamp});
 
-  ActiveUntil.fromJson(Map<String, dynamic> json) {
+  Duration.fromJson(Map<String, dynamic> json) {
     timezone = json['timezone'] != null
         ? new Timezone.fromJson(json['timezone'])
         : null;
@@ -193,7 +211,7 @@ class Transitions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ts'] = this.ts;
     data['time'] = this.time;
     data['offset'] = this.offset;
@@ -224,67 +242,6 @@ class Location {
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['comments'] = this.comments;
-    return data;
-  }
-}
-
-class Personal {
-  String userName;
-  String image;
-  String story;
-  int serviceID;
-  int servicesNumber;
-  String serviceTitle;
-  String description;
-  int categoryID;
-  double avgRating;
-  ActiveUntil activeUntil;
-  List<String> tags;
-
-  Personal(
-      {this.userName,
-      this.image,
-      this.story,
-      this.serviceID,
-      this.servicesNumber,
-      this.serviceTitle,
-      this.description,
-      this.categoryID,
-      this.avgRating,
-      this.activeUntil,
-      this.tags});
-
-  Personal.fromJson(Map<String, dynamic> json) {
-    userName = json['userName'];
-    image = json['image'];
-    story = json['story'];
-    serviceID = json['serviceID'];
-    servicesNumber = json['servicesNumber'];
-    serviceTitle = json['serviceTitle'];
-    description = json['description'];
-    categoryID = json['categoryID'];
-    avgRating = json['avgRating'];
-    activeUntil = json['activeUntil'] != null
-        ? new ActiveUntil.fromJson(json['activeUntil'])
-        : null;
-    tags = json['tags'].cast<String>();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userName'] = this.userName;
-    data['image'] = this.image;
-    data['story'] = this.story;
-    data['serviceID'] = this.serviceID;
-    data['servicesNumber'] = this.servicesNumber;
-    data['serviceTitle'] = this.serviceTitle;
-    data['description'] = this.description;
-    data['categoryID'] = this.categoryID;
-    data['avgRating'] = this.avgRating;
-    if (this.activeUntil != null) {
-      data['activeUntil'] = this.activeUntil.toJson();
-    }
-    data['tags'] = this.tags;
     return data;
   }
 }

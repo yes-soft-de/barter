@@ -1,14 +1,16 @@
+import 'package:barter/module_profile/profile_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MemberCard extends StatelessWidget {
   final String type;
+  final int serviceId;
   final String name;
   final String image;
   final double rate;
   final int servicesNumber;
 
-  MemberCard(this.type, this.name, this.image, this.rate, this.servicesNumber);
+  MemberCard(this.type,this.serviceId, this.name, this.image, this.rate, this.servicesNumber);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class MemberCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 onPressed: () {
-                  // TODO: Navigate to Profile
+                  Navigator.pushNamed(context,ProfileRoutes.PROFILE_SCREEN,arguments: serviceId);
                 },
                 color: Theme.of(context).primaryColorLight,
                 child: Text(

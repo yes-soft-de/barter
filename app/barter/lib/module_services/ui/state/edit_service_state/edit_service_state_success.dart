@@ -1,4 +1,4 @@
-import 'package:barter/module_home/home_routes.dart';
+
 import 'package:barter/module_services/ui/screen/edit_service_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,7 @@ class EditServiceStateSuccess extends EditServiceState {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(HomeRoutes.HOME_ROUTE, (r) => false);
+          Navigator.of(context).pop();
         },
       ),
     ));

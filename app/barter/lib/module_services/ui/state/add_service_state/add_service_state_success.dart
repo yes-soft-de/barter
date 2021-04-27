@@ -13,18 +13,19 @@ class AddServiceStateSuccess extends AddServiceState {
   Widget getUI(BuildContext context) {
     return Center(
         child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-      icon: Icon(Icons.check, color: Colors.white,),
-      onPressed: () {
-       
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(HomeRoutes.HOME_ROUTE, (r) => false);
-      },
-    ),
-        ));
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        icon: Icon(
+          Icons.check,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    ));
   }
 }

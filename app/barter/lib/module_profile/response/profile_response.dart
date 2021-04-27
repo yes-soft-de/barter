@@ -32,6 +32,7 @@ class ProfileResponseModel {
   String location;
   String phone;
   
+  
 
   ProfileResponseModel(
       {this.image,

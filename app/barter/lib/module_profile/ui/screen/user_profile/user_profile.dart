@@ -29,7 +29,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     if (_currentState == null) {
       var param = ModalRoute.of(context).settings.arguments;
-      widget._stateManager.getUserInfoByServiceId(widget, null);
+      // print('0000000000000000000000000000000000000000000000000000000000000 service id');
+      // print(param.toString());
+      widget._stateManager.getUserInfoByServiceId(widget, param);
     }
     _currentState ??= UserProfileStateLoading(widget);
     return Scaffold(

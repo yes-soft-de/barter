@@ -40,6 +40,7 @@ class Data {
   String categoryName;
   Duration activeUntil;
   bool enabled;
+  String avgRating;
   List<String> tags;
   String userName;
   String userImage;
@@ -53,6 +54,7 @@ class Data {
       this.categoryName,
       this.activeUntil,
       this.enabled,
+      this.avgRating,
       this.tags,
       this.userName,
       this.userImage});
@@ -70,6 +72,7 @@ class Data {
         ? new Duration.fromJson(json['activeUntil'])
         : null;
     enabled = json['enabled'];
+    avgRating = json['avgRating'];
     tags = json['tags'].cast<String>();
     userName = json['userName'];
     userImage = json['userImage'];
@@ -89,6 +92,7 @@ class Data {
       data['activeUntil'] = this.activeUntil.toJson();
     }
     data['enabled'] = this.enabled;
+    data['avgRating'] = this.avgRating;
     data['tags'] = this.tags;
     data['userName'] = this.userName;
     data['userImage'] = this.userImage;

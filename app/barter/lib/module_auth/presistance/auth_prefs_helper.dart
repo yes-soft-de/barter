@@ -1,6 +1,7 @@
 import 'package:barter/module_auth/enums/auth_source.dart';
 import 'package:barter/module_auth/enums/user_type.dart';
 import 'package:barter/module_auth/exceptions/auth_exception.dart';
+import 'package:charts_flutter/flutter.dart';
 import 'package:inject/inject.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
