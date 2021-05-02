@@ -1,3 +1,4 @@
+import 'package:barter/consts/urls.dart';
 import 'package:barter/module_profile/profile_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,13 +11,16 @@ class MemberCard extends StatelessWidget {
   final double rate;
   final int servicesNumber;
 
-  MemberCard(this.type,this.serviceId, this.name, this.image, this.rate, this.servicesNumber);
+  MemberCard(this.type, this.serviceId, this.name, this.image, this.rate,
+      this.servicesNumber);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 3),
       width: 140,
       child: Card(
+        elevation: 5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -46,26 +50,22 @@ class MemberCard extends StatelessWidget {
             ),
             Container(
               height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/images/logo.png'),
-                  //  NetworkImage(
-                  //   '$image'.contains('http')
-                  //       ? '$image'
-                  //       : Urls.IMAGES_ROOT + image,
-                  // ),
-                  // fit: BoxFit.cover,
-                  // onError: (e, s) {
-                  //   return AssetImage('assets/images/logo.png');
-                  // },
-                ),
-              ),
+              child: (image == null)
+                  ? Image.asset('assets/images/logo.png')
+                  : Image.network(
+                      image.contains('http')
+                          ? image
+                          : Urls.IMAGES_ROOT + image,
+                      errorBuilder: (e, r, t) {
+                        return Image.asset('assets/images/logo.png');
+                      },
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '${name}',
+                style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -73,12 +73,14 @@ class MemberCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context,ProfileRoutes.PROFILE_SCREEN,arguments: serviceId);
+                  Navigator.pushNamed(context, ProfileRoutes.PROFILE_SCREEN,
+                      arguments: serviceId);
                 },
                 color: Theme.of(context).primaryColorLight,
                 child: Text(
                   '${servicesNumber} Services',
-                  style: TextStyle(fontSize: 12),
+
+                  style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),
                 ),
               ),
             ),

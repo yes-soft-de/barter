@@ -8,7 +8,6 @@ import 'package:barter/module_services/services_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:page_indicator/page_indicator.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   final Function(ProfileRequest) onProfileSaved;
@@ -24,11 +23,13 @@ class ProfileFormWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _ProfileFormWidgetState(
-      request != null ? request.userName : null,
-      request != null ? request.lastName : null,
-      request != null ? request.phone : null,
-      request != null ? request.location : null,
-      request != null ? request.image : null);
+        request != null ? request.userName : null,
+        request != null ? request.lastName : null,
+        request != null ? request.phone : null,
+        request != null ? request.location : null,
+        request != null ? request.image : null,
+        request != null ? request.type : null,
+      );
 }
 
 class _ProfileFormWidgetState extends State<ProfileFormWidget> {
@@ -40,11 +41,6 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   final _serviceDescriptionController = TextEditingController();
   final PageController _pageController = PageController();
 
-  int _currentStep = 0;
-  List<String> _tags = [
-    'tag 1',
-    'tag 2',
-  ];
   String theImage;
   UserRole userRole = UserRole.ROLE_USER;
   var acceptUsagePolicy = false;
@@ -53,106 +49,40 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   final _personalFormKey = GlobalKey<FormState>();
   final _companyFormKey = GlobalKey<FormState>();
 
-  _ProfileFormWidgetState(
-    String firstName,
-    String lastName,
-    String phone,
-    String location,
-    String image,
-  ) {
+  _ProfileFormWidgetState(String firstName, String lastName, String phone,
+      String location, String image, String type) {
     _firstNameController.text = firstName;
     _lastNameController.text = lastName;
     _phoneController.text = phone;
     _locationController.text = location;
-    theImage = image;
+    userRole = (type == 'Company') ? UserRole.ROLE_COMPANY : UserRole.ROLE_USER;
   }
 
   @override
   Widget build(BuildContext context) {
-    return PageIndicatorContainer(
-      padding: EdgeInsets.only(top: 10),
-      length: 2,
-      align: IndicatorAlign.top,
-      indicatorColor: Colors.black26,
-      indicatorSelectorColor: Colors.red,
-      pageView: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _pageController,
+    // This process is to avoid storing an incorrect link for the image while modifying the profile
+    // and not to modify the image, meaning to avoid adding the server link again in the backend.
+    if (widget.request.image != null) {
+      this.theImage = widget.request.image.contains('http://34.72.57.5/upload/')
+          ? widget.request.image.substring(
+              'http://34.72.57.5/upload/'.length, widget.request.image.length)
+          : widget.request.image;
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
         children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20.0,
-                ),
-                ModalRoute.of(context).canPop ? _setupHeader() : Container(),
-                getAccountSwitcher(),
-                AnimatedSwitcher(
-                  duration: Duration(seconds: 1),
-                  child: userRole == UserRole.ROLE_COMPANY
-                      ? getCompanyForm()
-                      : getPersonalForm(),
-                ),
-              ],
-            ),
+          SizedBox(
+            height: 30.0,
           ),
-          getUserServicesForm()
-        ],
-      ),
-    );
-  }
-
-  Widget getUserServicesForm() {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child:  _getServiceCards(),
-            ),
+          getAccountSwitcher(),
+          AnimatedSwitcher(
+            duration: Duration(seconds: 1),
+            child: userRole == UserRole.ROLE_COMPANY
+                ? getCompanyForm()
+                : getPersonalForm(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Text('Cancel'), //S.of(context).save),
-                  onPressed: () {
-                    _pageController.jumpToPage(0);
-                  }),
-                  SizedBox(width: 10,),
-              RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Text('Done'), //S.of(context).save),
-                  onPressed: () {
-                    widget.onProfileSaved(
-                      ProfileRequest(
-                        roles: ['${UserRole.values[userRole.index]}'],
-                        userName: _firstNameController.text,
-                        lastName: _lastNameController.text,
-                        phone: _phoneController.text,
-                        location: _locationController.text,
-                        image: theImage,
-                        type: (userRole == UserRole.ROLE_USER)
-                            ? 'personal'
-                            : 'company',
-                      ),
-                    );
-                  })
-            ],
-          )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(ServicesRoutes.ROUTE_ADD_SERVICE);
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
       ),
     );
   }
@@ -353,19 +283,22 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                         : widget.request.image == null
                             ? Container()
                             : Container(
+                                height: 96,
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
                                       image: NetworkImage(
-                                        'https://images.unsplash.com/photo-1613506543439-e31c1e58852b?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-                                        // widget.request.image.contains('http')
-                                        //     ? widget.request.image
-                                        //     : Urls.IMAGES_ROOT +
-                                        //         widget.request.image,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    )),
-                              ),
+                                          widget.request.image.contains('http')
+                                              ? widget.request.image
+                                              : Urls.IMAGES_ROOT +
+                                                  widget.request.image),
+                                      fit: BoxFit.contain,
+                                      onError: (e, s) {
+                                        return AssetImage(
+                                            'assets/images/logo.png');
+                                      }),
+                                ),
+                              )
                   ],
                 ),
               ),
@@ -436,29 +369,30 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 return null;
               },
             ),
-
+            SizedBox(
+              height: 50,
+            ),
             RaisedButton(
                 color: Theme.of(context).primaryColor,
-                child: Text('Next'), //S.of(context).save),
+                child: Text('Save'), //S.of(context).save),
                 onPressed: () {
-                  _pageController.jumpToPage(1);
-                  //   if (_personalFormKey.currentState.validate()) {
-                  //     widget.onProfileSaved(
-                  //       ProfileRequest(
-                  //         roles: ['${UserRole.values[userRole.index]}'],
-                  //         userName: _firstNameController.text,
-                  //         lastName: _lastNameController.text,
-                  //         phone: _phoneController.text,
-                  //         location: _locationController.text,
-                  //         image: theImage,
-                  //         type: 'personal',
-                  //       ),
-                  //     );
-                  //   } else {
-                  //     Scaffold.of(context).showSnackBar(SnackBar(
-                  //         content: Text(
-                  //             'Please Complete the Form'))); //S.of(context).pleaseCompleteTheForm)));
-                  //   }
+                  if (_personalFormKey.currentState.validate()) {
+                    widget.onProfileSaved(
+                      ProfileRequest(
+                        roles: ['${UserRole.values[userRole.index]}'],
+                        userName: _firstNameController.text,
+                        lastName: _lastNameController.text,
+                        phone: _phoneController.text,
+                        location: _locationController.text,
+                        image: theImage,
+                        type: 'personal',
+                      ),
+                    );
+                  } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'Please Complete the Form'))); //S.of(context).pleaseCompleteTheForm)));
+                  }
                 })
           ],
         ),
@@ -521,7 +455,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                                             : Urls.IMAGES_ROOT +
                                                 widget.request.image,
                                       ),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.contain,
                                     )),
                               ),
                   ],
@@ -552,12 +486,12 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 labelText: 'Phone Number', //S.of(context).phoneNumber,
               ),
               validator: (name) {
-                if (name == null) {
-                  return 'Please input phone number'; //S.of(context).pleaseInputPhoneNumber;
-                }
-                if (name.isEmpty) {
-                  return 'Please input phone number'; //S.of(context).pleaseInputPhoneNumber;
-                }
+//                if (name == null) {
+//                  return 'Please input phone number'; //S.of(context).pleaseInputPhoneNumber;
+//                }
+//                if (name.isEmpty) {
+//                  return 'Please input phone number'; //S.of(context).pleaseInputPhoneNumber;
+//                }
                 return null;
               },
             ),
@@ -569,19 +503,21 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                 labelText: 'Location',
               ),
               validator: (location) {
-                if (location == null) {
-                  return 'Please Input Location';
-                }
-                if (location.isEmpty) {
-                  return 'Please Input Location';
-                }
+//                if (location == null) {
+//                  return 'Please Input Location';
+//                }
+//                if (location.isEmpty) {
+//                  return 'Please Input Location';
+//                }
                 return null;
               },
             ),
-            // privacyAndMarketting(),
+            SizedBox(
+              height: 50,
+            ),
             RaisedButton(
                 color: Theme.of(context).primaryColor,
-                child: Text('Next'), //S.of(context).save),
+                child: Text('Save'), //S.of(context).save),
                 onPressed: () {
                   if (_companyFormKey.currentState.validate()) {
                     widget.onProfileSaved(

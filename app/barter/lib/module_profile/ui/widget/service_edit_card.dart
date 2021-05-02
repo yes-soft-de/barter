@@ -25,30 +25,37 @@ class ServiceEditCard extends StatelessWidget {
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
+
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${name}',
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline6,
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${name}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
                     ),
                   ),
-                  Container(
+                  Spacer(),
+                  RaisedButton(
                     color: Theme.of(context).primaryColor,
-                    padding: EdgeInsets.all(8),
+                    onPressed: (){
+                      Navigator.pushNamed(context,ServicesRoutes.ROUTE_EDIT_SERVICE,arguments: id);
+                    },
                     child: Text(
-                      'Available For SS',
+                      'Edit',
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
               Padding(
@@ -79,12 +86,7 @@ class ServiceEditCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text('$description', maxLines: 2,),
               ),
-              RaisedButton(
-                onPressed: (){
-                  Navigator.pushNamed(context,ServicesRoutes.ROUTE_EDIT_SERVICE,arguments: id);
-                },
-                child: Text('Edit'),
-              )
+
             ],
           ),
         ),

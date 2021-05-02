@@ -17,7 +17,7 @@ class ProfileStateNoProfile extends ProfileState {
         screenState.saveProfile(request);
       },
       onImageUpload: (request) {
-        screenState.uploadImage(request);
+        screenState.uploadImage(request,null);
       },
     );
   }

@@ -27,10 +27,12 @@ class EditProfileStateManager {
 
   Stream<ProfileState> get stateStream => _stateSubject.stream;
 
-  void uploadImage(EditProfileScreenState screenState, ProfileRequest request) {
+  void uploadImage(
+      EditProfileScreenState screenState, ProfileRequest request, services) {
     _imageUploadService.uploadImage(request.image).then((uploadedImageLink) {
       request.image = uploadedImageLink;
-      _stateSubject.add(ProfileStateDirtyProfile(screenState, request));
+      _stateSubject
+          .add(ProfileStateDirtyProfile(screenState, request, services));
     });
   }
 
@@ -41,6 +43,7 @@ class EditProfileStateManager {
       if (value) {
         _stateSubject.add(ProfileStateSaveSuccess(screenState));
       } else {
+        print(request);
         _stateSubject.add(ProfileStateGotProfile(screenState, request, null));
       }
     });
@@ -69,7 +72,7 @@ class EditProfileStateManager {
       debugPrint(e.toString());
       if (e is UnauthorizedException) {
         _stateSubject.add(ProfileStateUnauthorized(screenState));
-        screenState.moveToLogin();
+        //  screenState.moveToLogin();
       }
     });
   }

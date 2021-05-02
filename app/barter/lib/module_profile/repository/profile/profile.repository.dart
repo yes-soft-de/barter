@@ -18,9 +18,9 @@ class ProfileRepository {
   );
 
   Future<ProfileResponseModel> getMyProfile() async {
-    await _authService.refreshToken();
     String token;
     try {
+      await _authService.refreshToken();
       token = await _authService.getToken();
     } catch (e) {
       throw UnauthorizedException('Get Profile Null Token');
@@ -39,35 +39,7 @@ class ProfileRepository {
     }
   }
 
-  // Future<ProfileResponseModel> getUserProfile(String userId) async {
-  //   await _authService.refreshToken();
-  //   String token;
-  //   try {
-  //     token = await _authService.getToken();
-  //   } catch (e) {
-  //     throw UnauthorizedException('Get Profile Null Token');
-  //   }
-  //   if (token == null) throw UnauthorizedException('Get Profile Null Token');
-  //   var response = await _apiClient.get('${Urls.PROFILE_API}/$userId');
-
-  //   try {
-  //     if (response == null) return null;
-  //     return ProfileResponse.fromJson(response).data;
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
   Future<UserProfileResponseModel> getUserProfile(int serviceId) async {
-
-    await _authService.refreshToken();
-    String token;
-    try {
-      token = await _authService.getToken();
-    } catch (e) {
-      throw UnauthorizedException('Get Profile Null Token');
-    }
-    if (token == null) throw UnauthorizedException('Get Profile Null Token');
     var response = await _apiClient.get('${Urls.PROFILE_API}/$serviceId');
 
     try {
@@ -77,6 +49,7 @@ class ProfileRepository {
       return null;
     }
   }
+
   Future<ProfileResponse> updateProfile(ProfileRequest profileRequest) async {
     var token = await _authService.getToken();
     Map<String, dynamic> response;

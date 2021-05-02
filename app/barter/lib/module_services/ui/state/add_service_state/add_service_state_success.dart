@@ -1,4 +1,5 @@
 import 'package:barter/module_home/home_routes.dart';
+import 'package:barter/module_profile/profile_routes.dart';
 import 'package:barter/module_profile/ui/states/profile_state_success/profile_state_success.dart';
 import 'package:barter/module_services/ui/screen/add_service_screen.dart';
 import 'package:barter/module_services/ui/state/add_service_state/add_service_state.dart';
@@ -23,7 +24,8 @@ class AddServiceStateSuccess extends AddServiceState {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.pushNamedAndRemoveUntil(context, HomeRoutes.HOME_ROUTE,(r)=>false );
+        //  Navigator.of(context).pop();
         },
       ),
     ));

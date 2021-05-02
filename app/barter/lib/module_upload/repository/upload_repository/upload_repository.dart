@@ -7,26 +7,24 @@ import 'package:barter/utils/logger/logger.dart';
 @provide
 class UploadRepository {
   Future<ImgBBResponse> upload(String filePath) async {
-    // var client = Dio();
-    // FormData data = FormData.fromMap({
-    //   'image': await MultipartFile.fromFile(filePath),
-    // });
+    var client = Dio();
+    FormData data = FormData.fromMap({
+      'image': await MultipartFile.fromFile(filePath),
+    });
 
-    // Logger().info('UploadRepo', 'Uploading: ' + filePath);
-    // Response response = await client.post(
-    //   Urls.UPLOAD_API,
-    //   data: data,
+    Logger().info('UploadRepo', 'Uploading: ' + filePath);
+    Response response = await client.post(
+      Urls.UPLOAD_API,
+      data: data,
 
-    // );
-    // Logger().info('Got a Response', response.toString());
+    );
+    Logger().info('Got a Response', response.toString());
 
-    // if (response == null) {
-    //   return null;
-    // }
-    //  return ImgBBResponse(url: response.data);
-
-    // Alternative result
-    await Future.delayed(Duration(milliseconds: 500));
-    return ImgBBResponse(url: 'assets/images/logo.png');
+    if (response == null) {
+      return null;
+    }
+    print('urllllllllllllllllllllllllllllll');
+    print(response.data);
+     return ImgBBResponse(url: response.data);
   }
 }

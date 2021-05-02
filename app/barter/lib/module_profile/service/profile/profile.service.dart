@@ -1,3 +1,4 @@
+import 'package:barter/module_auth/exceptions/auth_exception.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_profile/manager/profile/profile.manager.dart';
 import 'package:barter/module_profile/model/profile_model.dart';
@@ -23,40 +24,24 @@ class ProfileService {
     this._servicesService,
   );
 
+  // ignore: missing_return
   Future<ProfileModel> getMyProfile() async {
-    ProfileResponseModel responseModel = await _manager.getMyProfile();
-    String role = responseModel.role == 'ROLE_USER' ? 'User' : 'Company';
-    List<ServiceModel> _services = await _servicesService.getServices();
-    return ProfileModel(
-        firstName: responseModel.userName,
-        lastName: responseModel.lastName,
-        image: responseModel.image,
-        type: role,
-        services: _services);
-  }
- 
- Future<ProfileModel> getUserProfile(serviceId) async{
-   UserProfileResponseModel responseModel = await _manager.getUserProfile(serviceId);
-    String role = responseModel.role == 'ROLE_USER' ? 'User' : 'Company';
-    if(serviceId == null){
-      List<ServiceModel> _services = await _servicesService.getServices();
-      return ProfileModel(
-          firstName: responseModel.userName,
-          lastName: responseModel.lastName,
-          image: responseModel.image,
-          type: role,
-          services: _services);
-    }
-    else{
-      List<ServiceModel> _services =  [];
+    try {
+      ProfileResponseModel responseModel = await _manager.getMyProfile();
+      String role = responseModel.role == 'ROLE_USER' ? 'User' : 'Company';
+
+      // for laze loaded
+      // List<ServiceModel> _services = await _servicesService.getServices();
+
+      // for eager loaded
+      List<ServiceModel> _services = [];
       responseModel.services.forEach((element) {
         ServiceModel serviceModel = ServiceModel(
-          id: element.id.toString(),
-          name: element.serviceTitle,
-          description: element.description,
-          categoryId: element.categoryID.toString(),
-          rate: element.avgRating
-        );
+            id: element.id.toString(),
+            name: element.serviceTitle,
+            description: element.description,
+            categoryId: element.categoryID.toString(),
+            rate: element.avgRating);
         _services.add(serviceModel);
       });
       return ProfileModel(
@@ -65,12 +50,39 @@ class ProfileService {
           image: responseModel.image,
           type: role,
           services: _services);
+    } catch (e) {
+      if (e is UnauthorizedException) rethrow;
     }
+  }
 
- }
+  // ignore: missing_return
+  Future<ProfileModel> getUserProfile(serviceId) async {
+    try {
+      UserProfileResponseModel responseModel =
+          await _manager.getUserProfile(serviceId);
+      String role = responseModel.role == 'ROLE_USER' ? 'User' : 'Company';
+      List<ServiceModel> _services = [];
+      responseModel.services.forEach((element) {
+        ServiceModel serviceModel = ServiceModel(
+            id: element.id.toString(),
+            name: element.serviceTitle,
+            description: element.description,
+            categoryId: element.categoryID.toString(),
+            rate: element.avgRating);
+        _services.add(serviceModel);
+      });
+      return ProfileModel(
+          firstName: responseModel.userName,
+          lastName: responseModel.lastName,
+          image: responseModel.image,
+          type: role,
+          services: _services);
+    } catch (e) {
+      if (e is UnauthorizedException) rethrow;
+    }
+  }
 
   Future<bool> updateProfile(ProfileRequest profileRequest) async {
-    print(profileRequest.type);
     if (profileRequest.type == 'company') {
       profileRequest.roles = ["ROLE_COMPANY"];
     } else {
@@ -79,6 +91,4 @@ class ProfileService {
     var profileUpdated = await _manager.updateProfile(profileRequest);
     return profileUpdated != null;
   }
-
-  
 }

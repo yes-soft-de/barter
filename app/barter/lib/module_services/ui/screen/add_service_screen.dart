@@ -35,10 +35,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   Widget build(BuildContext context) {
     _currentState ??= AddServiceStateLoading(widget);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Add New Service'),
-        ),
-        body: _currentState.getUI(context),
+      appBar: AppBar(
+        title: Text('Add New Service'),
+      ),
+      body: _currentState.getUI(context),
     );
   }
 }

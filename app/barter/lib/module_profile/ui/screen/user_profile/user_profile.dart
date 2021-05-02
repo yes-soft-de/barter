@@ -1,3 +1,4 @@
+import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_profile/state_manager/user_profile.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_loading.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_state.dart';
@@ -6,7 +7,6 @@ import 'package:inject/inject.dart';
 
 @provide
 class UserProfileScreen extends StatefulWidget {
-
   final UserProfileStateManager _stateManager;
   UserProfileScreen(this._stateManager);
 
@@ -29,8 +29,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     if (_currentState == null) {
       var param = ModalRoute.of(context).settings.arguments;
-      // print('0000000000000000000000000000000000000000000000000000000000000 service id');
-      // print(param.toString());
       widget._stateManager.getUserInfoByServiceId(widget, param);
     }
     _currentState ??= UserProfileStateLoading(widget);

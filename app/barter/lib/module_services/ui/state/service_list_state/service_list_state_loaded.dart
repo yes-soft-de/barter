@@ -19,14 +19,30 @@ class ServiceListStateLoaded extends ServiceListState {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             YesCarousel(cards: <Widget>[
-              Text('Card 01 of the carouser'),
-              Text('Card 02 of the carouser'),
-              Text('Card 03 of the carouser'),
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/icon/logo_carousel1.png'),
+                        fit: BoxFit.contain)),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/icon/logo_carousel2.png'),
+                        fit: BoxFit.contain)),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/icon/logo_carousel3.png'),
+                        fit: BoxFit.contain)),
+              ),
             ]),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'New companies you may like',
+                style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -41,6 +57,7 @@ class ServiceListStateLoaded extends ServiceListState {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'People in this service',
+                style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
                 textAlign: TextAlign.start,
               ),
             ),
@@ -73,7 +90,6 @@ class ServiceListStateLoaded extends ServiceListState {
   }
 
   List<Widget> _getCompanyCards() {
-
     var cards = <Widget>[];
     members.companyAccounts.forEach((element) {
       cards.add(MemberCard(

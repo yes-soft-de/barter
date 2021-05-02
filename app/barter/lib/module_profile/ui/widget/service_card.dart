@@ -1,4 +1,3 @@
-import 'package:barter/module_services/services_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -28,17 +27,20 @@ class ServiceCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${name}',
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline6,
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${name}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
                     ),
                   ),
+                  Spacer(),
                   Container(
                     color: Theme.of(context).primaryColor,
                     padding: EdgeInsets.all(8),
@@ -57,8 +59,7 @@ class ServiceCard extends StatelessWidget {
                   direction: Axis.horizontal,
                   children: [
                     Text(
-                      rate == null?'0.0':
-                      '${rate}',
+                      rate == null ? '0.0' : '${rate}',
                       style: TextStyle(fontSize: 16),
                     ),
                     Padding(
@@ -70,16 +71,16 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    
-
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('$description', maxLines: 2,),
+                child: Text(
+                  '$description',
+                  maxLines: 2,
+                ),
               ),
-        
             ],
           ),
         ),

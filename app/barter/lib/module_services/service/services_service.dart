@@ -56,7 +56,7 @@ class ServicesService {
           serviceId: element.serviceID,
           name: element.userName,
           image: element.image,
-          rate: 0.6, //element.avgRating,
+          rate: 0.0, //element.avgRating,
           servicesNumber: element.servicesNumber));
     });
 
@@ -65,7 +65,7 @@ class ServicesService {
           serviceId: element.serviceID,
           name: element.userName,
           image: element.image,
-          rate: 0.5, // element.avgRating,
+          rate: 0.0, // element.avgRating,
           servicesNumber: element.servicesNumber));
     });
     return members;

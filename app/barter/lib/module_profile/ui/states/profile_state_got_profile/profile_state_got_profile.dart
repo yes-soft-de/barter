@@ -10,7 +10,8 @@ import 'package:flutter/src/widgets/framework.dart';
 class ProfileStateGotProfile extends ProfileState {
   ProfileRequest request;
   List<ServiceModel> services;
-  ProfileStateGotProfile(EditProfileScreenState screenState, this.request,this.services)
+  ProfileStateGotProfile(
+      EditProfileScreenState screenState, this.request, this.services)
       : super(screenState);
 
   @override
@@ -20,10 +21,10 @@ class ProfileStateGotProfile extends ProfileState {
         screenState.saveProfile(request);
       },
       onImageUpload: (request) {
-        screenState.uploadImage(request);
+        screenState.uploadImage(request, services);
       },
       request: request,
-      services:services,
+      services: services,
     );
   }
 }

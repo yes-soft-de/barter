@@ -1,20 +1,22 @@
 import 'package:barter/consts/urls.dart';
 import 'package:barter/module_profile/model/profile_model.dart';
+import 'package:barter/module_profile/profile_routes.dart';
 import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_state.dart';
 import 'package:barter/module_profile/ui/widget/service_card.dart';
+import 'package:barter/module_profile/ui/widget/service_edit_card.dart';
 import 'package:flutter/material.dart';
 
-class UserProfileStateLoaded extends UserProfileState {
+class MyProfileStateLoaded extends UserProfileState {
   ProfileModel model;
 
-  UserProfileStateLoaded(UserProfileScreen screen, this.model) : super(screen);
+  MyProfileStateLoaded(UserProfileScreen screen, this.model) : super(screen);
 
   @override
   Widget getUI(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('My Profile'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -31,14 +33,28 @@ class UserProfileStateLoaded extends UserProfileState {
                         child: Container(
                           child: (model.image == null)?
                               Image.asset('assets/images/logo.png'):
-                          Image.network(  model.image.contains('http')
-                              ? model.image
-                              : Urls.IMAGES_ROOT + model.image,
+                          Image.network(model.image.contains('http')
+                              ? '${model.image}'
+                              : '${Urls.IMAGES_ROOT + model.image}',
                             fit: BoxFit.cover,
                             errorBuilder: (e,r,t){
                               return Image.asset('assets/images/logo.png');
                             },
                           ),
+//                        decoration: BoxDecoration(
+//                          shape: BoxShape.circle,
+//                          image: DecorationImage(
+//                              image: NetworkImage(
+//                              (model.image).contains('http')?
+//                              model.image:
+//                              Urls.IMAGES_ROOT + model.image
+//                          //      'https://images.unsplash.com/photo-1613506543439-e31c1e58852b?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
+//                              ),
+//                              fit: BoxFit.fitWidth,
+//                              onError: (e, s) {
+//                                return AssetImage('assets/images/logo.png');
+//                              }),
+//                        ),
                         ),
                       ),
                     ),
@@ -46,8 +62,10 @@ class UserProfileStateLoaded extends UserProfileState {
             ),
             Text(
               '${model.firstName} ',
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25,
+              fontWeight: FontWeight.bold
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -81,9 +99,12 @@ class UserProfileStateLoaded extends UserProfileState {
             flex: 1,
             child: RaisedButton(
               color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(ProfileRoutes.EDIT_PROFILE_SCREEN);
+              },
               child: Text(
-                'Request'.toUpperCase(),
+                'Edit My Profile'.toUpperCase(),
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -101,7 +122,7 @@ class UserProfileStateLoaded extends UserProfileState {
     if (model.services.length > 0) {
       var children = <Widget>[];
       model.services.forEach((e) {
-        var card = new ServiceCard(
+        var card = new ServiceEditCard(
           id: e.id.toString(),
           name: e.name,
           description: e.description,

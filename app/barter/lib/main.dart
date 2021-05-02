@@ -9,6 +9,7 @@ import 'package:barter/module_notifications/service/fire_notification_service/fi
 import 'package:barter/module_profile/module_profile.dart';
 import 'package:barter/module_services/state_manager/edit_service_state_manager.dart';
 import 'package:barter/module_services/ui/screen/edit_service_screen.dart';
+import 'package:barter/module_swap/swap_module.dart';
 import 'package:barter/module_theme/service/theme_service/theme_service.dart';
 import 'package:barter/utils/logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +47,11 @@ import 'module_services/ui/screen/services_screen.dart';
 import 'module_settings/settings_module.dart';
 import 'module_settings/ui/settings_page/settings_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'module_swap/manager/swap_manager.dart';
+import 'module_swap/repository/swap_repository.dart';
+import 'module_swap/service/swap_service.dart';
+import 'module_swap/state_manager/swap_state_manager.dart';
+import 'module_swap/ui/screen/swap_screen.dart';
 import 'module_theme/pressistance/theme_preferences_helper.dart';
 import 'module_upload/manager/upload_manager/upload_manager.dart';
 import 'module_upload/repository/upload_repository/upload_repository.dart';
@@ -193,7 +199,10 @@ void main() async {
                         AuthPrefsHelper(),
                         AuthManager(AuthRepository(ApiClient()))))),
                   ),
-                  NotificationRepo(ApiClient(), AuthService(AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient())))))))));
+                  NotificationRepo(ApiClient(), AuthService(AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))))))),
+               null, //  SwapModule(SwapScreen(SwapStateManager(SwapService(SwapManager(SwapRepository())))))
+                  )
+      );
     }, onError: (error, stackTrace) {
       new Logger().error(
           'Main', error.toString() + stackTrace.toString(), StackTrace.current);
@@ -208,9 +217,10 @@ class MyApp extends StatefulWidget {
   final HomeModule _homeModule;
   final ServicesModule _servicesModule;
   final SettingsModule _settingsModule;
+  final SwapModule _swapModule;
 
   MyApp(this._authorizationModule, this._servicesModule, this._profileModule,
-      this._homeModule, this._settingsModule);
+      this._homeModule, this._settingsModule, this._swapModule);
 
   @override
   State<StatefulWidget> createState() => _MyAppState();
@@ -230,6 +240,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutes.addAll(widget._homeModule.getRoutes());
     fullRoutes.addAll(widget._servicesModule.getRoutes());
     fullRoutes.addAll(widget._settingsModule.getRoutes());
+    //fullRoutes.addAll(widget._swapModule.getRoutes());
 
     return getConfiguratedApp(
       fullRoutes,
@@ -240,11 +251,10 @@ class _MyAppState extends State<MyApp> {
     Map<String, WidgetBuilder> fullRoutesList,
   ) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Barter',
-      routes: fullRoutesList,
-      initialRoute:HomeRoutes.HOME_ROUTE
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Barter',
+        routes: fullRoutesList,
+        initialRoute: HomeRoutes.HOME_ROUTE);
   }
 }
 
