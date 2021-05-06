@@ -116,7 +116,7 @@ class SwapService
 
             // get and set swapped services titles 
             $item->setSwapItemsOne($this->servicesService->getServicesByIDsArray($item->getSwapItemsOne()));
-            $item->setSwapItemsTwo($this->servicesService->getServicesByIDsArray($item->getSwapItemsOne()));
+            $item->setSwapItemsTwo($this->servicesService->getServicesByIDsArray($item->getSwapItemsTwo()));
            
             $itemsResponse[] = $this->autoMapping->map(SwapEntity::class, SwapsResponse::class, $item);
 
