@@ -24,6 +24,9 @@ RUN composer update symfony/flex --no-plugins --no-scripts
 #@2RUN composer dump-env prod
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/.htaccess /var/www/html/public
 COPY --from=gcr.io/pc-api-6479467557629758909-343/secret ./barter/jwt/ /var/www/html/config/jwt
+
+RUN mkdir -p /var/www/upload/image
+
 RUN chown -R www-data:www-data /var && chmod -R g+rw /var
 COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 RUN docker-php-ext-install mysqli pdo pdo_mysql
