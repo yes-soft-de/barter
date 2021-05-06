@@ -1,3 +1,4 @@
+import 'package:barter/module_swap/swap_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -30,7 +31,7 @@ class ServiceCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
-                    flex: 3,
+
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -40,7 +41,7 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Spacer(),
+
                   Container(
                     color: Theme.of(context).primaryColor,
                     padding: EdgeInsets.all(8),
@@ -53,26 +54,36 @@ class ServiceCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Text(
-                      rate == null ? '0.0' : '${rate}',
-                      style: TextStyle(fontSize: 16),
+              Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Text(
+                    rate == null ? '0.0' : '${rate}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: FaIcon(
+                      FontAwesomeIcons.solidStar,
+                      color: Colors.orangeAccent,
+                      size: 16,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: FaIcon(
-                        FontAwesomeIcons.solidStar,
-                        color: Colors.orangeAccent,
-                        size: 16,
+                  ),
+                  Spacer(),
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(SwapRoutes.CREATE_SWAP_ROUTE,arguments: id);
+                    },
+                    child: Text(
+                      'Request'.toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                    Spacer(),
-                  ],
-                ),
+                  ),
+
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

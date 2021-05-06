@@ -25,6 +25,18 @@ class ServicesService {
     });
     return servicesList;
   }
+  Future<List<ServiceModel>> getServicesByServiceId(serviceId) async {
+    var apiResponse = await _repository.getServicesByServiceId(serviceId);
+    var servicesList = <ServiceModel>[];
+    apiResponse.data.forEach((element) {
+      servicesList.add(ServiceModel(
+          id: element.id.toString(),
+          name: element.serviceTitle,
+          description: element.description,
+          rate: element.avgRating));
+    });
+    return servicesList;
+  }
 
   Future<ServiceModel> getServiceById(String id) async {
     var apiResponse = await _repository.getService(id);

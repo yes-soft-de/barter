@@ -62,35 +62,8 @@ class UserProfileStateLoaded extends UserProfileState {
 
   Widget _getUserMetrics(BuildContext context) {
     var children = <Widget>[];
-    children.add(Flex(
-      direction: Axis.horizontal,
-      children: [
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 2,
-          child: Flex(
-            direction: Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text((model.type == 'User')?'Personal Account':model.type +' Account'),
-            ],
-          ),
-        ),
-        Flexible(
-            fit: FlexFit.tight,
-            flex: 1,
-            child: RaisedButton(
-              color: Theme.of(context).primaryColor,
-              onPressed: () {},
-              child: Text(
-                'Request'.toUpperCase(),
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            )),
-      ],
-    ));
+    children.add(Text((model.type == 'User')?'Personal Account':model.type +' Account'),
+    );
     return Column(
       children: children,
     );

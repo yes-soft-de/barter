@@ -19,4 +19,6 @@ class Urls {
   static const SWAP_LIST_API = '/swap';
   static const CREATE_SWAP_API = '/swap';
   static const UPDATE_SWAP_API = '/swap';
+  static const SWAP_BY_ID_API = '/swapbyid';
+  static const SWAP_BY_USER_ID_API = '/swapbyuserid';
 }

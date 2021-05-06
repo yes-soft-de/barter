@@ -5,6 +5,7 @@ import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_state.dart';
 import 'package:barter/module_profile/ui/widget/service_card.dart';
 import 'package:barter/module_profile/ui/widget/service_edit_card.dart';
+import 'package:barter/module_swap/swap_routes.dart';
 import 'package:flutter/material.dart';
 
 class MyProfileStateLoaded extends UserProfileState {
@@ -101,10 +102,10 @@ class MyProfileStateLoaded extends UserProfileState {
               color: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(ProfileRoutes.EDIT_PROFILE_SCREEN);
+                    .pushNamed(SwapRoutes.SWAPS_ROUTE,);
               },
               child: Text(
-                'Edit My Profile'.toUpperCase(),
+                'My Swaps'.toUpperCase(),
                 style: TextStyle(
                   color: Colors.white,
                 ),

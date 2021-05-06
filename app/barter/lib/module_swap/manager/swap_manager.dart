@@ -1,5 +1,7 @@
 import 'package:barter/module_swap/request/create_swap_request.dart';
 import 'package:barter/module_swap/request/update_swap_request.dart';
+import 'package:barter/module_swap/response/create_swap_response.dart';
+import 'package:barter/module_swap/response/get_swap_response.dart';
 import 'package:barter/module_swap/response/swap_response.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/module_swap/repository/swap_repository.dart';
@@ -12,10 +14,18 @@ class SwapManager {
 
   Future<SwapListResponse> getSwaps() => _repository.getSwaps();
 
-  Future<SwapListResponse> updateSwap(
-          String swapId, UpdateSwapRequest request) =>
-      _repository.updateSwaps(swapId, request);
+  Future<CreateSwapResponse> updateSwap(UpdateSwapRequest request) =>
+      _repository.updateSwaps(request);
 
-  Future<SwapListResponse> createSwap(CreateSwapRequest request) =>
+  Future<CreateSwapResponse> createSwap(CreateSwapRequest request) =>
       _repository.createSwaps(request);
+
+  Future<SwapListResponse> getSwapById(id) =>
+    _repository.getSwapById(id);
+
+  Future<SwapListResponse> getMySwapa() =>
+      _repository.getMySwapa();
+
+
+
 }

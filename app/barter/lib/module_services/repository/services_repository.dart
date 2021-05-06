@@ -58,6 +58,16 @@ class ServicesRepository {
     }
   }
 
+
+  Future<ServicesResponse> getServicesByServiceId(String serviceId) async {
+    var result = await client.get('${Urls. SERVICES_BY_ID_API}/$serviceId');
+    if (result == null) {
+      return null;
+    } else {
+      return ServicesResponse.fromJson(result);
+    }
+
+  }
   Future<EditServiceResponse> getService(String serviceId) async {
     var result = await client.get('${Urls.SERVICE_BY_ID_API}/$serviceId');
     if (result == null) {
@@ -65,6 +75,7 @@ class ServicesRepository {
     } else {
       return EditServiceResponse.fromJson(result);
     }
+
   }
 
   Future<EditServiceResponse> editService(EditServiceRequest request) async {

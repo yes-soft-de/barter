@@ -9,7 +9,10 @@ import 'package:barter/module_notifications/service/fire_notification_service/fi
 import 'package:barter/module_profile/module_profile.dart';
 import 'package:barter/module_services/state_manager/edit_service_state_manager.dart';
 import 'package:barter/module_services/ui/screen/edit_service_screen.dart';
+import 'package:barter/module_swap/state_manager/list_swap_state_manager.dart';
 import 'package:barter/module_swap/swap_module.dart';
+import 'package:barter/module_swap/ui/screen/Update_swap_screen.dart';
+import 'package:barter/module_swap/ui/screen/swap_screen.dart';
 import 'package:barter/module_theme/service/theme_service/theme_service.dart';
 import 'package:barter/utils/logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,8 +53,9 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'module_swap/manager/swap_manager.dart';
 import 'module_swap/repository/swap_repository.dart';
 import 'module_swap/service/swap_service.dart';
-import 'module_swap/state_manager/swap_state_manager.dart';
-import 'module_swap/ui/screen/swap_screen.dart';
+import 'module_swap/state_manager/create_swap_state_manager.dart';
+import 'module_swap/state_manager/update_swap_state_manager.dart';
+import 'module_swap/ui/screen/Create_swap_screen.dart';
 import 'module_theme/pressistance/theme_preferences_helper.dart';
 import 'module_upload/manager/upload_manager/upload_manager.dart';
 import 'module_upload/repository/upload_repository/upload_repository.dart';
@@ -200,7 +204,14 @@ void main() async {
                         AuthManager(AuthRepository(ApiClient()))))),
                   ),
                   NotificationRepo(ApiClient(), AuthService(AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))))))),
-               null, //  SwapModule(SwapScreen(SwapStateManager(SwapService(SwapManager(SwapRepository())))))
+               SwapModule(SwapsScreen(ListSwapStateManager(SwapService(SwapManager(SwapRepository(                    AuthService(AuthPrefsHelper(),
+                   AuthManager(AuthRepository(ApiClient()))),)),ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())))))))),CreateSwapScreen(CreateSwapStateManager(SwapService(SwapManager(SwapRepository(                    AuthService(AuthPrefsHelper(),
+                   AuthManager(AuthRepository(ApiClient()))),)),ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),AuthManager(AuthRepository(ApiClient())))))))),
+               UpdateSwapScreen(UpdateSwapStateManager(SwapService(SwapManager(SwapRepository(AuthService(AuthPrefsHelper(),
+                   AuthManager(AuthRepository(ApiClient()))),)),          ServicesService(ServicesRepository(AuthService(
+                   AuthPrefsHelper(),
+                   AuthManager(AuthRepository(ApiClient()))))),)))
+               ), //  SwapModule(SwapScreen(SwapStateManager(SwapService(SwapManager(SwapRepository())))))
                   )
       );
     }, onError: (error, stackTrace) {
@@ -240,7 +251,7 @@ class _MyAppState extends State<MyApp> {
     fullRoutes.addAll(widget._homeModule.getRoutes());
     fullRoutes.addAll(widget._servicesModule.getRoutes());
     fullRoutes.addAll(widget._settingsModule.getRoutes());
-    //fullRoutes.addAll(widget._swapModule.getRoutes());
+    fullRoutes.addAll(widget._swapModule.getRoutes());
 
     return getConfiguratedApp(
       fullRoutes,

@@ -1,19 +1,18 @@
-class SwapListResponse {
+
+
+
+class GetSwapResponse {
   String statusCode;
   String msg;
-  List<Data> data;
+  Data data;
 
-  SwapListResponse({this.statusCode, this.msg, this.data});
+  GetSwapResponse({this.statusCode, this.msg, this.data});
 
-  SwapListResponse.fromJson(Map<String, dynamic> json) {
+  GetSwapResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['Data'] != null) {
-      data = new List<Data>();
-      json['Data'].forEach((v) {
-        data.add(new Data.fromJson(v));
-      });
-    }
+    data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +20,7 @@ class SwapListResponse {
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['Data'] = this.data.map((v) => v.toJson()).toList();
+      data['Data'] = this.data.toJson();
     }
     return data;
   }
@@ -238,3 +237,4 @@ class Location {
     return data;
   }
 }
+
