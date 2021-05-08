@@ -39,6 +39,7 @@ class CreateSwapStateManager {
             stateStream.add(
                 CreateSwapStateItemsAdded(
                   screen,
+                    serviceId:serviceId,
                   myItems:myItems,
                   targetItems: targetItems
                 )

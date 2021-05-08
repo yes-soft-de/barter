@@ -8,13 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class CreateSwapStateItemsAdded extends CreateSwapState {
+  final String serviceId;
   final List<SwapItemsModel> myItems;
   final List<SwapItemsModel> targetItems;
-  CreateSwapStateItemsAdded(CreateSwapScreen screen, {this.myItems,this.targetItems}) : super(screen);
+  CreateSwapStateItemsAdded(CreateSwapScreen screen, {this.serviceId,this.myItems,this.targetItems}) : super(screen);
 
   @override
   Widget getUI(BuildContext context) {
     return SwapForm(
+      serviceId:serviceId,
       myItems: myItems,
       targetItems:targetItems,
       onSwapAdd: (swap) {

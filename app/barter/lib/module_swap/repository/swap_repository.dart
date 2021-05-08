@@ -4,7 +4,6 @@ import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_swap/request/create_swap_request.dart';
 import 'package:barter/module_swap/request/update_swap_request.dart';
 import 'package:barter/module_swap/response/create_swap_response.dart';
-import 'package:barter/module_swap/response/get_swap_response.dart';
 import 'package:barter/module_swap/response/swap_response.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/module_network/http_client/http_client.dart';

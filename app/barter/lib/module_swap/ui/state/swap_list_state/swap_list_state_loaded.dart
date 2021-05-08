@@ -19,10 +19,13 @@ class SwapListStateLoaded extends SwapListState {
   @override
   Widget getUI(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _getSwapCard()
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _getSwapCard()
+          ),
         ),
       ),
     );

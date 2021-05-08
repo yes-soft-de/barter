@@ -22,8 +22,24 @@ class MyProfileStateLoaded extends UserProfileState {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(SwapRoutes.SWAPS_ROUTE,);
+                },
+                child: Text(
+                  'Edit'.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.only(left: 24.0,right: 24.0,bottom: 24.0),
               child: Container(
                   height: 72,
                   child: Center(
@@ -42,20 +58,6 @@ class MyProfileStateLoaded extends UserProfileState {
                               return Image.asset('assets/images/logo.png');
                             },
                           ),
-//                        decoration: BoxDecoration(
-//                          shape: BoxShape.circle,
-//                          image: DecorationImage(
-//                              image: NetworkImage(
-//                              (model.image).contains('http')?
-//                              model.image:
-//                              Urls.IMAGES_ROOT + model.image
-//                          //      'https://images.unsplash.com/photo-1613506543439-e31c1e58852b?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60',
-//                              ),
-//                              fit: BoxFit.fitWidth,
-//                              onError: (e, s) {
-//                                return AssetImage('assets/images/logo.png');
-//                              }),
-//                        ),
                         ),
                       ),
                     ),

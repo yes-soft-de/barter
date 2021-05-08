@@ -4,12 +4,15 @@ import 'package:barter/module_swap/ui/widget/swap_list_item.dart';
 import 'package:flutter/material.dart';
 
 class SwapForm extends StatefulWidget {
+  final String serviceId;
   final List<SwapItemsModel> myItems;
   final List<SwapItemsModel> targetItems;
   final Function(SwapModel) onSwapAdd;
 
   SwapForm(
-      {@required this.myItems,
+      {
+        @required this.serviceId,
+        @required this.myItems,
       @required this.targetItems,
       @required this.onSwapAdd});
 
@@ -20,7 +23,17 @@ class SwapForm extends StatefulWidget {
 class _SwapFormState extends State<SwapForm> {
   List<SwapItemsModel> selectedListItems1 = [];
   List<SwapItemsModel> selectedListItems2 = [];
-  
+
+  @override
+  void initState() {
+
+    widget.targetItems.forEach((element) {
+      if(element.id == widget.serviceId){
+        selectedListItems2.add(element);
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
