@@ -170,6 +170,11 @@ methods: GET
 /swapbyid/{id}
 methods: GET
 ```
+#### Get completed swaps by userID
+```
+/completedswapsbyuserid
+methods: GET
+```
 #### Delete existing swap 
 ```
 /swap/{id}
