@@ -20,6 +20,8 @@ class UserProfileResponse
 
     public $role;
 
+    public $completedSwapsNumber;
+
     public function getUserName()
     {
         return $this->userName;

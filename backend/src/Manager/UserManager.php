@@ -22,8 +22,9 @@ class UserManager
     private $encoder;
     private $userRepository;
     private $userProfileEntityRepository;
+    private $swapManager;
 
-    public function __construct(AutoMapping $autoMapping, EntityManagerInterface $entityManager,
+    public function __construct(AutoMapping $autoMapping, EntityManagerInterface $entityManager, SwapManager $swapManager,
                                 UserPasswordEncoderInterface $encoder, UserEntityRepository $userRepository, UserProfileEntityRepository $userProfileEntityRepository)
     {
         $this->autoMapping = $autoMapping;
@@ -31,6 +32,7 @@ class UserManager
         $this->encoder = $encoder;
         $this->userRepository = $userRepository;
         $this->userProfileEntityRepository = $userProfileEntityRepository;
+        $this->swapManager = $swapManager;
     }
 
     public function userRegister(UserRegisterRequest $request)
@@ -176,6 +178,11 @@ class UserManager
     public function findUserByUserID($userID)
     {
         return $this->userRepository->findOneBy(["userID"=>$userID]);
+    }
+
+    public function getCompletedSwapsNumberByUserID($userID)
+    {
+        return count($this->swapManager->getCompletedSwapsByUserID($userID));
     }
 
 }

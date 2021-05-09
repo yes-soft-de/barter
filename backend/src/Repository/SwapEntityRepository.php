@@ -89,4 +89,37 @@ class SwapEntityRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getCompletedSwapsByUserID($userID)
+    {
+        return $this->createQueryBuilder('swap')
+
+            ->select('swap.id', 'swap.date', 'swap.userIdOne', 'userOne.userName as userOneName','userTwo.userName as userTwoName',
+                'swap.userIdTwo', 'swap.swapItemsOne', 'userOne.image as userOneImage', 'userTwo.image as userTwoImage',
+                'swap.swapItemsTwo', 'swap.cost', 'swap.roomID', 'swap.status')
+
+            ->leftJoin(
+                UserProfileEntity::class,               //Entity
+                'userOne',                              //Alias
+                Join::WITH,                             //Join Type
+                'userOne.userID = swap.userIdOne'       //Join Column
+            )
+            ->leftJoin(
+                UserProfileEntity::class,               //Entity
+                'userTwo',                              //Alias
+                Join::WITH,                             //Join Type
+                'userTwo.userID = swap.userIdTwo'       //Join Column
+            )
+
+            ->andWhere('swap.userIdOne=:userID')
+            ->setParameter('userID', $userID)
+
+            ->orWhere('swap.userIdTwo=:userID')
+            ->setParameter('userID', $userID)
+            
+            ->andWhere("swap.status = 'completed'")
+
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -175,6 +175,26 @@ class SwapService
         return $itemsResponse;
     }
 
+    public function getCompletedSwapsByUserID($userID)
+    {
+        $itemsResponse = [];
+
+        $items = $this->swapManager->getCompletedSwapsByUserID($userID);
+
+        foreach ($items as $item)
+        {
+            $item['userOneImage'] = $this->params.$item['userOneImage'];
+            $item['userTwoImage'] = $this->params.$item['userTwoImage'];
+
+            $item['swapItemsOne'] = $this->servicesService->getServicesByIDsArray($item['swapItemsOne']);
+            $item['swapItemsTwo'] = $this->servicesService->getServicesByIDsArray($item['swapItemsTwo']);
+
+            $itemsResponse[] = $this->autoMapping->map('array', SwapsResponse::class, $item);
+        }
+
+        return $itemsResponse;
+    }
+
     public function specialLinkCheck($bool)
     {
         if ($bool == false)

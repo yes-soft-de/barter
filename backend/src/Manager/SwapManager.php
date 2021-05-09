@@ -96,4 +96,9 @@ class SwapManager
             return false;
         }
     }
+
+    public function getCompletedSwapsByUserID($userID)
+    {
+        return $this->swapEntityRepository->getCompletedSwapsByUserID($userID);
+    }
 }

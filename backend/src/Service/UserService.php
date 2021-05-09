@@ -105,6 +105,8 @@ class UserService
                 
             $item['role'] = $this->userManager->findUserByUserID($userID)->getRoles()[0];
 
+            $item['completedSwapsNumber'] = $this->userManager->getCompletedSwapsNumberByUserID($userID);
+
             return $this->autoMapping->map('array', UserProfileResponse::class, $item);
         }
 

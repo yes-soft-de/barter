@@ -118,4 +118,16 @@ class SwapController extends BaseController
         return $this->response($response,self::FETCH);
     }
 
+    /**
+     * @Route("completedswapsbyuserid", name="getcompletedSwapsByUserID", methods={"GET"})
+     *  @param Request $request
+     * @return JsonResponse
+     */
+    public function getCompletedSwapsByUserID()
+    {
+        $response = $this->swapService->getCompletedSwapsByUserID($this->getUserId());
+
+        return $this->response($response,self::FETCH);
+    }
+
 }
