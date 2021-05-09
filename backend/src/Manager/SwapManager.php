@@ -101,4 +101,10 @@ class SwapManager
     {
         return $this->swapEntityRepository->getCompletedSwapsByUserID($userID);
     }
+
+    // For debugging
+    public function getAll()
+    {
+        return $this->swapEntityRepository->findAll();
+    }
 }

@@ -207,4 +207,10 @@ class SwapService
     {
         return $this->swapManager->getSwapByItemAndUserID($userID, $itemID);
     }
+
+    //For debugging
+    public function getAll()
+    {
+        return $this->swapManager->getAll();
+    }
 }
