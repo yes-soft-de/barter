@@ -99,7 +99,7 @@ class SwapController extends BaseController
 
         $request = $this->autoMapping->map(stdClass::class, SwapUpdateRequest::class, (object)$data);
         
-        $request->setUserIdOne($this->getUserId());
+        // $request->setUserIdOne($this->getUserId());
         
         $response = $this->swapService->updateSwap($request);
 

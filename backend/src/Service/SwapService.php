@@ -142,9 +142,9 @@ class SwapService
         /* First, we have to get the userID of the service in order 
            to store it the userIdTwo field */
         
-        $userID = $this->servicesService->getUserByServiceID($request->getSwapItemsTwo()[0])['createdBy'];
+        // $userID = $this->servicesService->getUserByServiceID($request->getSwapItemsTwo()[0])['createdBy'];
         
-        $request->setUserIdTwo($userID);
+        // $request->setUserIdTwo($userID);
    
         // Now, we can continue with the creating request
 
