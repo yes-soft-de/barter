@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:barter/generated/l10n.dart';
 
 class ChatBubbleWidget extends StatefulWidget {
   final bool showImage;
   final String message;
-  final DateTime sentDate;
+  final String sentDate;
   final bool me;
 
   ChatBubbleWidget({
@@ -43,9 +42,9 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(timeago.format(widget.sentDate ?? DateTime.now())),
+                Text(calcDifference(widget.sentDate)),
                 widget.message.contains('http')
-                    ? Image.network(widget.message.replaceFirst('uploadimage', 'upload/image'))
+                    ? Image.network(widget.message)
                     : Text(
                         '${widget.message}',
                         style: TextStyle(
@@ -60,5 +59,19 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
         ),
       ),
     );
+  }
+
+  String calcDifference(String date) {
+    DateTime sentDate = DateTime.parse(date);
+    var diff = DateTime.now().difference(sentDate);
+
+    if (DateTime.now().difference(sentDate).inMinutes < 60) {
+      var minutes = diff.inMinutes;
+      return minutes.toString() + ' ' +'mMinutes Ago';// S.of(context).minutesAgo;
+    } else if (diff.inHours < 24) {
+      return diff.inHours.toString() + ' ' + 'Hours Ago' ;// S.of(context).hoursAgo;
+    } else {
+      return sentDate.toString().substring(0, 10);
+    }
   }
 }

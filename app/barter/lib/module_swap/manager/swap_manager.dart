@@ -23,8 +23,8 @@ class SwapManager {
   Future<SwapListResponse> getSwapById(id) =>
     _repository.getSwapById(id);
 
-  Future<SwapListResponse> getMySwapa() =>
-      _repository.getMySwapa();
+  Future<SwapListResponse> getMySwaps() =>
+      _repository.getMySwaps();
 
 
 

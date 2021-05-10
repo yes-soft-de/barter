@@ -1,37 +1,45 @@
-import 'dart:convert';
-
-import 'package:barter/module_profile/response/create_branch_response.dart';
 import 'package:inject/inject.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @provide
 class ProfilePreferencesHelper {
-  Future<void> cacheBranch(List<Branch> branch) async {
-    if (branch == null) {
-      return null;
-    }
-    if (branch.isEmpty) {
-      return null;
-    }
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('Branch', jsonEncode(branch));
+  Future<void> setUserName(String username) async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.setString('profile_username', username);
   }
 
-  Future<List<Branch>> getSavedBranch() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    var branchJson = _prefs.getString('Branch');
-    if (branchJson == null) return null;
-    if (branchJson.length < 5) return null;
+  Future<void> setUserLocation(String location) async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.setString('profile_location', location);
+  }
 
-    var branches = <Branch>[];
+  Future<void> setUserImage(String image) async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.setString('profile_image', image);
+  }
 
-    var cached = jsonDecode(branchJson);
-    if (cached is List) {
-      cached.forEach((element) {
-        branches.add(Branch.fromJson(element));
-      });
-    }
+  Future<void> setUserStory(String story) async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.setString('profile_story', story);
+  }
 
-    return branches;
+  Future<String> getUsername() async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.getString('profile_username');
+  }
+
+  Future<String> getUserLocation() async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.getString('profile_location');
+  }
+
+  Future<String> getUserStory() async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.getString('profile_story');
+  }
+
+  Future<String> getImage() async {
+    var prefsHelper = await SharedPreferences.getInstance();
+    return prefsHelper.getString('profile_image');
   }
 }

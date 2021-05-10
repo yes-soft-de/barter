@@ -67,7 +67,7 @@ class SwapRepository {
     return SwapListResponse.fromJson(response);
   }
 
-  Future<SwapListResponse> getMySwapa()async {
+  Future<SwapListResponse> getMySwaps()async {
     String token;
     try {
       await _authService.refreshToken();
@@ -81,6 +81,7 @@ class SwapRepository {
     await _apiClient.get('${Urls.SWAP_BY_USER_ID_API}',headers: {'Authorization': 'Bearer ' + token});
 
     if (response == null) return null;
+
     return SwapListResponse.fromJson(response);
   }
 }

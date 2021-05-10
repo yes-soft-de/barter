@@ -1,13 +1,9 @@
 import 'package:barter/module_auth/authorization_routes.dart';
-import 'package:barter/module_init/init_routes.dart';
-import 'package:barter/module_notifications/service/fire_notification_service/fire_notification_service.dart';
 import 'package:barter/module_profile/profile_routes.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
-import 'package:barter/module_profile/response/profile_response.dart';
 import 'package:barter/module_profile/service/profile/profile.service.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_localization/service/localization_service/localization_service.dart';
 import 'package:barter/module_theme/service/theme_service/theme_service.dart';
@@ -19,14 +15,14 @@ class SettingsScreen extends StatefulWidget {
   final LocalizationService _localizationService;
   final AppThemeDataService _themeDataService;
   final ProfileService _profileService;
-  final FireNotificationService _notificationService;
+  //final FireNotificationService _notificationService;
 
   SettingsScreen(
     this._authService,
     this._localizationService,
     this._themeDataService,
     this._profileService,
-    this._notificationService,
+   // this._notificationService,
   );
 
   @override
@@ -282,7 +278,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Switch(
                   onChanged: (bool value) {
-                    widget._notificationService.setCaptainActive(value);
+                 //   widget._notificationService.setCaptainActive(value);
                     widget._profileService.updateProfile(
                       ProfileRequest(
                         userName: profile.firstName,

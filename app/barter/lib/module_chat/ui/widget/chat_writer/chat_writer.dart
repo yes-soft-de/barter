@@ -95,10 +95,8 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
                   _imagePicker
                       .getImage(source: ImageSource.camera, imageQuality: 70)
                       .then((value) {
-                    if (value != null) {
-                      imageFile = File(value.path);
-                      setState(() {});
-                    }
+                    imageFile = File(value.path);
+                    setState(() {});
                   });
                 },
               ),
@@ -111,7 +109,8 @@ class _ChatWriterWidget extends State<ChatWriterWidget> {
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
             child: TextField(
               decoration: InputDecoration(
-                hintText: S.of(context).startWriting,
+
+                hintText: 'startWriting'// S.of(context).startWriting,
               ),
               controller: _msgController,
             ),

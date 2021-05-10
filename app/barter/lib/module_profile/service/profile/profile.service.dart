@@ -24,6 +24,17 @@ class ProfileService {
     this._servicesService,
   );
 
+
+  Future<bool> hasProfile() async {
+    String userImage = await _preferencesHelper.getImage();
+    return userImage != null;
+  }
+
+  Future<ProfileModel> get profile async {
+    var username = await _preferencesHelper.getUsername();
+    var image = await _preferencesHelper.getImage();
+    return ProfileModel(firstName: username, image: image,);
+  }
   // ignore: missing_return
   Future<ProfileModel> getMyProfile() async {
     try {

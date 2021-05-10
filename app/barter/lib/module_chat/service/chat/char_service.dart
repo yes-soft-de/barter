@@ -12,7 +12,7 @@ class ChatService {
 
   // This is Real Time, That is Why I went this way
   final PublishSubject<List<ChatModel>> _chatPublishSubject =
-      new PublishSubject();
+  new PublishSubject();
 
   Stream<List<ChatModel>> get chatMessagesStream => _chatPublishSubject.stream;
 
@@ -33,8 +33,7 @@ class ChatService {
     ChatModel model = new ChatModel(
       msg: msg,
       sender: user.uid,
-      sentDate: DateTime.now(),
-    );
+      sentDate: DateTime.now().toIso8601String(),);
     _chatManager.sendMessage(chatRoomID, model);
   }
 

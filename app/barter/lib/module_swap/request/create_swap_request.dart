@@ -1,4 +1,3 @@
-import 'package:barter/module_swap/response/swap_response.dart';
 
 class CreateSwapRequest {
   String date;

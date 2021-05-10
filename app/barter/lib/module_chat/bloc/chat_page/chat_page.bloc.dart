@@ -1,7 +1,10 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
+import 'package:barter/module_swap/service/swap_service.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:barter/module_chat/model/chat/chat_model.dart';
+import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
+import 'package:barter/module_notifications/service/notification_service/notification_service.dart';
 
 import '../../service/chat/char_service.dart';
 
@@ -15,9 +18,13 @@ class ChatPageBloc {
   bool listening = true;
 
   final ChatService _chatService;
+  final SwapService _swapService;
+  final NotificationService _notificationService;
 
   ChatPageBloc(
     this._chatService,
+    this._swapService,
+    this._notificationService,
   );
 
   final PublishSubject<Pair<int, List<ChatModel>>> _chatBlocSubject =
@@ -25,6 +32,11 @@ class ChatPageBloc {
 
   Stream<Pair<int, List<ChatModel>>> get chatBlocStream =>
       _chatBlocSubject.stream;
+  final PublishSubject<NotificationModel> _notificationUpdateSubject =
+      PublishSubject();
+
+  Stream<NotificationModel> get notificationStream =>
+      _notificationUpdateSubject.stream;
 
   // We Should get the UUID of the ChatRoom, as such we should request the data here
   void getMessages(String chatRoomID) {
@@ -41,5 +53,23 @@ class ChatPageBloc {
 
   void dispose() {
     listening = false;
+  }
+
+  void setNotificationComplete(NotificationModel swapItemModel) {
+   // _swapService.updateSwap(swapItemModel);
+  }
+
+  void checkSwapUpdates(String id) {
+    _notificationService.getNotifications().then((value) {
+      value.forEach((element) {
+        if (element.chatRoomId == id) {
+          _notificationUpdateSubject.add(NotificationModel(
+            chatRoomId: id,
+            swapId: element.swapId,
+            swap: element.swap
+          ));
+        }
+      });
+    });
   }
 }

@@ -1,31 +1,27 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:barter/module_network/http_client/http_client.dart';
-import 'package:barter/module_notifications/preferences/notification_preferences/notification_preferences.dart';
-import 'package:barter/module_notifications/repository/notification_repo.dart';
-import 'package:barter/module_profile/service/profile/profile.service.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:barter/consts/urls.dart';
+import 'package:barter/module_network/http_client/http_client.dart';
+import 'package:barter/module_notifications/presistance/notification_prefs.dart';
 import 'package:barter/utils/logger/logger.dart';
 
 @provide
 class FireNotificationService {
-  final NotificationsPrefsHelper _prefsHelper;
-  final ProfileService _profileService;
-  final NotificationRepo _notificationRepo;
+  final NotificationPrefs prefs;
+  final ApiClient _client;
 
   FireNotificationService(
-    this._prefsHelper,
-    this._profileService,
-    this._notificationRepo,
+    this.prefs,
+    this._client,
   );
 
   static final PublishSubject<String> _onNotificationRecieved =
       PublishSubject();
-
   static Stream get onNotificationStream => _onNotificationRecieved.stream;
 
   static StreamSubscription iosSubscription;
@@ -34,18 +30,23 @@ class FireNotificationService {
   Future<void> init() async {
     if (Platform.isIOS) {
       iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {});
+
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
-    await refreshNotificationToken();
   }
 
-  Future<void> refreshNotificationToken() async {
+  Future<void> refreshNotificationToken(String userAuthToken) async {
     var token = await _fcm.getToken();
-    if (token != null) {
+    print('Token: $token');
+    if (token != null && userAuthToken != null) {
+      // Save the notification token
+      await NotificationPrefs().saveNotification(token);
+      // And send a copy for the Backend
+      await _client.post(Urls.NOTIFICATION_API,
+          {'date': DateTime.now().toIso8601String(), 'token': token},
+          headers: {'Authorization': 'Bearer ' + userAuthToken});
+
       // And Subscribe to the changes
-      try {
-        // _notificationRepo.postToken(token);
-      } catch (e) {}
       this._fcm.configure(
         onMessage: (Map<String, dynamic> message) async {
           Logger().info('FireNotificationService', 'onMessage: $message');
@@ -58,15 +59,6 @@ class FireNotificationService {
           Logger().info('FireNotificationService', 'onMessage: $message');
         },
       );
-    }
-  }
-
-  Future<void> setCaptainActive(bool active) async {
-    await _prefsHelper.setIsActive(active);
-    if (active) {
-      await _fcm.subscribeToTopic('captains');
-    } else {
-      await _fcm.unsubscribeFromTopic('captains');
     }
   }
 }

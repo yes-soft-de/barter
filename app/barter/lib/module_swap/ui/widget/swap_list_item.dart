@@ -32,7 +32,7 @@ class _ListItemState extends State<ListItem> {
           ),
           isSelected
               ? Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
