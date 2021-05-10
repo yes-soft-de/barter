@@ -12,9 +12,9 @@ class SwapUpdateRequest
 
     private $date;
 
-    private $userIdOne;
+    // private $userIdOne;
 
-    private $userIdTwo;
+    // private $userIdTwo;
 
     private $swapItemsOne = [];
 
@@ -64,37 +64,37 @@ class SwapUpdateRequest
         $this->date = $date;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUserIdOne()
-    {
-        return $this->userIdOne;
-    }
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getUserIdOne()
+    // {
+    //     return $this->userIdOne;
+    // }
 
-    /**
-     * @param mixed $userIdOne
-     */
-    public function setUserIdOne($userIdOne): void
-    {
-        $this->userIdOne = $userIdOne;
-    }
+    // /**
+    //  * @param mixed $userIdOne
+    //  */
+    // public function setUserIdOne($userIdOne): void
+    // {
+    //     $this->userIdOne = $userIdOne;
+    // }
 
-    /**
-     * @return mixed
-     */
-    public function getUserIdTwo()
-    {
-        return $this->userIdTwo;
-    }
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getUserIdTwo()
+    // {
+    //     return $this->userIdTwo;
+    // }
 
-    /**
-     * @param mixed $userIdTwo
-     */
-    public function setUserIdTwo($userIdTwo): void
-    {
-        $this->userIdTwo = $userIdTwo;
-    }
+    // /**
+    //  * @param mixed $userIdTwo
+    //  */
+    // public function setUserIdTwo($userIdTwo): void
+    // {
+    //     $this->userIdTwo = $userIdTwo;
+    // }
 
     /**
      * @return array
