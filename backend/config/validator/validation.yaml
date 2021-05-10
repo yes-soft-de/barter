@@ -22,9 +22,9 @@ App\Request\ServiceUpdateRequest:
     id:
       - NotBlank: ~
 
-App\Request\SwapCreateRequest:
-  properties:
-    userIdOne:
-      - NotBlank: ~
-    userIdTwo:
-      - NotBlank: ~
+# App\Request\SwapCreateRequest:
+#   properties:
+#     userIdOne:
+#       - NotBlank: ~
+#     userIdTwo:
+#       - NotBlank: ~
