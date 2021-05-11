@@ -31,6 +31,7 @@ class SwapService {
     return items;
   }
 
+
   Future<List<SwapItemsModel>> getTargetItems(serviceId) async {
     List<ServiceModel> services =
         await _servicesService.getServicesByServiceId(serviceId);
@@ -167,7 +168,7 @@ class SwapService {
         userOneImage: element.userOneImage,
         userTowImage: element.userTwoImage,
         accepted: element.status == 'accept' ? true : false,
-        status: 'started' ,//element.status,
+        status: 'first user accept' ,//element.status,
         chatRoomId: roomId,
       );
 

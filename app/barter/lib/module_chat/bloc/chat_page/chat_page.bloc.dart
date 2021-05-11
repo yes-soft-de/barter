@@ -56,6 +56,7 @@ class ChatPageBloc {
   }
 
   void setNotificationComplete(NotificationModel swapItemModel) {
+
    // _swapService.updateSwap(swapItemModel);
   }
 

@@ -1,9 +1,13 @@
+import 'package:barter/consts/keys.dart';
+import 'package:barter/module_notifications/service/notification_service/notification_service.dart';
+import 'package:barter/module_notifications/ui/widget/notification_change_swap_items/change_item_form.dart';
+import 'package:barter/module_swap/model/swap_items_model.dart';
 import 'package:barter/module_swap/model/swap_model.dart';
+import 'package:barter/module_swap/request/update_swap_request.dart';
 import 'package:barter/module_swap/service/swap_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_chat/args/chat_arguments.dart';
 import 'package:barter/module_chat/bloc/chat_page/chat_page.bloc.dart';
@@ -18,15 +22,15 @@ import 'package:barter/module_upload/service/image_upload/image_upload_service.d
 class ChatPage extends StatefulWidget {
   final ChatPageBloc _chatPageBloc;
   final AuthService _authService;
-  //final GamesListService _gamesListService;
   final SwapService _swapService;
+  final NotificationService _notificationService;
   final ImageUploadService _uploadService;
 
   ChatPage(
     this._chatPageBloc,
     this._authService,
-   // this._gamesListService,
     this._swapService,
+    this._notificationService,
     this._uploadService,
   );
 
@@ -40,24 +44,43 @@ class ChatPageState extends State<ChatPage> {
 
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
- // Games gameToChange;
-  String chatRoomId;
-  NotificationModel activeNotification;
 
+  String chatRoomId;
+  String myId;
+  NotificationModel activeNotification;
   bool initiated = false;
 
+  List<SwapItemsModel> myServices = [];
+  List<SwapItemsModel> targetServices = [];
+  bool getServices =true;
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
       ChatArguments args = ModalRoute.of(context).settings.arguments;
       activeNotification = args.notification;
       chatRoomId = args.chatRoomId;
-
+      myId = args.myId;
       widget._chatPageBloc.notificationStream.listen((event) {
         activeNotification.swap = event.swap;
-        // activeNotification.swapOne = event.swapOne;
-        // activeNotification.swapTwo = event.swapTwo;
       });
+
+     // for get all services (for update)
+
+      if(getServices)
+      widget._swapService.getMyItems().then((value1) {
+        widget._swapService.getTargetItems(args.notification.restrictedItemsUserTwo[0].id.toString()).then((value2) {
+          if(value2 == null || value1 == null){
+            myServices = targetServices =null;
+          }else{
+            myServices = value1 ;
+            targetServices = value2;
+            getServices = ! getServices;
+            setState(() {
+            });
+          }
+        });
+      });
+
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -90,64 +113,52 @@ class ChatPageState extends State<ChatPage> {
                 //S.of(context).chatRoom
             ),
           ),
-          Column(
-            children: [
-              // activeNotification.swapOne == null &&
-              //         activeNotification.swapTwo == null
-              true
-                  ? Container()
-                  : MediaQuery.of(context).viewInsets.bottom == 0
-                      ? FutureBuilder(
-                          future: widget._authService.userID,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<String> snapshot) {
-                            return NotificationOnGoing(
-                              shrink: true,
-                              notification: activeNotification,
-                              myId: snapshot.data,
-                              onSwapComplete: (swap) {
-                                widget._chatPageBloc
-                                    .setNotificationComplete(NotificationModel(
-                                  // swapOne: activeNotification.swapOne,
-                                  // swapTwo: activeNotification.swapTwo,
-                                  chatRoomId: chatRoomId,
-                                  status: activeNotification.status,
-                                  swapId: activeNotification.swapId,
-                                  userImage: activeNotification.userImage,
-                                ));
-                                setState(() {});
-                              },
-                              onChangeRequest: () {
-                                // Change Games
-//                                gameToChange = game;
-//                                var dialog = Dialog(
-//                                  child: ExchangeSetterWidget(
-//                                    gamesListService: widget._gamesListService,
-//                                    userId: game != null ? game.userID : null,
-//                                  ),
-//                                );
-//                                showDialog(
-//                                        context: context,
-//                                        builder: (context) => dialog)
-//                                    .then((rawNewGame) {
-//                                  _updateSwapCard(rawNewGame);
-//                                });
-                              },
-                            );
-                          },
-                        )
-                      : Container(),
-            ],
-          ),
           Expanded(
-            child: chatsMessagesWidgets != null
-                ? ListView(
-                    children: chatsMessagesWidgets,
-                    reverse: false,
-                  )
-                : Center(
-                    child: Text(S.of(context).loading),
-                  ),
+            child: ListView(
+              reverse: true,
+              children: [
+
+              chatsMessagesWidgets != null
+                  ?
+              Column(
+                 children: chatsMessagesWidgets,
+              )
+                  : Center(
+                child: Text('Loading'
+                  //S.of(context).loading
+                ),
+              ),
+
+
+                (activeNotification.swap == null )
+                    ? Container()
+                    : MediaQuery.of(context).viewInsets.bottom == 0
+                    ? FutureBuilder(
+                  future: widget._authService.userID,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<String> snapshot) {
+                    return  (myServices.isEmpty)?
+                    Text('Load Data')
+                        : (myServices == null || targetServices==null)?Text('Error in load services'):
+                    ChangeItemForm(
+                      onSwapChange: (notification){
+                        notification.status = (activeNotification.swap.userOneId == myId)?ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED:ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED;
+                        widget._notificationService.updateSwap(notification);
+                        widget._chatPageBloc
+                            .setNotificationComplete(notification);
+                        Scaffold.of(context)
+                            .showSnackBar(SnackBar(content: Text('Saving Data')));
+                        setState(() {});
+                      },
+                      notificationModel: activeNotification,
+                      myItems: myServices,
+                      targetItems: targetServices,
+                    );
+                  },
+                )
+                    : Container(),
+              ],
+            ),
           ),
           ChatWriterWidget(
             onMessageSend: (msg) {
@@ -165,20 +176,6 @@ class ChatPageState extends State<ChatPage> {
     Future.delayed(Duration(seconds: 15), () {
       checkUpdates();
     });
-  }
-
-  void _updateSwapCard(SwapModel swapModel) {
-    if (swapModel != null) {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Saving Data')));
-//      if (gameToChange.userID == activeNotification.gameOne.userID) {
-//        activeNotification.gameOne = newGame;
-//        widget._swapService.updateSwap(activeNotification);
-//      } else {
-//        activeNotification.gameTwo = swapModel;
-//        widget._swapService.updateSwap(activeNotification);
-//      }
-    }
   }
 
   Future<void> buildMessagesList(List<ChatModel> chatList) async {

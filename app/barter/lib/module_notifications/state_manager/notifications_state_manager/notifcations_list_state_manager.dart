@@ -42,24 +42,4 @@ class NotificationsStateManager {
      });
   }
 
-  void requestSwapComplete(NotificationModel swapItemModel, String myId) {
-    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM + '-' + myId;
-    // _swapService.updateSwap(swapItemModel).then((value) {
-    //   getNotifications();
-    // });
-  }
-
-  void refuseSwapComplete(NotificationModel swapItemModel) {
-    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_ON_GOING;
-    // _swapService.updateSwap(swapItemModel).then((value) {
-    //   getNotifications();
-    // });
-  }
-
-  void setSwapAccepted(NotificationModel swapItemModel) {
-    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_CONFIRMED;
-    // _swapService.updateSwap(swapItemModel).then((value) {
-    //   getNotifications();
-    // });
-  }
 }

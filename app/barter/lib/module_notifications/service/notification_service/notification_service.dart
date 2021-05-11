@@ -23,7 +23,6 @@ class NotificationService {
     if (swaps == null) {
       return null;
     }
-
     swaps.forEach((value) {
       notifications.add(NotificationModel(
         chatRoomId: value.chatRoomId,

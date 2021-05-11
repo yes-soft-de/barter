@@ -284,7 +284,19 @@ void main() async {
           )),
           ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
               AuthManager(AuthRepository(ApiClient()))))),
-        ),ImageUploadService(UploadManager(UploadRepository())),),AuthGuard(SharedPreferencesHelper()))
+        ),
+          NotificationService(
+              SwapService(
+                  SwapManager(SwapRepository(
+                    AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient()))),
+                  )),
+                  ServicesService(ServicesRepository(AuthService(
+                      AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient())))))),
+              AuthService(AuthPrefsHelper(),
+                  AuthManager(AuthRepository(ApiClient()))))
+            ,ImageUploadService(UploadManager(UploadRepository())),),AuthGuard(SharedPreferencesHelper()))
         ,
       ));
     }, onError: (error, stackTrace) {

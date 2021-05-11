@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 
 class NotificationComplete extends StatefulWidget {
@@ -25,81 +24,49 @@ class _NotificationCompleteState extends State<NotificationComplete> {
         color: Theme.of(context).brightness != Brightness.dark
             ? Colors.white
             : Colors.black,
-        child: Container(
-          height: 168,
-          child: Flex(
-            direction: Axis.vertical,
-            children: [
-              Container(
-                  height: 120,
-                  child: Stack(
-                    children: [
-                      _getGamesRow(),
-                      _getConfirmationOverlay(),
-                    ],
-                  )),
-              _getCardFooter(),
-            ],
-          ),
-        ),
+        child: _getConfirmationOverlay()
       ),
     );
   }
 
   Widget _getConfirmationOverlay() {
-    return Positioned.fill(
-      child: Container(
-        color: Colors.black38,
-        child: Center(
-          child: Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Swap Completed',
-                //S.of(context).swapCompleted,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _getGamesRow() {
-    return Stack(
-      children: [
-        Flex(
-          direction: Axis.horizontal,
+    return Container(
+      height: 165,
+      color: Colors.black38,
+      child: Center(
+        child: Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/logo.jpg',
-                //image: widget.notification.swapOne.userOneImage,
-                height: 120,
-                fit: BoxFit.cover,
-              ),
+            ListTile(
+              leading:ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: SizedBox(
+                  width: 60,
+                  height: 100,
+                  child: Image.network(widget.notification.swap.userTowImage,
+                    fit: BoxFit.cover,
+                    errorBuilder: (e,r,t){
+                      return Image.asset('assets/images/logo.png');
+                    },
+                  ),
+                ),
+              ) ,
+              title:  Text(widget.notification.swap.userTowName,style: TextStyle(color: Colors.white,),),
             ),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/logo.jpg',
-                height: 120,
-               // image: widget.notification.swapTwo.userTowImage,
-                fit: BoxFit.cover,
+            Text(
+              'Swap Completed',
+              //S.of(context).swapCompleted,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold
               ),
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 

@@ -154,7 +154,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       return Container();
     }
   //  return Card(child: Text('Notification Status: ${n.status}'));
-    if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INIT) {
+    if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
       return NotificationSwapStart(
         notification: n,
         myId: myId,
@@ -166,20 +166,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
           }
         }
       );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED) {
+    }
+    else if(n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED||n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED){
+      return  NotificationSwapConfirmationPending(
+        notification: n,
+        myId: myId,
+      );
+    }
+    else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED ) {
       return NotificationOnGoing(
         notification: n,
         myId: myId,
-        onSwapComplete: (swapId) {
-          widget._manager.requestSwapComplete(n, myId);
-        },
-        // onChangeRequest: (game) {
-        //   _onChangeRequest(game, n);
-        // },
         onChatRequested: () {
           var args = ChatArguments(
             chatRoomId: n.chatRoomId,
             notification: n,
+            myId:myId
           );
 
           Navigator.of(context).pushNamed(
@@ -188,28 +190,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         },
       );
-    } else if (n.status.contains(ApiKeys.KEY_SWAP_STATUS_PENDING_CONFIRM)) {
-      return NotificationSwapConfirmationPending(
-        notification: n,
-        myId: myId,
-        canComplete: !n.status.contains(myId),
-        onFinished: () {
-          widget._manager.setSwapAccepted(n);
-        },
-        onRefuse: () {
-          widget._manager.refuseSwapComplete(n);
-        },
-      );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_CONFIRMED) {
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_COMPLETE) {
       return NotificationComplete(
         notification: n,
         myId: myId,
       );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_REFUSED) {
-      return NotificationComplete(
-        notification: n,
-        myId: myId,
-      );
+
     } else {
       return Card(child: Text('Notification Status: ${n.status}'));
     }

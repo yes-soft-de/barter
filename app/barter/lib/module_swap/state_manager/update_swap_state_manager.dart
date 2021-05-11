@@ -30,6 +30,7 @@ class UpdateSwapStateManager {
       }
     });
   }
+
   void getSwapById(UpdateSwapScreen screenState, id) {
     _service.getSwapById(id).then((value) {
       if(value != null){

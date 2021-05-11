@@ -1,23 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:barter/fluttertoast.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 
 class NotificationOnGoing extends StatefulWidget {
   final NotificationModel notification;
   final String myId;
-  final Function() onChangeRequest;
-  final Function(String) onSwapComplete;
   final Function() onChatRequested;
   final bool shrink;
 
   NotificationOnGoing({
     @required this.notification,
     @required this.myId,
-    this.onChangeRequest,
     this.onChatRequested,
-    this.onSwapComplete,
     this.shrink,
   });
 
@@ -57,7 +52,7 @@ class _NotificationState extends State<NotificationOnGoing> {
                   ),
                 ) ,
                 title:  Text(widget.notification.swap.userTowName),
-                trailing:                   IconButton(
+                trailing: IconButton(
                     icon: widget.notification.chatRoomId != null
                         ? Icon(
                       Icons.chat,
@@ -84,86 +79,5 @@ class _NotificationState extends State<NotificationOnGoing> {
     );
   }
 
-  // Widget _getGamesRow() {
-  //   return Stack(
-  //     children: [
-  //       Flex(
-  //         direction: Axis.horizontal,
-  //         children: [
-  //           Flexible(
-  //             flex: 1,
-  //             fit: FlexFit.tight,
-  //             child: _gameSelector(widget.notification.swapOne),
-  //           ),
-  //           Flexible(
-  //             flex: 1,
-  //             fit: FlexFit.tight,
-  //             child: _gameSelector(widget.notification.swapTwo),
-  //           )
-  //         ],
-  //       ),
-  //       // Positioned.fill(
-  //       //   child: widget.notification.gameOne.id != -1 &&
-  //       //           widget.notification.gameTwo.id != -1
-  //       //       ? Center(
-  //       //           child: Container(
-  //       //             decoration: BoxDecoration(
-  //       //               color: SwapThemeDataService.getPrimary(),
-  //       //               shape: BoxShape.circle,
-  //       //             ),
-  //       //             child: IconButton(
-  //       //               icon: Icon(Icons.check),
-  //       //               onPressed: () {
-  //       //                 widget.onSwapComplete(widget.notification.swapId);
-  //       //               },
-  //       //             ),
-  //       //           ),
-  //       //         )
-  //       //       : Container(),
-  //       // )
-  //     ],
-  //   );
-  // }
 
-  // Widget _gameSelector(Games game) {
-  //   return Stack(
-  //     children: [
-  //       Positioned.fill(
-  //         child: FadeInImage.assetNetwork(
-  //           placeholder: 'assets/images/logo.jpg',
-  //           image: game.mainImage ?? '',
-  //           fit: BoxFit.cover,
-  //         ),
-  //       ),
-  //       Positioned.fill(
-  //         child: Container(
-  //           alignment: Alignment.center,
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.all(
-  //               Radius.circular(12),
-  //             ),
-  //           ),
-  //           child: GestureDetector(
-  //             onTap: () {
-  //               widget.onChangeRequest(game);
-  //             },
-  //             child: Container(
-  //               decoration: BoxDecoration(
-  //                 color: SwapThemeDataService.getAccent(),
-  //                 shape: BoxShape.circle,
-  //               ),
-  //               child: Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: Icon(
-  //                   Icons.refresh,
-  //                   color: Colors.white,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

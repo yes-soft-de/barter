@@ -42,7 +42,7 @@ class _NotificationSwapConfirmationPendingState
                   height: 120,
                   child: Stack(
                     children: [
-                      _getGamesRow(),
+
                       _getConfirmationOverlay(),
                     ],
                   )),
@@ -123,38 +123,6 @@ class _NotificationSwapConfirmationPendingState
         ),
       );
     }
-  }
-
-  Widget _getGamesRow() {
-    return Stack(
-      children: [
-        Flex(
-          direction: Axis.horizontal,
-          children: [
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/logo.jpg',
-               // image: '${widget.notification.swapOne.userOneImage}',
-                height: 120,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/logo.jpg',
-                height: 120,
-                //image: '${widget.notification.swapTwo.userTowImage}',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 
   Widget _getCardFooter() {
