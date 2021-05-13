@@ -53,7 +53,7 @@ class EditProfileStateManager {
     _stateSubject.add(ProfileStateLoading(screenState));
     _profileService.getMyProfile().then((value) {
       if (value == null) {
-        _stateSubject.add(ProfileStateNoProfile(screenState, ProfileRequest()));
+        _stateSubject.add(ProfileStateNoProfile(screenState, null));
       } else {
         _stateSubject.add(
           ProfileStateGotProfile(

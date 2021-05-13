@@ -33,6 +33,7 @@ class ProfileRepository {
 
     try {
       if (response == null) return null;
+
       return ProfileResponse.fromJson(response).data;
     } catch (e) {
       return null;

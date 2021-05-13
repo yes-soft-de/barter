@@ -38,30 +38,37 @@ class _NotificationState extends State<NotificationOnGoing> {
               height: 120,
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
-                leading:ClipRRect(
+                leading: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: SizedBox(
-                  width: 60,
+                    width: 60,
                     height: 100,
-                    child: Image.network(widget.notification.swap.userTowImage,
+                    child: Image.network(
+                      widget.myId == widget.notification.swap.userOneId
+                          ? widget.notification.swap.userTowImage
+                          : widget.notification.swap.userOneImage,
                       fit: BoxFit.cover,
-                      errorBuilder: (e,r,t){
+                      errorBuilder: (e, r, t) {
                         return Image.asset('assets/images/logo.png');
                       },
                     ),
                   ),
-                ) ,
-                title:  Text(widget.notification.swap.userTowName),
+                ),
+                title: Text(widget.myId == widget.notification.swap.userOneId
+                    ? widget.notification.swap.userTowName
+                    : widget.notification.swap.userOneName),
                 trailing: IconButton(
                     icon: widget.notification.chatRoomId != null
                         ? Icon(
-                      Icons.chat,
-                      color:Colors.blue,// SwapThemeDataService.getPrimary(),
-                    )
+                            Icons.chat,
+                            color: Colors
+                                .blue, // SwapThemeDataService.getPrimary(),
+                          )
                         : Icon(
-                      Icons.check,
-                      color: Colors.blue,//SwapThemeDataService.getPrimary(),
-                    ),
+                            Icons.check,
+                            color: Colors
+                                .blue, //SwapThemeDataService.getPrimary(),
+                          ),
                     onPressed: () {
                       if (widget.notification.chatRoomId != null) {
                         widget.onChatRequested();
@@ -78,6 +85,4 @@ class _NotificationState extends State<NotificationOnGoing> {
       ),
     );
   }
-
-
 }

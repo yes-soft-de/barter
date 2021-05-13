@@ -1,19 +1,18 @@
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:flutter/material.dart';
-import 'package:barter/generated/l10n.dart';
 
 class NotificationSwapConfirmationPending extends StatefulWidget {
   final NotificationModel notification;
   final String myId;
   final bool canComplete;
-  final Function() onFinished;
-  final Function() onRefuse;
+  final Function() onCompleted;
+  final Function() onRrjected;
 
   NotificationSwapConfirmationPending({
     this.notification,
     this.myId,
-    this.onFinished,
-    this.onRefuse,
+    this.onCompleted,
+    this.onRrjected,
     this.canComplete,
   });
 
@@ -37,16 +36,36 @@ class _NotificationSwapConfirmationPendingState
           height: 168,
           child: Flex(
             direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                  height: 120,
-                  child: Stack(
-                    children: [
-
-                      _getConfirmationOverlay(),
-                    ],
-                  )),
-              _getCardFooter(),
+              ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: SizedBox(
+                    width: 60,
+                    height: 100,
+                    child: Image.network(
+                      widget.myId == widget.notification.swap.userOneId
+                          ? widget.notification.swap.userTowImage
+                          : widget.notification.swap.userOneImage,
+                      fit: BoxFit.cover,
+                      errorBuilder: (e, r, t) {
+                        return Image.asset('assets/images/logo.png');
+                      },
+                    ),
+                  ),
+                ),
+                title: Text(
+                  widget.myId == widget.notification.swap.userOneId
+                      ? widget.notification.swap.userTowName
+                      : widget.notification.swap.userOneName,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              _getConfirmationOverlay()
             ],
           ),
         ),
@@ -55,101 +74,72 @@ class _NotificationSwapConfirmationPendingState
   }
 
   Widget _getConfirmationOverlay() {
-    if (widget.canComplete) {
-      return Positioned.fill(
-        child: Container(
-          color: Colors.black38,
-          child: Center(
-            child: Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.clear,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      widget.onRefuse();
-                    },
-                  ),
+    if (!widget.canComplete) {
+      return Container(
+        child: Center(
+          child: Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Final approval',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  shape: BoxShape.circle,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.white,
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      widget.onFinished();
-                    },
-                  ),
+                  onPressed: () {
+                    widget.onRrjected();
+                  },
                 ),
-              ],
-            ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    widget.onCompleted();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       );
     } else {
-      return Positioned.fill(
-        child: Container(
-          color: Colors.black38,
-          child: Center(
-            child: Flex(
-              direction: Axis.vertical,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Pending Confirmation',
-              //    S.of(context).pendingConfirmation,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+      return Container(
+        color: Colors.black38,
+        child: Center(
+          child: Flex(
+            direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Pending Confirmation',
+                //    S.of(context).pendingConfirmation,
+                style: TextStyle(
+                  color: Colors.white,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
     }
-  }
-
-  Widget _getCardFooter() {
-    return Container(
-      height: 48,
-      child: Flex(
-        direction: Axis.horizontal,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage('${widget.notification.userImage}'),
-                ),
-              ),
-            ),
-          ),
-          // Text(widget.notification.gameTwo.userID == widget.myId
-          //     ? widget.notification.gameOne.userName
-          //     : widget.notification.gameTwo.userName)
-        ],
-      ),
-    );
   }
 }

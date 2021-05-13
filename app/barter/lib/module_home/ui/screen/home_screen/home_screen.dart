@@ -18,14 +18,8 @@ class HomeScreen extends StatefulWidget {
   final ActiveChatsScreen _activeChats;
   final NotificationScreen _notificationScreen;
 
-  HomeScreen(
-    this._settingsScreen,
-    this._servicesScreen,
-    this._profileScreen,
-    this._authService,
-    this._activeChats,
-    this._notificationScreen
-  );
+  HomeScreen(this._settingsScreen, this._servicesScreen, this._profileScreen,
+      this._authService, this._activeChats, this._notificationScreen);
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
@@ -83,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'notifications',
           ),

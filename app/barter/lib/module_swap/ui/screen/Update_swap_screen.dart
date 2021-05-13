@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:barter/module_swap/state_manager/update_swap_state_manager.dart';
-import 'package:barter/module_swap/ui/state/create_swap_state/swap_state.dart';
-import 'package:barter/module_swap/ui/state/create_swap_state/swap_state_init.dart';
 import 'package:barter/module_swap/ui/state/update_swap_state/update_swap_state.dart';
 import 'package:barter/module_swap/ui/state/update_swap_state/update_swap_state_loading.dart';
 import 'package:inject/inject.dart';
@@ -18,7 +16,7 @@ class UpdateSwapScreen extends StatefulWidget {
   _UpdateSwapScreenState createState() => _UpdateSwapScreenState();
 
   void updateSwap(SwapModel swap) {
-   _stateManager.updateSwap(this,swap);
+    _stateManager.updateSwap(this, swap);
   }
 }
 
@@ -36,15 +34,13 @@ class _UpdateSwapScreenState extends State<UpdateSwapScreen> {
         });
       }
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if(_currentState == null){
+    if (_currentState == null) {
       String swapId = ModalRoute.of(context).settings.arguments;
-      widget._stateManager.getSwapById(widget,swapId);
+      widget._stateManager.getSwapById(widget, swapId);
     }
     _currentState ??= SwapStateLoading(widget);
 

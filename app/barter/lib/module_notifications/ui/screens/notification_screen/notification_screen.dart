@@ -1,13 +1,11 @@
 import 'package:barter/module_auth/authorization_routes.dart';
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state.dart';
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state_loaded.dart';
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state_loading.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loaded.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loading.dart';
 import 'package:barter/module_profile/service/profile/profile.service.dart';
-import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/consts/keys.dart';
-import 'package:barter/generated/l10n.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_chat/args/chat_arguments.dart';
 import 'package:barter/module_chat/chat_routes.dart';
@@ -17,20 +15,17 @@ import 'package:barter/module_notifications/ui/widget/notification_confirmation_
 import 'package:barter/module_notifications/ui/widget/notification_confirmed/notification_confirmed.dart';
 import 'package:barter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:barter/module_notifications/ui/widget/notification_swap_start/notification_swap_start.dart';
-import 'package:barter/module_profile/profile_routes.dart';
 
 @provide
 class NotificationScreen extends StatefulWidget {
   final NotificationsStateManager _manager;
   final AuthService _authService;
   final ProfileService _myProfileService;
-//  final GamesListService _gamesListService;
 
   NotificationScreen(
     this._manager,
     this._myProfileService,
     this._authService,
-  //  this._gamesListService,
   );
 
   @override
@@ -38,32 +33,23 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  NotificationState currentState ;
+  NotificationState currentState;
   int viewLimit = 10;
   bool initiated = false;
-  //Games gameToChange;
 
-  
   List<NotificationModel> notifications;
 
   @override
   void initState() {
     super.initState();
-  currentState = NotificationStateLoading();
+    currentState = NotificationStateLoading();
 
-//    widget._authService.isLoggedIn.then((authorized) {
-//      if (authorized == false || authorized == null) {
-//        Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
-//        return;
-//      }
-//      widget._myProfileService.hasProfile().then((value) {
-//        if (value == false || value == null) {
-//          Navigator.of(context).pushNamed(ProfileRoutes.PROFILE_SCREEN);
-//          return;
-//        }
-//        setState(() {});
-//      });
-//    });
+    widget._authService.isLoggedIn.then((authorized) {
+      if (authorized == false || authorized == null) {
+        Navigator.of(context).pushNamed(AuthorizationRoutes.LOGIN_SCREEN);
+        return;
+      }
+    });
   }
 
   @override
@@ -105,10 +91,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
           children: [
             Text(
               'Error Loading Data',
-           //   S.of(context).errorLoadingData
+              //   S.of(context).errorLoadingData
             ),
             OutlinedButton(
-              child: Text( 'Retry'),// S.of(context).retry),
+              child: Text('Retry'), // S.of(context).retry),
               onPressed: () {
                 widget._manager.getNotifications();
               },
@@ -128,7 +114,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
           notCards.add(
             _getAppropriateNotificationCard(n, myId),
           );
-
         });
       }
     }
@@ -136,7 +121,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
-          SizedBox(height: 50,),
+          SizedBox(
+            height: 50,
+          ),
+          (notCards.isEmpty)?
+              Container(child:Text('No Notifications')):
           Flex(
             direction: Axis.vertical,
             children: notCards,
@@ -151,38 +140,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
     String myId,
   ) {
     if (n == null) {
+
       return Container();
     }
-  //  return Card(child: Text('Notification Status: ${n.status}'));
+    //  return Card(child: Text('Notification Status: ${n.status}'));
     if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
-      return NotificationSwapStart(
+      return myId != n.swap.userOneId
+          ? NotificationSwapStart(
+              notification: n,
+              myId: myId,
+              onChangeSwap: (accept) {
+                if (accept) {
+                  _onChangeRequest(n);
+                } else {
+                  widget._manager.setSwapReject(n);
+                }
+              })
+          : SizedBox.shrink();
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
+        n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
+      return NotificationSwapConfirmationPending(
+        canComplete: (myId == n.swap.userOneId) ? true : false,
         notification: n,
         myId: myId,
-        onChangeSwap:(accept){
-          if(accept){
-         _onChangeRequest(n);
-          }else{
-            _onChangeRequest(n);
-          }
-        }
+        onCompleted: () {
+          _onChangeRequest(n);
+        },
+        onRrjected: () {
+          widget._manager.setSwapReject(n);
+        },
       );
-    }
-    else if(n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED||n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED){
-      return  NotificationSwapConfirmationPending(
-        notification: n,
-        myId: myId,
-      );
-    }
-    else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED ) {
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED) {
       return NotificationOnGoing(
         notification: n,
         myId: myId,
         onChatRequested: () {
           var args = ChatArguments(
-            chatRoomId: n.chatRoomId,
-            notification: n,
-            myId:myId
-          );
+              chatRoomId: n.chatRoomId, notification: n, myId: myId);
 
           Navigator.of(context).pushNamed(
             ChatRoutes.chatRoute,
@@ -195,24 +189,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
         notification: n,
         myId: myId,
       );
-
     } else {
       return Card(child: Text('Notification Status: ${n.status}'));
     }
   }
 
   void _onChangeRequest(NotificationModel n) {
+    var dialog = Dialog(
+      child: Container(
+        height: 40,
+          alignment: Alignment.center,
+          child: Text('sending request',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+    );
 
-     var dialog = Dialog(
-       child: Text('sending request'),
-       );
-     
-
-    showDialog(context: context, builder: (context) => dialog)
-        .then((v) {
-        widget._manager.updateSwap(n);
+    showDialog(context: context, builder: (context) => dialog).then((v) {
+      if (n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
+        widget._manager.setSwapStarted(n);
+      } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
+          n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
+        widget._manager.setSwapComplete(n);
+      }
     });
   }
-
-
 }

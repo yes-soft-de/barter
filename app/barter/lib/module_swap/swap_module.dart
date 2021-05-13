@@ -12,14 +12,14 @@ class SwapModule extends YesModule {
   final SwapsScreen _swapsScreen;
   final CreateSwapScreen _createSwapScreen;
   final UpdateSwapScreen _updateSwapScreen;
-  SwapModule(this._swapsScreen,this._createSwapScreen,this._updateSwapScreen);
+  SwapModule(this._swapsScreen, this._createSwapScreen, this._updateSwapScreen);
 
   @override
   Map<String, WidgetBuilder> getRoutes() {
     return {
-      SwapRoutes.SWAPS_ROUTE : (context) => _swapsScreen,
+      SwapRoutes.SWAPS_ROUTE: (context) => _swapsScreen,
       SwapRoutes.CREATE_SWAP_ROUTE: (context) => _createSwapScreen,
-      SwapRoutes.UPDATE_SWAP_ROUTE: (context)=> _updateSwapScreen
+      SwapRoutes.UPDATE_SWAP_ROUTE: (context) => _updateSwapScreen
     };
   }
 }

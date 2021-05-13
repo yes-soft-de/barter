@@ -10,9 +10,8 @@ class SwapForm extends StatefulWidget {
   final Function(SwapModel) onSwapAdd;
 
   SwapForm(
-      {
-        @required this.serviceId,
-        @required this.myItems,
+      {@required this.serviceId,
+      @required this.myItems,
       @required this.targetItems,
       @required this.onSwapAdd});
 
@@ -26,14 +25,14 @@ class _SwapFormState extends State<SwapForm> {
 
   @override
   void initState() {
-
     widget.targetItems.forEach((element) {
-      if(element.id == widget.serviceId){
+      if (element.id == widget.serviceId) {
         selectedListItems2.add(element);
       }
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,7 +52,7 @@ class _SwapFormState extends State<SwapForm> {
                 ),
                 items: _getMyItemsDropDownList(),
                 onChanged: (s) {
-                 // _items1 = s;
+                  // _items1 = s;
                 },
               ),
             ),
@@ -76,22 +75,21 @@ class _SwapFormState extends State<SwapForm> {
                   hintStyle: TextStyle(fontSize: 16),
                 ),
                 items: _getTargetItemsDropDownList(),
-                onChanged: (s) {
-
-                },
+                onChanged: (s) {},
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: OutlineButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   widget.onSwapAdd(SwapModel(
-                  accepted: false,
-                    swapItemsOne: selectedListItems1,
-                    swapItemsTow: selectedListItems2
-                  ));
+                      accepted: false,
+                      swapItemsOne: selectedListItems1,
+                      swapItemsTow: selectedListItems2));
                 },
                 child: Text('send'),
               ),
@@ -105,42 +103,39 @@ class _SwapFormState extends State<SwapForm> {
   List<DropdownMenuItem> _getMyItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.myItems.forEach((element) {
-     if( selectedListItems1.contains(element)){
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected:true,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-     else{
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected: false,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-
-
+      if (selectedListItems1.contains(element)) {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: true,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      } else {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: false,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      }
     });
 
     return items;
@@ -149,11 +144,11 @@ class _SwapFormState extends State<SwapForm> {
   List<DropdownMenuItem> _getTargetItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.targetItems.forEach((element) {
-      if( selectedListItems2.contains(element)){
+      if (selectedListItems2.contains(element)) {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
-              selected:true,
+              selected: true,
               item: element,
               isSelected: (bool value) {
                 setState(() {
@@ -165,8 +160,7 @@ class _SwapFormState extends State<SwapForm> {
                 });
               },
             )));
-      }
-      else{
+      } else {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
@@ -183,8 +177,6 @@ class _SwapFormState extends State<SwapForm> {
               },
             )));
       }
-
-
     });
     return items;
   }

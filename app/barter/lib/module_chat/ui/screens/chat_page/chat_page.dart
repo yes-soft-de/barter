@@ -2,8 +2,6 @@ import 'package:barter/consts/keys.dart';
 import 'package:barter/module_notifications/service/notification_service/notification_service.dart';
 import 'package:barter/module_notifications/ui/widget/notification_change_swap_items/change_item_form.dart';
 import 'package:barter/module_swap/model/swap_items_model.dart';
-import 'package:barter/module_swap/model/swap_model.dart';
-import 'package:barter/module_swap/request/update_swap_request.dart';
 import 'package:barter/module_swap/service/swap_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +42,6 @@ class ChatPageState extends State<ChatPage> {
 
   List<ChatBubbleWidget> chatsMessagesWidgets = [];
 
-
   String chatRoomId;
   String myId;
   NotificationModel activeNotification;
@@ -52,7 +49,7 @@ class ChatPageState extends State<ChatPage> {
 
   List<SwapItemsModel> myServices = [];
   List<SwapItemsModel> targetServices = [];
-  bool getServices =true;
+  bool getServices = true;
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments is ChatArguments) {
@@ -64,23 +61,24 @@ class ChatPageState extends State<ChatPage> {
         activeNotification.swap = event.swap;
       });
 
-     // for get all services (for update)
+      // for get all services (for update)
 
-      if(getServices)
-      widget._swapService.getMyItems().then((value1) {
-        widget._swapService.getTargetItems(args.notification.restrictedItemsUserTwo[0].id.toString()).then((value2) {
-          if(value2 == null || value1 == null){
-            myServices = targetServices =null;
-          }else{
-            myServices = value1 ;
-            targetServices = value2;
-            getServices = ! getServices;
-            setState(() {
-            });
-          }
+      if (getServices)
+        widget._swapService.getMyItems().then((value1) {
+          widget._swapService
+              .getTargetItems(
+                  args.notification.restrictedItemsUserTwo[0].id.toString())
+              .then((value2) {
+            if (value2 == null || value1 == null) {
+              myServices = targetServices = null;
+            } else {
+              myServices = value1;
+              targetServices = value2;
+              getServices = !getServices;
+              setState(() {});
+            }
+          });
         });
-      });
-
     } else {
       chatRoomId = ModalRoute.of(context).settings.arguments;
     }
@@ -110,53 +108,83 @@ class ChatPageState extends State<ChatPage> {
           AppBar(
             title: Text(
               'Chat Room',
-                //S.of(context).chatRoom
+              //S.of(context).chatRoom
             ),
           ),
           Expanded(
             child: ListView(
               reverse: true,
               children: [
-
-              chatsMessagesWidgets != null
-                  ?
-              Column(
-                 children: chatsMessagesWidgets,
-              )
-                  : Center(
-                child: Text('Loading'
-                  //S.of(context).loading
-                ),
-              ),
-
-
-                (activeNotification.swap == null )
+                chatsMessagesWidgets != null
+                    ? Column(
+                        children: chatsMessagesWidgets,
+                      )
+                    : Center(
+                        child: Text('Loading'
+                            //S.of(context).loading
+                            ),
+                      ),
+                (activeNotification.swap == null)
                     ? Container()
                     : MediaQuery.of(context).viewInsets.bottom == 0
-                    ? FutureBuilder(
-                  future: widget._authService.userID,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<String> snapshot) {
-                    return  (myServices.isEmpty)?
-                    Text('Load Data')
-                        : (myServices == null || targetServices==null)?Text('Error in load services'):
-                    ChangeItemForm(
-                      onSwapChange: (notification){
-                        notification.status = (activeNotification.swap.userOneId == myId)?ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED:ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED;
-                        widget._notificationService.updateSwap(notification);
-                        widget._chatPageBloc
-                            .setNotificationComplete(notification);
-                        Scaffold.of(context)
-                            .showSnackBar(SnackBar(content: Text('Saving Data')));
-                        setState(() {});
-                      },
-                      notificationModel: activeNotification,
-                      myItems: myServices,
-                      targetItems: targetServices,
-                    );
-                  },
-                )
-                    : Container(),
+                        ? FutureBuilder(
+                            future: widget._authService.userID,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              return (myServices.isEmpty)
+                                  ? Text('Load Data')
+                                  : (myServices == null ||
+                                          targetServices == null)
+                                      ? Text('Error in load services')
+                                      : ChangeItemForm(
+                                          onSwapChange: (notification) {
+                                            if (activeNotification
+                                                    .swap.userOneId ==
+                                                myId) {
+                                              if (notification.status ==
+                                                  ApiKeys
+                                                      .KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
+                                                notification.status = ApiKeys
+                                                    .KEY_SWAP_STATUS_COMPLETE;
+                                              } else if (notification.status ==
+                                                  ApiKeys
+                                                      .KEY_SWAP_STATUS_STARTED) {
+                                                notification.status = ApiKeys
+                                                    .KEY_SWAP_STATUS_FIRST_USER_ACCEPTED;
+                                              }
+                                            } else if (activeNotification
+                                                    .swap.userTowId ==
+                                                myId) {
+                                              if (notification.status ==
+                                                  ApiKeys
+                                                      .KEY_SWAP_STATUS_FIRST_USER_ACCEPTED) {
+                                                notification.status = ApiKeys
+                                                    .KEY_SWAP_STATUS_COMPLETE;
+                                              } else if (notification.status ==
+                                                  ApiKeys
+                                                      .KEY_SWAP_STATUS_STARTED) {
+                                                notification.status = ApiKeys
+                                                    .KEY_SWAP_STATUS_SECOND_USER_ACCEPTED;
+                                              }
+                                            }
+                                            widget._notificationService
+                                                .updateSwap(notification);
+                                            widget._chatPageBloc
+                                                .setNotificationComplete(
+                                                    notification);
+                                            Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                    content:
+                                                        Text('Saving Data')));
+                                            setState(() {});
+                                          },
+                                          notificationModel: activeNotification,
+                                          myItems: myServices,
+                                          targetItems: targetServices,
+                                        );
+                            },
+                          )
+                        : Container(),
               ],
             ),
           ),

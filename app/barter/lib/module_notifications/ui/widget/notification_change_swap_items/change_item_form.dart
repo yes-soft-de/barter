@@ -1,8 +1,5 @@
-import 'package:barter/consts/keys.dart';
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:barter/module_swap/model/swap_items_model.dart';
-import 'package:barter/module_swap/model/swap_model.dart';
-import 'package:barter/module_swap/request/update_swap_request.dart';
 import 'package:barter/module_swap/ui/widget/swap_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +12,7 @@ class ChangeItemForm extends StatefulWidget {
   ChangeItemForm(
       {@required this.myItems,
       @required this.targetItems,
-        @required this.notificationModel,
+      @required this.notificationModel,
       @required this.onSwapChange});
 
   @override
@@ -32,24 +29,23 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
     super.initState();
   }
 
-
-  _init(){
+  _init() {
     widget.myItems.forEach((element1) {
-
       widget.notificationModel.restrictedItemsUserOne.forEach((element2) {
-        if(element1.id == element2.id.toString()){
+        if (element1.id == element2.id.toString()) {
           selectedListItems1.add(element1);
         }
       });
     });
     widget.targetItems.forEach((element1) {
       widget.notificationModel.restrictedItemsUserTwo.forEach((element2) {
-        if(element1.id == element2.id.toString()){
+        if (element1.id == element2.id.toString()) {
           selectedListItems2.add(element1);
         }
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -69,7 +65,7 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
                 ),
                 items: _getMyItemsDropDownList(),
                 onChanged: (s) {
-                 // _items1 = s;
+                  // _items1 = s;
                 },
               ),
             ),
@@ -92,37 +88,40 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
                   hintStyle: TextStyle(fontSize: 16),
                 ),
                 items: _getTargetItemsDropDownList(),
-                onChanged: (s) {
-
-                },
+                onChanged: (s) {},
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                RaisedButton(onPressed: (){
-                  // widget.onChangeSwap(false);
-                }
-                  ,color: Colors.blueAccent,
-                  child: Text('DECLINE',),
+                RaisedButton(
+                  onPressed: () {
+                    // widget.onChangeSwap(false);
+                  },
+                  color: Colors.blueAccent,
+                  child: Text(
+                    'DECLINE',
+                  ),
                 ),
-                SizedBox(width: 20,),
-                RaisedButton(onPressed: (){
-                widget.onSwapChange (NotificationModel(
-                    chatRoomId:  widget.notificationModel.chatRoomId,
-                    swapId:  widget.notificationModel.swapId,
-                    restrictedItemsUserOne: selectedListItems1,
-                    restrictedItemsUserTwo: selectedListItems2,
-                  ));
-
-                }
-                  ,color: Colors.blueAccent,
-                  child: Text('ACCEPT',),
+                SizedBox(
+                  width: 20,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    widget.onSwapChange(NotificationModel(
+                      chatRoomId: widget.notificationModel.chatRoomId,
+                      swapId: widget.notificationModel.swapId,
+                      restrictedItemsUserOne: selectedListItems1,
+                      restrictedItemsUserTwo: selectedListItems2,
+                    ));
+                  },
+                  color: Colors.blueAccent,
+                  child: Text(
+                    'ACCEPT',
+                  ),
                 )
               ],
             ),
-
           ],
         ),
       ),
@@ -132,42 +131,39 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
   List<DropdownMenuItem> _getMyItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.myItems.forEach((element) {
-     if( selectedListItems1.contains(element)){
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected:true,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-     else{
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected: false,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-
-
+      if (selectedListItems1.contains(element)) {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: true,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      } else {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: false,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      }
     });
 
     return items;
@@ -176,11 +172,11 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
   List<DropdownMenuItem> _getTargetItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.targetItems.forEach((element) {
-      if( selectedListItems2.contains(element)){
+      if (selectedListItems2.contains(element)) {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
-              selected:true,
+              selected: true,
               item: element,
               isSelected: (bool value) {
                 setState(() {
@@ -192,8 +188,7 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
                 });
               },
             )));
-      }
-      else{
+      } else {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
@@ -210,8 +205,6 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
               },
             )));
       }
-
-
     });
     return items;
   }

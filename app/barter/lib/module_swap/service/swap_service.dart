@@ -1,12 +1,11 @@
 import 'dart:async';
-
+import 'package:barter/consts/keys.dart';
 import 'package:barter/module_services/model/service_model.dart';
 import 'package:barter/module_services/service/services_service.dart';
 import 'package:barter/module_swap/model/swap_items_model.dart';
 import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:barter/module_swap/request/create_swap_request.dart';
 import 'package:barter/module_swap/request/update_swap_request.dart';
-import 'package:barter/module_swap/response/get_swap_response.dart';
 import 'package:barter/module_swap/response/swap_response.dart';
 import 'package:inject/inject.dart';
 import 'package:barter/module_swap/manager/swap_manager.dart';
@@ -30,7 +29,6 @@ class SwapService {
     });
     return items;
   }
-
 
   Future<List<SwapItemsModel>> getTargetItems(serviceId) async {
     List<ServiceModel> services =
@@ -69,7 +67,7 @@ class SwapService {
           userOneImage: element.userOneImage,
           userTowImage: element.userTwoImage,
           accepted: true,
-          chatRoomId: 'ksfieknfkeswnfclews testtttttttt'));
+          status: element.status));
     });
     return list;
   }
@@ -80,7 +78,7 @@ class SwapService {
       swapItemsOne: swapModel.swapItemsOne.map((e) => int.parse(e.id)).toList(),
       swapItemsTwo: swapModel.swapItemsTow.map((e) => int.parse(e.id)).toList(),
       cost: " ",
-      status: "init",
+      status: swapModel.status,
       date: DateTime.now().toString(),
     );
     var swapResponse = await _manager.updateSwap(request);
@@ -99,7 +97,7 @@ class SwapService {
         swapItemsTwo:
             swapModel.swapItemsTow.map((e) => int.parse(e.id)).toList(),
         cost: " ",
-        status: "init",
+        status: ApiKeys.KEY_SWAP_STATUS_INITIATED,
         date: DateTime.now().toString(),
         roomID: Uuid().v1(),
       ),
@@ -140,11 +138,16 @@ class SwapService {
 
   Future<List<SwapModel>> getSwapRequests() async {
     SwapListResponse response = await _manager.getMySwaps();
+
     if (response == null) return null;
+
+    //List<String> s = [ApiKeys.KEY_SWAP_STATUS_INITIATED,ApiKeys.KEY_SWAP_STATUS_COMPLETE,ApiKeys.KEY_SWAP_STATUS_STARTED,ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED];
 
     Map<String, SwapModel> swapMap = <String, SwapModel>{};
     String roomId;
     response.data.forEach((element) {
+      print('stateeeeeeeeeeeeeeeeeeeeeeeeee');
+      print('${element.id} : '+'${element.status}');
       // element.status == 'initiated' || element.status == 'started' &&
       if (element.roomID == null)
         roomId = Uuid().v1();
@@ -155,6 +158,8 @@ class SwapService {
         id: element.id.toString(),
         userOneName: element.userOneName,
         userTowName: element.userTwoName,
+        userOneId: element.userIdOne,
+        userTowId: element.userIdTwo,
         swapItemsOne: List.generate(
             element.swapItemsOne.length,
             (index) => SwapItemsModel(
@@ -168,13 +173,12 @@ class SwapService {
         userOneImage: element.userOneImage,
         userTowImage: element.userTwoImage,
         accepted: element.status == 'accept' ? true : false,
-        status: 'first user accept' ,//element.status,
+        status: element.status,
         chatRoomId: roomId,
       );
 
       swapMap[roomId] = e;
     });
-
 
     return swapMap.values.toList();
   }

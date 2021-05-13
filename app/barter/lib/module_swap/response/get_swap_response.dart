@@ -1,6 +1,3 @@
-
-
-
 class GetSwapResponse {
   String statusCode;
   String msg;
@@ -12,7 +9,6 @@ class GetSwapResponse {
     statusCode = json['status_code'];
     msg = json['msg'];
     data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
-
   }
 
   Map<String, dynamic> toJson() {
@@ -43,18 +39,18 @@ class Data {
 
   Data(
       {this.userIdOne,
-        this.userIdTwo,
-        this.swapItemsOne,
-        this.swapItemsTwo,
-        this.id,
-        this.date,
-        this.userOneName,
-        this.userOneImage,
-        this.userTwoName,
-        this.userTwoImage,
-        this.cost,
-        this.roomID,
-        this.status});
+      this.userIdTwo,
+      this.swapItemsOne,
+      this.swapItemsTwo,
+      this.id,
+      this.date,
+      this.userOneName,
+      this.userOneImage,
+      this.userTwoName,
+      this.userTwoImage,
+      this.cost,
+      this.roomID,
+      this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     userIdOne = json['userIdOne'];
@@ -237,4 +233,3 @@ class Location {
     return data;
   }
 }
-

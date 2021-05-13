@@ -13,7 +13,7 @@ class ListItem extends StatefulWidget {
 
 class _ListItemState extends State<ListItem> {
   _ListItemState(this.isSelected);
-  bool isSelected ;
+  bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +32,15 @@ class _ListItemState extends State<ListItem> {
           ),
           isSelected
               ? Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.check_circle,
-                color: Colors.blue,
-              ),
-            ),
-          )
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.check_circle,
+                      color: Colors.blue,
+                    ),
+                  ),
+                )
               : Container()
         ],
       ),

@@ -1,8 +1,6 @@
-
 import 'package:barter/module_swap/model/swap_items_model.dart';
 import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:barter/module_swap/request/update_swap_request.dart';
-import 'package:barter/module_swap/ui/screen/Create_swap_screen.dart';
 import 'package:barter/module_swap/ui/screen/Update_swap_screen.dart';
 import 'package:barter/module_swap/ui/state/update_swap_state/update_swap_state.dart';
 import 'package:barter/module_swap/ui/state/update_swap_state/update_swap_state_error.dart';
@@ -20,11 +18,11 @@ class UpdateSwapStateManager {
 
   UpdateSwapStateManager(this._service);
 
-  void updateSwap(UpdateSwapScreen screen , SwapModel swapModel){
-    _service.updateSwap(swapModel).then((value){
-      if(value != null){
+  void updateSwap(UpdateSwapScreen screen, SwapModel swapModel) {
+    _service.updateSwap(swapModel).then((value) {
+      if (value != null) {
         stateStream.add(UpdateSwapStateSuccess(screen));
-      }else{
+      } else {
         print(value);
         stateStream.add(UpdateSwapStateError(screen, 'Error update The Swap'));
       }
@@ -33,46 +31,47 @@ class UpdateSwapStateManager {
 
   void getSwapById(UpdateSwapScreen screenState, id) {
     _service.getSwapById(id).then((value) {
-      if(value != null){
+      if (value != null) {
         _getItems(value.swapItemsTow[0].id).then((items) {
-          if(items!=null){
-            stateStream.add(UpdateSwapStateGotSwap(screenState,
+          if (items != null) {
+            stateStream.add(UpdateSwapStateGotSwap(
+              screenState,
               UpdateSwapRequest(
-                swapID:id,
-                swapItemsOne: value.swapItemsOne.map((e) =>int.parse(e.id)).toList() ,
-                swapItemsTwo:value.swapItemsTow.map((e) =>int.parse(e.id)).toList() ,
+                swapID: id,
+                swapItemsOne:
+                    value.swapItemsOne.map((e) => int.parse(e.id)).toList(),
+                swapItemsTwo:
+                    value.swapItemsTow.map((e) => int.parse(e.id)).toList(),
               ),
-                myItems: items['myItems'],
-                targetItems: items['targetItems'],
+              myItems: items['myItems'],
+              targetItems: items['targetItems'],
             ));
-          }else{
-            stateStream.add(UpdateSwapStateError(screenState, 'Error swap items loading!'));
+          } else {
+            stateStream.add(
+                UpdateSwapStateError(screenState, 'Error swap items loading!'));
           }
         });
-      }else{
-        stateStream.add(UpdateSwapStateError(screenState, 'Error loading Swap detial!'));
+      } else {
+        stateStream.add(
+            UpdateSwapStateError(screenState, 'Error loading Swap detial!'));
       }
     });
-
   }
- Future<Map<String , List<SwapItemsModel>>> _getItems(id){
-   return    _service.getMyItems().then((value1) {
-     if (value1 != null) {
-      return  _service.getTargetItems(id).then((value2) {
-         if (value2 != null) {
-          return {
-            'myItems':value1,
-            'targetItems':value2
-          };
-         } else {
-          return null;
-         }
-       });
-     } else {
-       return null;
-     }
-   });
-    return null;
- }
 
+  Future<Map<String, List<SwapItemsModel>>> _getItems(id) {
+    return _service.getMyItems().then((value1) {
+      if (value1 != null) {
+        return _service.getTargetItems(id).then((value2) {
+          if (value2 != null) {
+            return {'myItems': value1, 'targetItems': value2};
+          } else {
+            return null;
+          }
+        });
+      } else {
+        return null;
+      }
+    });
+    return null;
+  }
 }

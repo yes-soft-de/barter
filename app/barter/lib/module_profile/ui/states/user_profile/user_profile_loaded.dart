@@ -29,16 +29,18 @@ class UserProfileStateLoaded extends UserProfileState {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Container(
-                          child: (model.image == null)?
-                              Image.asset('assets/images/logo.png'):
-                          Image.network(  model.image.contains('http')
-                              ? model.image
-                              : Urls.IMAGES_ROOT + model.image,
-                            fit: BoxFit.cover,
-                            errorBuilder: (e,r,t){
-                              return Image.asset('assets/images/logo.png');
-                            },
-                          ),
+                          child: (model.image == null)
+                              ? Image.asset('assets/images/logo.png')
+                              : Image.network(
+                                  model.image.contains('http')
+                                      ? model.image
+                                      : Urls.IMAGES_ROOT + model.image,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (e, r, t) {
+                                    return Image.asset(
+                                        'assets/images/logo.png');
+                                  },
+                                ),
                         ),
                       ),
                     ),
@@ -46,7 +48,7 @@ class UserProfileStateLoaded extends UserProfileState {
             ),
             Text(
               '${model.firstName} ',
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -62,7 +64,10 @@ class UserProfileStateLoaded extends UserProfileState {
 
   Widget _getUserMetrics(BuildContext context) {
     var children = <Widget>[];
-    children.add(Text((model.type == 'User')?'Personal Account':model.type +' Account'),
+    children.add(
+      Text((model.type == 'User')
+          ? 'Personal Account'
+          : model.type + ' Account'),
     );
     return Column(
       children: children,

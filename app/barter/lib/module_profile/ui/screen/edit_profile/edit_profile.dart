@@ -1,4 +1,3 @@
-
 import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_profile/request/profile/profile_request.dart';
 import 'package:barter/module_profile/state_manager/edit_profile.dart';
@@ -29,8 +28,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
-  void uploadImage(ProfileRequest request,services) {
-    widget._stateManager.uploadImage(this, request,services);
+  void uploadImage(ProfileRequest request, services) {
+    widget._stateManager.uploadImage(this, request, services);
   }
 
   @override
@@ -51,7 +50,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       states.add(ProfileStateLoading(this));
     }
     return Scaffold(
-      body:SafeArea(child: states.last.getUI(context)),
+      body: SafeArea(child: states.last.getUI(context)),
     );
   }
 }

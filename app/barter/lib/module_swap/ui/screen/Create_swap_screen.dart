@@ -16,7 +16,7 @@ class CreateSwapScreen extends StatefulWidget {
   _CreateSwapScreenState createState() => _CreateSwapScreenState();
 
   void addSwap(SwapModel swap) {
-    _stateManager.createSwap(this,swap);
+    _stateManager.createSwap(this, swap);
   }
 }
 
@@ -34,15 +34,13 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
         });
       }
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if(_currentState==null){
+    if (_currentState == null) {
       String serviceId = ModalRoute.of(context).settings.arguments;
-      widget._stateManager.getItems(widget,serviceId);
+      widget._stateManager.getItems(widget, serviceId);
     }
     _currentState ??= SwapStateInit(widget);
 

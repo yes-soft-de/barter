@@ -1,4 +1,5 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
+import 'package:barter/consts/keys.dart';
 import 'package:barter/module_swap/service/swap_service.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,12 +19,12 @@ class ChatPageBloc {
   bool listening = true;
 
   final ChatService _chatService;
-  final SwapService _swapService;
+  // final SwapService _swapService;
   final NotificationService _notificationService;
 
   ChatPageBloc(
     this._chatService,
-    this._swapService,
+    // this._swapService,
     this._notificationService,
   );
 
@@ -34,6 +35,10 @@ class ChatPageBloc {
       _chatBlocSubject.stream;
   final PublishSubject<NotificationModel> _notificationUpdateSubject =
       PublishSubject();
+
+  final PublishSubject<List<NotificationModel>> _acticeChats = PublishSubject();
+
+  Stream<List<NotificationModel>> get acticeChatsStream => _acticeChats.stream;
 
   Stream<NotificationModel> get notificationStream =>
       _notificationUpdateSubject.stream;
@@ -56,8 +61,23 @@ class ChatPageBloc {
   }
 
   void setNotificationComplete(NotificationModel swapItemModel) {
+    // _swapService.updateSwap(swapItemModel);
+  }
 
-   // _swapService.updateSwap(swapItemModel);
+  void getActiveChats() {
+    _notificationService.getNotifications().then((value) {
+      List<NotificationModel> notificatios = [];
+      value.forEach((element) {
+        if (element.chatRoomId != null &&
+            (element.swap.status ==
+                    ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
+                element.swap.status ==
+                    ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED)) {
+          notificatios.add(element);
+        }
+      });
+      _acticeChats.add(notificatios);
+    });
   }
 
   void checkSwapUpdates(String id) {
@@ -65,10 +85,7 @@ class ChatPageBloc {
       value.forEach((element) {
         if (element.chatRoomId == id) {
           _notificationUpdateSubject.add(NotificationModel(
-            chatRoomId: id,
-            swapId: element.swapId,
-            swap: element.swap
-          ));
+              chatRoomId: id, swapId: element.swapId, swap: element.swap));
         }
       });
     });

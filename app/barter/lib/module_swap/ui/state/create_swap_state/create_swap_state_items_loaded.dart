@@ -1,4 +1,3 @@
-
 import 'package:barter/module_swap/model/swap_items_model.dart';
 import 'package:barter/module_swap/ui/screen/Create_swap_screen.dart';
 import 'package:barter/module_swap/ui/state/create_swap_state/swap_state.dart';
@@ -11,16 +10,18 @@ class CreateSwapStateItemsAdded extends CreateSwapState {
   final String serviceId;
   final List<SwapItemsModel> myItems;
   final List<SwapItemsModel> targetItems;
-  CreateSwapStateItemsAdded(CreateSwapScreen screen, {this.serviceId,this.myItems,this.targetItems}) : super(screen);
+  CreateSwapStateItemsAdded(CreateSwapScreen screen,
+      {this.serviceId, this.myItems, this.targetItems})
+      : super(screen);
 
   @override
   Widget getUI(BuildContext context) {
     return SwapForm(
-      serviceId:serviceId,
+      serviceId: serviceId,
       myItems: myItems,
-      targetItems:targetItems,
+      targetItems: targetItems,
       onSwapAdd: (swap) {
-       screen.addSwap(swap);
+        screen.addSwap(swap);
       },
     );
   }

@@ -15,13 +15,18 @@ class SwapRepository {
   SwapRepository(this._authService);
 
   Future<SwapListResponse> getSwaps() async {
-    var response = await _apiClient.get(Urls.SWAP_LIST_API,);
+    var response = await _apiClient.get(
+      Urls.SWAP_LIST_API,
+    );
     if (response == null) return null;
     return SwapListResponse.fromJson(response);
   }
 
   Future<CreateSwapResponse> createSwaps(CreateSwapRequest request) async {
     String token;
+    print('=======================================================');
+    print(request.toJson());
+    print('=======================================================');
     try {
       await _authService.refreshToken();
       token = await _authService.getToken();
@@ -30,16 +35,16 @@ class SwapRepository {
     }
     if (token == null) throw UnauthorizedException('Get Profile Null Token');
 
-    var response =
-        await _apiClient.post(Urls.CREATE_SWAP_API, request.toJson(),  headers: {'Authorization': 'Bearer ' + token});
+    var response = await _apiClient.post(Urls.CREATE_SWAP_API, request.toJson(),
+        headers: {'Authorization': 'Bearer ' + token});
 
     if (response == null) return null;
     return CreateSwapResponse.fromJson(response);
   }
 
   Future<CreateSwapResponse> updateSwaps(UpdateSwapRequest request) async {
-
-    print('===================== start update from repository =================');
+    print(
+        '===================== start update from repository =================');
     print(request.swapID);
     print(request.toJson());
     String token;
@@ -52,22 +57,23 @@ class SwapRepository {
     if (token == null) throw UnauthorizedException('Get Profile Null Token');
 
     var response = await _apiClient.put(
-        '${Urls.UPDATE_SWAP_API}', request.toJson(),headers: {'Authorization': 'Bearer ' + token});
-    print('===================== end update from repository =================');
+        '${Urls.UPDATE_SWAP_API}', request.toJson(),
+        headers: {'Authorization': 'Bearer ' + token});
 
     if (response == null) return null;
     return CreateSwapResponse.fromJson(response);
   }
 
-  Future<SwapListResponse> getSwapById(swapId)async {
-    var response =
-    await _apiClient.get('${Urls.SWAP_BY_ID_API}/$swapId',);
+  Future<SwapListResponse> getSwapById(swapId) async {
+    var response = await _apiClient.get(
+      '${Urls.SWAP_BY_ID_API}/$swapId',
+    );
 
     if (response == null) return null;
     return SwapListResponse.fromJson(response);
   }
 
-  Future<SwapListResponse> getMySwaps()async {
+  Future<SwapListResponse> getMySwaps() async {
     String token;
     try {
       await _authService.refreshToken();
@@ -77,12 +83,11 @@ class SwapRepository {
     }
     if (token == null) throw UnauthorizedException('Get Profile Null Token');
 
-    var response =
-    await _apiClient.get('${Urls.SWAP_BY_USER_ID_API}',headers: {'Authorization': 'Bearer ' + token});
+    var response = await _apiClient.get('${Urls.SWAP_BY_USER_ID_API}',
+        headers: {'Authorization': 'Bearer ' + token});
 
     if (response == null) return null;
 
     return SwapListResponse.fromJson(response);
   }
 }
-

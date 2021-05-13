@@ -20,12 +20,11 @@ class _NotificationCompleteState extends State<NotificationComplete> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 16.0),
       child: Card(
-        elevation: 4,
-        color: Theme.of(context).brightness != Brightness.dark
-            ? Colors.white
-            : Colors.black,
-        child: _getConfirmationOverlay()
-      ),
+          elevation: 4,
+          color: Theme.of(context).brightness != Brightness.dark
+              ? Colors.white
+              : Colors.black,
+          child: _getConfirmationOverlay()),
     );
   }
 
@@ -40,29 +39,38 @@ class _NotificationCompleteState extends State<NotificationComplete> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ListTile(
-              leading:ClipRRect(
+              leading: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: SizedBox(
                   width: 60,
                   height: 100,
-                  child: Image.network(widget.notification.swap.userTowImage,
+                  child: Image.network(
+                    widget.myId == widget.notification.swap.userOneId
+                        ? widget.notification.swap.userTowImage
+                        : widget.notification.swap.userOneImage,
                     fit: BoxFit.cover,
-                    errorBuilder: (e,r,t){
+                    errorBuilder: (e, r, t) {
                       return Image.asset('assets/images/logo.png');
                     },
                   ),
                 ),
-              ) ,
-              title:  Text(widget.notification.swap.userTowName,style: TextStyle(color: Colors.white,),),
+              ),
+              title: Text(
+                widget.myId == widget.notification.swap.userOneId
+                    ? widget.notification.swap.userTowName
+                    : widget.notification.swap.userOneName,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
             Text(
               'Swap Completed',
               //S.of(context).swapCompleted,
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-              ),
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),

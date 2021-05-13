@@ -31,7 +31,6 @@ class ServiceCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
-
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -41,7 +40,6 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   Container(
                     color: Theme.of(context).primaryColor,
                     padding: EdgeInsets.all(8),
@@ -73,7 +71,9 @@ class ServiceCard extends StatelessWidget {
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(SwapRoutes.CREATE_SWAP_ROUTE,arguments: id);
+                      Navigator.of(context).pushNamed(
+                          SwapRoutes.CREATE_SWAP_ROUTE,
+                          arguments: id);
                     },
                     child: Text(
                       'Request'.toUpperCase(),
@@ -82,7 +82,6 @@ class ServiceCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 ],
               ),
               Padding(

@@ -24,7 +24,6 @@ class ProfileService {
     this._servicesService,
   );
 
-
   Future<bool> hasProfile() async {
     String userImage = await _preferencesHelper.getImage();
     return userImage != null;
@@ -33,12 +32,17 @@ class ProfileService {
   Future<ProfileModel> get profile async {
     var username = await _preferencesHelper.getUsername();
     var image = await _preferencesHelper.getImage();
-    return ProfileModel(firstName: username, image: image,);
+    return ProfileModel(
+      firstName: username,
+      image: image,
+    );
   }
+
   // ignore: missing_return
   Future<ProfileModel> getMyProfile() async {
     try {
       ProfileResponseModel responseModel = await _manager.getMyProfile();
+
       String role = responseModel.role == 'ROLE_USER' ? 'User' : 'Company';
 
       // for laze loaded
@@ -46,6 +50,7 @@ class ProfileService {
 
       // for eager loaded
       List<ServiceModel> _services = [];
+
       responseModel.services.forEach((element) {
         ServiceModel serviceModel = ServiceModel(
             id: element.id.toString(),

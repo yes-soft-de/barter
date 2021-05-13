@@ -179,7 +179,33 @@ void main() async {
             ))),
             AuthService(
                 AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
-            ActiveChatsScreen(),
+            ActiveChatsScreen(
+              ChatPageBloc(
+                ChatService(ChatManager(ChatRepository())),
+//                SwapService(
+//                  SwapManager(SwapRepository(
+//                    AuthService(AuthPrefsHelper(),
+//                        AuthManager(AuthRepository(ApiClient()))),
+//                  )),
+//                  ServicesService(ServicesRepository(AuthService(
+//                      AuthPrefsHelper(),
+//                      AuthManager(AuthRepository(ApiClient()))))),
+//                ),
+                NotificationService(
+                    SwapService(
+                        SwapManager(SwapRepository(
+                          AuthService(AuthPrefsHelper(),
+                              AuthManager(AuthRepository(ApiClient()))),
+                        )),
+                        ServicesService(ServicesRepository(AuthService(
+                            AuthPrefsHelper(),
+                            AuthManager(AuthRepository(ApiClient())))))),
+                    AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient())))),
+              ),
+              AuthService(
+                  AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
+            ),
             NotificationScreen(
               NotificationsStateManager(
                   NotificationService(
@@ -216,7 +242,6 @@ void main() async {
               AuthService(
                   AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
             ))),
-
         SettingsModule(SettingsScreen(
           AuthService(
               AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
@@ -259,45 +284,56 @@ void main() async {
               ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
                   AuthManager(AuthRepository(ApiClient()))))),
             )))),
-        ChatModule(ChatPage(ChatPageBloc(ChatService(ChatManager(ChatRepository())),SwapService(
-          SwapManager(SwapRepository(
-            AuthService(AuthPrefsHelper(),
-                AuthManager(AuthRepository(ApiClient()))),
-          )),
-          ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
-              AuthManager(AuthRepository(ApiClient()))))),
-        ),NotificationService(
-            SwapService(
+        ChatModule(
+            ChatPage(
+              ChatPageBloc(
+                ChatService(ChatManager(ChatRepository())),
+//                SwapService(
+//                  SwapManager(SwapRepository(
+//                    AuthService(AuthPrefsHelper(),
+//                        AuthManager(AuthRepository(ApiClient()))),
+//                  )),
+//                  ServicesService(ServicesRepository(AuthService(
+//                      AuthPrefsHelper(),
+//                      AuthManager(AuthRepository(ApiClient()))))),
+//                ),
+                NotificationService(
+                    SwapService(
+                        SwapManager(SwapRepository(
+                          AuthService(AuthPrefsHelper(),
+                              AuthManager(AuthRepository(ApiClient()))),
+                        )),
+                        ServicesService(ServicesRepository(AuthService(
+                            AuthPrefsHelper(),
+                            AuthManager(AuthRepository(ApiClient())))))),
+                    AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient())))),
+              ),
+              AuthService(
+                  AuthPrefsHelper(), AuthManager(AuthRepository(ApiClient()))),
+              SwapService(
                 SwapManager(SwapRepository(
                   AuthService(AuthPrefsHelper(),
                       AuthManager(AuthRepository(ApiClient()))),
                 )),
                 ServicesService(ServicesRepository(AuthService(
                     AuthPrefsHelper(),
-                    AuthManager(AuthRepository(ApiClient())))))),
-            AuthService(AuthPrefsHelper(),
-                AuthManager(AuthRepository(ApiClient())))),),AuthService(AuthPrefsHelper(),
-            AuthManager(AuthRepository(ApiClient()))),SwapService(
-          SwapManager(SwapRepository(
-            AuthService(AuthPrefsHelper(),
-                AuthManager(AuthRepository(ApiClient()))),
-          )),
-          ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
-              AuthManager(AuthRepository(ApiClient()))))),
-        ),
-          NotificationService(
-              SwapService(
-                  SwapManager(SwapRepository(
-                    AuthService(AuthPrefsHelper(),
-                        AuthManager(AuthRepository(ApiClient()))),
-                  )),
-                  ServicesService(ServicesRepository(AuthService(
-                      AuthPrefsHelper(),
-                      AuthManager(AuthRepository(ApiClient())))))),
-              AuthService(AuthPrefsHelper(),
-                  AuthManager(AuthRepository(ApiClient()))))
-            ,ImageUploadService(UploadManager(UploadRepository())),),AuthGuard(SharedPreferencesHelper()))
-        ,
+                    AuthManager(AuthRepository(ApiClient()))))),
+              ),
+              NotificationService(
+                  SwapService(
+                      SwapManager(SwapRepository(
+                        AuthService(AuthPrefsHelper(),
+                            AuthManager(AuthRepository(ApiClient()))),
+                      )),
+                      ServicesService(ServicesRepository(AuthService(
+                          AuthPrefsHelper(),
+                          AuthManager(AuthRepository(ApiClient())))))),
+                  AuthService(AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient())))),
+              ImageUploadService(UploadManager(UploadRepository())),
+            ),
+            AuthGuard(SharedPreferencesHelper())),
       ));
     }, onError: (error, stackTrace) {
       new Logger().error(
@@ -316,8 +352,14 @@ class MyApp extends StatefulWidget {
   final SwapModule _swapModule;
   final ChatModule _chatModule;
 
-  MyApp(this._authorizationModule, this._servicesModule, this._profileModule,
-      this._homeModule, this._settingsModule, this._swapModule,this._chatModule);
+  MyApp(
+      this._authorizationModule,
+      this._servicesModule,
+      this._profileModule,
+      this._homeModule,
+      this._settingsModule,
+      this._swapModule,
+      this._chatModule);
 
   @override
   State<StatefulWidget> createState() => _MyAppState();

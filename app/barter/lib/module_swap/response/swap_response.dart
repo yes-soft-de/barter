@@ -44,18 +44,18 @@ class Data {
 
   Data(
       {this.userIdOne,
-        this.userIdTwo,
-        this.swapItemsOne,
-        this.swapItemsTwo,
-        this.id,
-        this.date,
-        this.userOneName,
-        this.userOneImage,
-        this.userTwoName,
-        this.userTwoImage,
-        this.cost,
-        this.roomID,
-        this.status});
+      this.userIdTwo,
+      this.swapItemsOne,
+      this.swapItemsTwo,
+      this.id,
+      this.date,
+      this.userOneName,
+      this.userOneImage,
+      this.userTwoName,
+      this.userTwoImage,
+      this.cost,
+      this.roomID,
+      this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     userIdOne = json['userIdOne'];

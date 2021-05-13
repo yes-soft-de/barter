@@ -13,7 +13,7 @@ class UpdateSwapForm extends StatefulWidget {
   UpdateSwapForm(
       {@required this.myItems,
       @required this.targetItems,
-        @required this.request,
+      @required this.request,
       @required this.onSwapUpdate});
 
   @override
@@ -30,23 +30,23 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
     super.initState();
   }
 
-
-  _init(){
+  _init() {
     widget.myItems.forEach((element1) {
       widget.request.swapItemsOne.forEach((element2) {
-        if(element1.id == element2.toString()){
+        if (element1.id == element2.toString()) {
           selectedListItems1.add(element1);
         }
       });
     });
     widget.targetItems.forEach((element1) {
       widget.request.swapItemsTwo.forEach((element2) {
-        if(element1.id == element2.toString()){
+        if (element1.id == element2.toString()) {
           selectedListItems2.add(element1);
         }
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -66,7 +66,7 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
                 ),
                 items: _getMyItemsDropDownList(),
                 onChanged: (s) {
-                 // _items1 = s;
+                  // _items1 = s;
                 },
               ),
             ),
@@ -89,23 +89,22 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
                   hintStyle: TextStyle(fontSize: 16),
                 ),
                 items: _getTargetItemsDropDownList(),
-                onChanged: (s) {
-
-                },
+                onChanged: (s) {},
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: OutlineButton(
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
                   widget.onSwapUpdate(SwapModel(
-                    id:widget.request.swapID,
-                    accepted: false,
-                    swapItemsOne: selectedListItems1,
-                    swapItemsTow: selectedListItems2
-                  ));
+                      id: widget.request.swapID,
+                      accepted: false,
+                      swapItemsOne: selectedListItems1,
+                      swapItemsTow: selectedListItems2));
                 },
                 child: Text('send'),
               ),
@@ -119,42 +118,39 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
   List<DropdownMenuItem> _getMyItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.myItems.forEach((element) {
-     if( selectedListItems1.contains(element)){
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected:true,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-     else{
-       items.add(DropdownMenuItem(
-           value: element.id,
-           child: ListItem(
-             selected: false,
-             item: element,
-             isSelected: (bool value) {
-               setState(() {
-                 if (value) {
-                   selectedListItems1.add(element);
-                 } else {
-                   selectedListItems1.remove(element);
-                 }
-               });
-             },
-           )));
-     }
-
-
+      if (selectedListItems1.contains(element)) {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: true,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      } else {
+        items.add(DropdownMenuItem(
+            value: element.id,
+            child: ListItem(
+              selected: false,
+              item: element,
+              isSelected: (bool value) {
+                setState(() {
+                  if (value) {
+                    selectedListItems1.add(element);
+                  } else {
+                    selectedListItems1.remove(element);
+                  }
+                });
+              },
+            )));
+      }
     });
 
     return items;
@@ -163,11 +159,11 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
   List<DropdownMenuItem> _getTargetItemsDropDownList() {
     var items = <DropdownMenuItem>[];
     widget.targetItems.forEach((element) {
-      if( selectedListItems2.contains(element)){
+      if (selectedListItems2.contains(element)) {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
-              selected:true,
+              selected: true,
               item: element,
               isSelected: (bool value) {
                 setState(() {
@@ -179,8 +175,7 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
                 });
               },
             )));
-      }
-      else{
+      } else {
         items.add(DropdownMenuItem(
             value: element.id,
             child: ListItem(
@@ -197,8 +192,6 @@ class _UpdateSwapFormState extends State<UpdateSwapForm> {
               },
             )));
       }
-
-
     });
     return items;
   }

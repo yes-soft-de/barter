@@ -1,6 +1,6 @@
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state.dart';
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state_loaded.dart';
-import 'package:barter/module_notifications/ui/state/service_list_state/notification_state_loading.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loaded.dart';
+import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loading.dart';
 import 'package:barter/module_swap/service/swap_service.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
@@ -33,13 +33,24 @@ class NotificationsStateManager {
     });
   }
 
-  void updateSwap(NotificationModel swapItemModel) {
-
-     swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_STARTED;
-     _service.updateSwap(swapItemModel).then((value) {
-       if(value!=null)
-       getNotifications();
-     });
+  void setSwapStarted(NotificationModel swapItemModel) {
+    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_STARTED;
+    _service.updateSwap(swapItemModel).then((value) {
+      if (value != null) getNotifications();
+    });
   }
 
+  void setSwapComplete(NotificationModel swapItemModel) {
+    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_COMPLETE;
+    _service.updateSwap(swapItemModel).then((value) {
+      if (value != null) getNotifications();
+    });
+  }
+
+  void setSwapReject(NotificationModel swapItemModel) {
+    swapItemModel.status = ApiKeys.KEY_SWAP_STATUS_REJECTED;
+    _service.updateSwap(swapItemModel).then((value) {
+      if (value != null) getNotifications();
+    });
+  }
 }

@@ -1,4 +1,3 @@
-import 'package:barter/module_services/service/services_service.dart';
 import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:barter/module_swap/ui/screen/Create_swap_screen.dart';
 import 'package:barter/module_swap/ui/state/create_swap_state/create_swap_state_items_loaded.dart';
@@ -18,41 +17,36 @@ class CreateSwapStateManager {
 
   CreateSwapStateManager(this._service);
 
-
-  void createSwap(CreateSwapScreen screen , SwapModel swapModel){
-    _service.createSwap(swapModel).then((value){
-      if(value != null){
+  void createSwap(CreateSwapScreen screen, SwapModel swapModel) {
+    _service.createSwap(swapModel).then((value) {
+      if (value != null) {
         stateStream.add(CreateSwapStateSuccess(screen));
-      }else{
+      } else {
         print(value);
         stateStream.add(CreateSwapStateError(screen, 'Error Send The Swap'));
       }
     });
   }
 
-  void getItems(CreateSwapScreen screen,serviceId){
+  void getItems(CreateSwapScreen screen, serviceId) {
     stateStream.add(SwapStateInit(screen));
     _service.getMyItems().then((myItems) {
-      if(myItems !=null){
-        _service.getTargetItems(serviceId).then((targetItems){
-          if(targetItems != null){
+      if (myItems != null) {
+        _service.getTargetItems(serviceId).then((targetItems) {
+          if (targetItems != null) {
+            stateStream.add(CreateSwapStateItemsAdded(screen,
+                serviceId: serviceId,
+                myItems: myItems,
+                targetItems: targetItems));
+          } else {
             stateStream.add(
-                CreateSwapStateItemsAdded(
-                  screen,
-                    serviceId:serviceId,
-                  myItems:myItems,
-                  targetItems: targetItems
-                )
-            );
-          }else{
-            stateStream.add(CreateSwapStateError(screen, 'Error loading target services!'));
+                CreateSwapStateError(screen, 'Error loading target services!'));
           }
         });
-      }else{
-        stateStream.add(CreateSwapStateError(screen, 'Error loading my services!'));
+      } else {
+        stateStream
+            .add(CreateSwapStateError(screen, 'Error loading my services!'));
       }
-    });}
-
-
-
+    });
+  }
 }

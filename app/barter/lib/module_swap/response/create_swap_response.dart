@@ -23,6 +23,7 @@ class CreateSwapResponse {
     return data;
   }
 }
+
 class Data {
   String userIdOne;
   String userIdTwo;
@@ -40,30 +41,29 @@ class Data {
 
   Data(
       {this.userIdOne,
-        this.userIdTwo,
-        this.swapItemsOne,
-        this.swapItemsTwo,
-        this.id,
-        this.date,
-        this.userOneName,
-        this.userOneImage,
-        this.userTwoName,
-        this.userTwoImage,
-        this.cost,
-        this.roomID,
-        this.status});
+      this.userIdTwo,
+      this.swapItemsOne,
+      this.swapItemsTwo,
+      this.id,
+      this.date,
+      this.userOneName,
+      this.userOneImage,
+      this.userTwoName,
+      this.userTwoImage,
+      this.cost,
+      this.roomID,
+      this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     userIdOne = json['userIdOne'];
     userIdTwo = json['userIdTwo'];
     if (json['swapItemsOne'] != null) {
       swapItemsOne = json['swapItemsOne'].cast<int>();
-
     }
     if (json['swapItemsTwo'] != null) {
       swapItemsTwo = json['swapItemsTwo'].cast<int>();
     }
-    id =int.parse(json['id']);
+    id = json['id'] != null ? int.parse(json['id']) : json['id'];
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     userOneName = json['userOneName'];
     userOneImage = json['userOneImage'];
@@ -98,5 +98,3 @@ class Data {
     return data;
   }
 }
-
-

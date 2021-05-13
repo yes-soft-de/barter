@@ -4,6 +4,7 @@ import 'package:inject/inject.dart';
 import 'package:barter/module_auth/service/auth_service/auth_service.dart';
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 import 'package:uuid/uuid.dart';
+import 'package:barter/module_auth/exceptions/auth_exception.dart';
 
 @provide
 class NotificationService {
@@ -28,14 +29,8 @@ class NotificationService {
         chatRoomId: value.chatRoomId,
         swapId: value.id.toString(),
         userImage:
-        myId == value.userOneId ? value.userTowImage : value.userOneImage,
-        swap: SwapModel(
-            chatRoomId: value.chatRoomId,
-            userTowImage: value.userTowImage,
-            id: value.id,
-            userTowName: value.userTowName,
-            userTowId: value.userTowId
-        ),
+            myId == value.userOneId ? value.userTowImage : value.userOneImage,
+        swap: value,
         status: value.status,
         date: value.date,
         restrictedItemsUserOne: value.swapItemsOne,
@@ -43,23 +38,21 @@ class NotificationService {
       ));
     });
 
-   // notifications.sort((e1, e2) => e2.date.compareTo(e1.date));
+    // notifications.sort((e1, e2) => e2.date.compareTo(e1.date));
     return notifications.toList();
   }
 
- Future<SwapModel> updateSwap(NotificationModel swapItemModel) async{
-   SwapModel swapModel =  SwapModel(
-     id: swapItemModel.swapId,
-     chatRoomId: swapItemModel.chatRoomId,
-     status: swapItemModel.status,
-     swapItemsOne: swapItemModel.restrictedItemsUserOne,
-     swapItemsTow: swapItemModel.restrictedItemsUserTwo
-   );
+  Future<SwapModel> updateSwap(NotificationModel swapItemModel) async {
+    SwapModel swapModel = SwapModel(
+        id: swapItemModel.swapId,
+        chatRoomId: swapItemModel.chatRoomId,
+        status: swapItemModel.status,
+        swapItemsOne: swapItemModel.restrictedItemsUserOne,
+        swapItemsTow: swapItemModel.restrictedItemsUserTwo);
     var response = await _swapService.updateSwap(swapModel);
-    if(response==null){
+    if (response == null) {
       return null;
     }
     return response;
   }
-
 }

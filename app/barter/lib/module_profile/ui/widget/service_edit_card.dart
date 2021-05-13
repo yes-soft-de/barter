@@ -25,12 +25,10 @@ class ServiceEditCard extends StatelessWidget {
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-
                 children: [
                   Expanded(
                     flex: 3,
@@ -46,8 +44,10 @@ class ServiceEditCard extends StatelessWidget {
                   Spacer(),
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
-                    onPressed: (){
-                      Navigator.pushNamed(context,ServicesRoutes.ROUTE_EDIT_SERVICE,arguments: id);
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, ServicesRoutes.ROUTE_EDIT_SERVICE,
+                          arguments: id);
                     },
                     child: Text(
                       'Edit',
@@ -64,8 +64,7 @@ class ServiceEditCard extends StatelessWidget {
                   direction: Axis.horizontal,
                   children: [
                     Text(
-                      rate == null?'0.0':
-                      '${rate}',
+                      rate == null ? '0.0' : '${rate}',
                       style: TextStyle(fontSize: 16),
                     ),
                     Padding(
@@ -77,16 +76,16 @@ class ServiceEditCard extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    
-
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('$description', maxLines: 2,),
+                child: Text(
+                  '$description',
+                  maxLines: 2,
+                ),
               ),
-
             ],
           ),
         ),

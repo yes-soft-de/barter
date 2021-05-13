@@ -3,7 +3,6 @@ import 'package:barter/module_profile/model/profile_model.dart';
 import 'package:barter/module_profile/profile_routes.dart';
 import 'package:barter/module_profile/ui/screen/user_profile/user_profile.dart';
 import 'package:barter/module_profile/ui/states/user_profile/user_profile_state.dart';
-import 'package:barter/module_profile/ui/widget/service_card.dart';
 import 'package:barter/module_profile/ui/widget/service_edit_card.dart';
 import 'package:barter/module_swap/swap_routes.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +25,9 @@ class MyProfileStateLoaded extends UserProfileState {
               alignment: Alignment.topRight,
               child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(SwapRoutes.SWAPS_ROUTE,);
+                  Navigator.of(context).pushNamed(
+                    ProfileRoutes.EDIT_PROFILE_SCREEN,
+                  );
                 },
                 child: Text(
                   'Edit'.toUpperCase(),
@@ -39,7 +39,8 @@ class MyProfileStateLoaded extends UserProfileState {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 24.0,right: 24.0,bottom: 24.0),
+              padding:
+                  const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
               child: Container(
                   height: 72,
                   child: Center(
@@ -48,16 +49,18 @@ class MyProfileStateLoaded extends UserProfileState {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Container(
-                          child: (model.image == null)?
-                              Image.asset('assets/images/logo.png'):
-                          Image.network(model.image.contains('http')
-                              ? '${model.image}'
-                              : '${Urls.IMAGES_ROOT + model.image}',
-                            fit: BoxFit.cover,
-                            errorBuilder: (e,r,t){
-                              return Image.asset('assets/images/logo.png');
-                            },
-                          ),
+                          child: (model.image == null)
+                              ? Image.asset('assets/images/logo.png')
+                              : Image.network(
+                                  model.image.contains('http')
+                                      ? '${model.image}'
+                                      : '${Urls.IMAGES_ROOT + model.image}',
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (e, r, t) {
+                                    return Image.asset(
+                                        'assets/images/logo.png');
+                                  },
+                                ),
                         ),
                       ),
                     ),
@@ -66,9 +69,7 @@ class MyProfileStateLoaded extends UserProfileState {
             Text(
               '${model.firstName} ',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25,
-              fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -93,7 +94,9 @@ class MyProfileStateLoaded extends UserProfileState {
             direction: Axis.vertical,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text((model.type == 'User')?'Personal Account':model.type +' Account'),
+              Text((model.type == 'User')
+                  ? 'Personal Account'
+                  : model.type + ' Account'),
             ],
           ),
         ),
@@ -103,8 +106,9 @@ class MyProfileStateLoaded extends UserProfileState {
             child: RaisedButton(
               color: Theme.of(context).primaryColor,
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(SwapRoutes.SWAPS_ROUTE,);
+                Navigator.of(context).pushNamed(
+                  SwapRoutes.SWAPS_ROUTE,
+                );
               },
               child: Text(
                 'My Swaps'.toUpperCase(),

@@ -38,4 +38,3 @@ class _SwapsScreenState extends State<SwapsScreen> {
     );
   }
 }
-

@@ -8,7 +8,7 @@ class ProfileResponse {
   ProfileResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['Data'] != null 
+    data = json['Data'] != null
         ? new ProfileResponseModel.fromJson(json['Data'])
         : null;
   }
@@ -32,7 +32,6 @@ class ProfileResponseModel {
   String location;
   String phone;
   List<Data> services;
-  
 
   ProfileResponseModel(
       {this.image,
@@ -41,8 +40,7 @@ class ProfileResponseModel {
       this.location,
       this.phone,
       this.role,
-        this.services
-      });
+      this.services});
 
   ProfileResponseModel.fromJson(Map<String, dynamic> json) {
     image = json['image'];
@@ -51,8 +49,11 @@ class ProfileResponseModel {
     location = json['location'];
     phone = json['phone'];
     role = json['role'];
-    services = json['services']== null? null:(json['services'] as List).map((e) => Data.fromJson(e)).toList();
-
+    services = json['services'] != null
+        ? json['services'] is String
+            ? []
+            : (json['services'] as List).map((e) => Data.fromJson(e)).toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +68,7 @@ class ProfileResponseModel {
     return data;
   }
 }
+
 class Data {
   int id;
   String serviceTitle;
@@ -83,17 +85,17 @@ class Data {
 
   Data(
       {this.id,
-        this.serviceTitle,
-        this.description,
-        this.duration,
-        this.categoryID,
-        this.categoryName,
-        this.activeUntil,
-        this.enabled,
-        this.avgRating,
-        this.tags,
-        this.userName,
-        this.userImage});
+      this.serviceTitle,
+      this.description,
+      this.duration,
+      this.categoryID,
+      this.categoryName,
+      this.activeUntil,
+      this.enabled,
+      this.avgRating,
+      this.tags,
+      this.userName,
+      this.userImage});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -1,3 +1,4 @@
+import 'package:barter/consts/keys.dart';
 import 'package:barter/module_swap/model/swap_model.dart';
 import 'package:barter/module_swap/swap_routes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class SwapCard extends StatelessWidget {
                   direction: Axis.vertical,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     Container(
                         height: 65,
                         child: Center(
@@ -32,14 +32,17 @@ class SwapCard extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Container(
-                                child:model.userOneImage!= null? FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/logo.png',
-                                  image: model.userOneImage,
-                                  fit: BoxFit.fill,
-                                  imageErrorBuilder: (e, s, o) {
-                                    return Image.asset('assets/images/logo.png');
-                                  },
-                                ):Image.asset('assets/images/logo.png'),
+                                child: model.userOneImage != null
+                                    ? FadeInImage.assetNetwork(
+                                        placeholder: 'assets/images/logo.png',
+                                        image: model.userOneImage,
+                                        fit: BoxFit.fill,
+                                        imageErrorBuilder: (e, s, o) {
+                                          return Image.asset(
+                                              'assets/images/logo.png');
+                                        },
+                                      )
+                                    : Image.asset('assets/images/logo.png'),
                               ),
                             ),
                           ),
@@ -73,7 +76,6 @@ class SwapCard extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-
                     Container(
                         height: 65,
                         child: Center(
@@ -82,34 +84,54 @@ class SwapCard extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Container(
-                                child:model.userTowImage !=null? FadeInImage.assetNetwork(
-                                  placeholder: 'assets/images/logo.png',
-                                  image: model.userTowImage,
-                                  imageErrorBuilder: (_1, _2, _3) {
-                                    return Image.asset('assets/images/logo.png');
-                                  },
-                                ):Image.asset('assets/images/logo.png'),
+                                child: model.userTowImage != null
+                                    ? FadeInImage.assetNetwork(
+                                        placeholder: 'assets/images/logo.png',
+                                        image: model.userTowImage,
+                                        imageErrorBuilder: (_1, _2, _3) {
+                                          return Image.asset(
+                                              'assets/images/logo.png');
+                                        },
+                                      )
+                                    : Image.asset('assets/images/logo.png'),
                               ),
                             ),
                           ),
                         )),
-
                   ],
                 ),
-                ListTile(
-                  title: RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      Navigator.pushNamed(context,SwapRoutes.UPDATE_SWAP_ROUTE,arguments: model.id,);
-                    },
-                    child: Text(
-                      'Edit'.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.white,
+                (model.status == 'init')
+                    ? ListTile(
+                        title: RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              SwapRoutes.UPDATE_SWAP_ROUTE,
+                              arguments: model.id,
+                            );
+                          },
+                          child: Text(
+                            'Edit'.toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    : ListTile(
+                        title: Container(
+                          alignment: Alignment.center,
+                          height: 40,
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            model.status.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
