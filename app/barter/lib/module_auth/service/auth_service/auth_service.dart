@@ -182,7 +182,7 @@ class AuthService {
           await FirebaseAuth.instance.signInWithCredential(credential);
       await _registerApiUser(
           AppUser(userCredential.user, AuthSource.GOOGLE, role));
-      await _loginApiUser(role, AuthSource.GOOGLE);
+     await _loginApiUser(role, AuthSource.GOOGLE);
     } catch (e) {
       Logger().error('AuthStateManager', e.toString(), StackTrace.current);
     }

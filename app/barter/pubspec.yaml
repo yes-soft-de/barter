@@ -155,6 +155,10 @@ dev_dependencies:
   # Generate Language Files
   lang_table: 0.2.0
 
+  # Flutter Toast
+  fluttertoast: ^3.0.4
+
+
   # Icons Generator
   flutter_launcher_icons: "^0.7.3"
 

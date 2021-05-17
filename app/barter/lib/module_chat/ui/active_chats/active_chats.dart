@@ -45,7 +45,7 @@ class _ActiveChatsScreenState extends State<ActiveChatsScreen> {
   @override
   Widget build(BuildContext context) {
     if (init) {
-      widget._chatPageBloc.getActiveChats();
+      widget._chatPageBloc.getActiveChats(myId);
     }
     return Scaffold(
         body: SafeArea(
@@ -84,7 +84,6 @@ class _ActiveChatsScreenState extends State<ActiveChatsScreen> {
                   : element.swap.userOneName.toString(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            subtitle: Text(element.status),
           ),
         ),
       ));

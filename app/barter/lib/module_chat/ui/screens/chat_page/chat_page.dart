@@ -176,6 +176,7 @@ class ChatPageState extends State<ChatPage> {
                                                 SnackBar(
                                                     content:
                                                         Text('Saving Data')));
+                                            Navigator.of(context).pop();
                                             setState(() {});
                                           },
                                           notificationModel: activeNotification,

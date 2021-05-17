@@ -64,15 +64,17 @@ class ChatPageBloc {
     // _swapService.updateSwap(swapItemModel);
   }
 
-  void getActiveChats() {
+  void getActiveChats(String myId) {
     _notificationService.getNotifications().then((value) {
       List<NotificationModel> notificatios = [];
       value.forEach((element) {
         if (element.chatRoomId != null &&
-            (element.swap.status ==
-                    ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
-                element.swap.status ==
-                    ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED)) {
+            ((element.swap.status ==
+                    ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED && element.swap.userTowId == myId ) ||
+                ( element.swap.status ==
+                    ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED && element.swap.userOneId == myId)||
+            element.swap.status == ApiKeys.KEY_SWAP_STATUS_STARTED
+            )) {
           notificatios.add(element);
         }
       });

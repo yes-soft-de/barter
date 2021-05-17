@@ -2,6 +2,7 @@ import 'package:barter/module_auth/authorization_routes.dart';
 import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state.dart';
 import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loaded.dart';
 import 'package:barter/module_notifications/ui/state/notifications_list_state/notification_state_loading.dart';
+import 'dart:core';
 import 'package:barter/module_profile/service/profile/profile.service.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
@@ -15,7 +16,7 @@ import 'package:barter/module_notifications/ui/widget/notification_confirmation_
 import 'package:barter/module_notifications/ui/widget/notification_confirmed/notification_confirmed.dart';
 import 'package:barter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:barter/module_notifications/ui/widget/notification_swap_start/notification_swap_start.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 @provide
 class NotificationScreen extends StatefulWidget {
   final NotificationsStateManager _manager;
@@ -195,20 +196,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _onChangeRequest(NotificationModel n) {
-    var dialog = Dialog(
-      child: Container(
-        height: 40,
-          alignment: Alignment.center,
-          child: Text('sending request',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+    Fluttertoast.showToast(
+        msg: "sending request",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.black12,
+        textColor: Colors.white,
+        fontSize: 20.0
     );
 
-    showDialog(context: context, builder: (context) => dialog).then((v) {
-      if (n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
-        widget._manager.setSwapStarted(n);
-      } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
-          n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
-        widget._manager.setSwapComplete(n);
-      }
-    });
+    if (n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
+      widget._manager.setSwapStarted(n);
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
+        n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
+      widget._manager.setSwapComplete(n);
+    }
   }
 }
