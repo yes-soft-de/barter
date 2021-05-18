@@ -62,6 +62,8 @@ class ServicesService {
 
   Future<MembersModel> getMembers() async {
     var apiResponse = await _repository.getMembers();
+    if(apiResponse == null)
+      return null;
     var members = MembersModel([], []);
     apiResponse.data.personal.forEach((element) {
       members.personalAccounts.add(MemberModel(

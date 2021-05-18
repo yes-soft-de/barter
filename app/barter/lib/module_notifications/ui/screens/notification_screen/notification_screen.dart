@@ -16,7 +16,7 @@ import 'package:barter/module_notifications/ui/widget/notification_confirmation_
 import 'package:barter/module_notifications/ui/widget/notification_confirmed/notification_confirmed.dart';
 import 'package:barter/module_notifications/ui/widget/notification_ongoing/notification_ongoing.dart';
 import 'package:barter/module_notifications/ui/widget/notification_swap_start/notification_swap_start.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 @provide
 class NotificationScreen extends StatefulWidget {
   final NotificationsStateManager _manager;
@@ -108,7 +108,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget getNotificationsList(String myId) {
     List<Widget> notCards = [];
-
     if (notifications != null) {
       if (notifications.isNotEmpty) {
         notifications.forEach((n) {
@@ -144,8 +143,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
       return Container();
     }
-    //  return Card(child: Text('Notification Status: ${n.status}'));
-    if (n.status == null || n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
+
+    if (n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
       return myId != n.swap.userOneId
           ? NotificationSwapStart(
               notification: n,
@@ -158,21 +157,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 }
               })
           : SizedBox.shrink();
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
-        n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
-      return NotificationSwapConfirmationPending(
-        canComplete: (myId == n.swap.userOneId) ? true : false,
-        notification: n,
-        myId: myId,
-        onCompleted: () {
-          _onChangeRequest(n);
-        },
-        onRrjected: () {
-          widget._manager.setSwapReject(n);
-        },
-      );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED) {
-      return NotificationOnGoing(
+    }else if (n.status == ApiKeys.KEY_SWAP_STATUS_STARTED) {
+      return
+      NotificationOnGoing(
         notification: n,
         myId: myId,
         onChatRequested: () {
@@ -185,7 +172,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
           );
         },
       );
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_COMPLETE) {
+    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
+        n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
+      return NotificationSwapConfirmationPending(
+        canComplete: (myId == n.swap.userOneId) ? true : false,
+        notification: n,
+        myId: myId,
+      );
+    }  else if (n.status == ApiKeys.KEY_SWAP_STATUS_COMPLETE) {
       return NotificationComplete(
         notification: n,
         myId: myId,
@@ -196,21 +190,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _onChangeRequest(NotificationModel n) {
-    Fluttertoast.showToast(
-        msg: "sending request",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.black12,
-        textColor: Colors.white,
-        fontSize: 20.0
-    );
-
-    if (n.status == ApiKeys.KEY_SWAP_STATUS_INITIATED) {
       widget._manager.setSwapStarted(n);
-    } else if (n.status == ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED ||
-        n.status == ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED) {
-      widget._manager.setSwapComplete(n);
-    }
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('sending request')));
   }
 }

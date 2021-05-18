@@ -45,7 +45,7 @@ class SwapRepository {
   Future<CreateSwapResponse> updateSwaps(UpdateSwapRequest request) async {
     print(
         '===================== start update from repository =================');
-    print(request.swapID);
+    print(request.status);
     print(request.toJson());
     String token;
     try {

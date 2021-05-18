@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:barter/fluttertoast.dart';
 import 'package:barter/module_notifications/model/notifcation_item/notification_item.dart';
 
 class NotificationOnGoing extends StatefulWidget {

@@ -28,7 +28,7 @@ class CreateSwapStateManager {
     });
   }
 
-  void getItems(CreateSwapScreen screen, serviceId) {
+  void getItems(CreateSwapScreen screen, serviceId ) {
     stateStream.add(SwapStateInit(screen));
     _service.getMyItems().then((myItems) {
       if (myItems != null) {

@@ -25,6 +25,7 @@ class NotificationService {
       return null;
     }
     swaps.forEach((value) {
+      print(value.status);
       notifications.add(NotificationModel(
         chatRoomId: value.chatRoomId,
         swapId: value.id.toString(),
@@ -38,14 +39,16 @@ class NotificationService {
       ));
     });
 
-    // notifications.sort((e1, e2) => e2.date.compareTo(e1.date));
     return notifications.toList();
   }
 
   Future<SwapModel> updateSwap(NotificationModel swapItemModel) async {
+    if(swapItemModel.swap.chatRoomId == null)
+      swapItemModel.chatRoomId =  Uuid().v1();
+
     SwapModel swapModel = SwapModel(
         id: swapItemModel.swapId,
-        chatRoomId: swapItemModel.chatRoomId,
+        chatRoomId: swapItemModel.chatRoomId ,
         status: swapItemModel.status,
         swapItemsOne: swapItemModel.restrictedItemsUserOne,
         swapItemsTow: swapItemModel.restrictedItemsUserTwo);

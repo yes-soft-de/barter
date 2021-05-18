@@ -1,4 +1,5 @@
 import 'package:barter/consts/keys.dart';
+import 'package:barter/module_home/home_routes.dart';
 import 'package:barter/module_notifications/service/notification_service/notification_service.dart';
 import 'package:barter/module_notifications/ui/widget/notification_change_swap_items/change_item_form.dart';
 import 'package:barter/module_swap/model/swap_items_model.dart';
@@ -65,9 +66,10 @@ class ChatPageState extends State<ChatPage> {
 
       if (getServices)
         widget._swapService.getMyItems().then((value1) {
+          String serviceId = (myId == args.notification.swap.userOneId)? args.notification.restrictedItemsUserTwo[0].id: args.notification.restrictedItemsUserOne[0].id;
           widget._swapService
               .getTargetItems(
-                  args.notification.restrictedItemsUserTwo[0].id.toString())
+              serviceId)
               .then((value2) {
             if (value2 == null || value1 == null) {
               myServices = targetServices = null;
@@ -167,21 +169,20 @@ class ChatPageState extends State<ChatPage> {
                                                     .KEY_SWAP_STATUS_SECOND_USER_ACCEPTED;
                                               }
                                             }
-                                            widget._notificationService
+                                           widget._notificationService
                                                 .updateSwap(notification);
-                                            widget._chatPageBloc
-                                                .setNotificationComplete(
-                                                    notification);
                                             Scaffold.of(context).showSnackBar(
                                                 SnackBar(
                                                     content:
                                                         Text('Saving Data')));
                                             Navigator.of(context).pop();
+                                            Navigator.pushNamed(context,HomeRoutes.HOME_ROUTE);
                                             setState(() {});
                                           },
                                           notificationModel: activeNotification,
                                           myItems: myServices,
                                           targetItems: targetServices,
+                                         myId:myId
                                         );
                             },
                           )

@@ -156,7 +156,7 @@ dev_dependencies:
   lang_table: 0.2.0
 
   # Flutter Toast
-  fluttertoast: ^3.0.4
+  #fluttertoast: any
 
 
   # Icons Generator

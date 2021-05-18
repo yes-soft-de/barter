@@ -8,12 +8,15 @@ class ChangeItemForm extends StatefulWidget {
   final List<SwapItemsModel> targetItems;
   final NotificationModel notificationModel;
   final Function(NotificationModel) onSwapChange;
+  final String myId;
 
   ChangeItemForm(
       {@required this.myItems,
       @required this.targetItems,
       @required this.notificationModel,
-      @required this.onSwapChange});
+      @required this.onSwapChange,
+      this.myId
+      });
 
   @override
   State<StatefulWidget> createState() => _ChangeItemFormState();
@@ -30,20 +33,42 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
   }
 
   _init() {
-    widget.myItems.forEach((element1) {
-      widget.notificationModel.restrictedItemsUserOne.forEach((element2) {
-        if (element1.id == element2.id.toString()) {
-          selectedListItems1.add(element1);
-        }
+    if(widget.myId.toString() == widget.notificationModel.swap.userTowId.toString()){
+      widget.myItems.forEach((element1) {
+        widget.notificationModel.swap.swapItemsTow.forEach((element2) {
+          if (element1.id.toString() == element2.id.toString()) {
+            print('trueeeeeeeeeeeeeeeeeeeee');
+            selectedListItems1.add(element1);
+          }
+        });
+
       });
-    });
-    widget.targetItems.forEach((element1) {
-      widget.notificationModel.restrictedItemsUserTwo.forEach((element2) {
-        if (element1.id == element2.id.toString()) {
-          selectedListItems2.add(element1);
-        }
+      widget.targetItems.forEach((element1) {
+        widget.notificationModel.swap.swapItemsOne.forEach((element2) {
+          if (element1.id.toString() == element2.id.toString()) {
+            selectedListItems2.add(element1);
+          }
+        });
       });
-    });
+    }
+    else{
+      widget.myItems.forEach((element1) {
+        widget.notificationModel.swap.swapItemsOne.forEach((element2) {
+          if (element1.id.toString() == element2.id.toString()) {
+            selectedListItems1.add(element1);
+          }
+        });
+
+      });
+      widget.targetItems.forEach((element1) {
+        widget.notificationModel.swap.swapItemsTow.forEach((element2) {
+          if (element1.id.toString() == element2.id.toString()) {
+            selectedListItems2.add(element1);
+          }
+        });
+      });
+    }
+
   }
 
   @override
@@ -109,10 +134,12 @@ class _ChangeItemFormState extends State<ChangeItemForm> {
                 RaisedButton(
                   onPressed: () {
                     widget.onSwapChange(NotificationModel(
-                      chatRoomId: widget.notificationModel.chatRoomId,
+                      status: widget.notificationModel.status,
+                      chatRoomId: widget.notificationModel.swap.chatRoomId,
                       swapId: widget.notificationModel.swapId,
-                      restrictedItemsUserOne: selectedListItems1,
-                      restrictedItemsUserTwo: selectedListItems2,
+                      swap: widget.notificationModel.swap,
+                      restrictedItemsUserOne:widget.myId ==widget.notificationModel.swap.userOneId?selectedListItems1:selectedListItems2,
+                      restrictedItemsUserTwo:widget.myId ==widget.notificationModel.swap.userTowId? selectedListItems2:selectedListItems1,
                     ));
                   },
                   color: Colors.blueAccent,

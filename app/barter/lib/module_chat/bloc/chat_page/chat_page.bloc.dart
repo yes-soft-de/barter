@@ -73,7 +73,7 @@ class ChatPageBloc {
                     ApiKeys.KEY_SWAP_STATUS_FIRST_USER_ACCEPTED && element.swap.userTowId == myId ) ||
                 ( element.swap.status ==
                     ApiKeys.KEY_SWAP_STATUS_SECOND_USER_ACCEPTED && element.swap.userOneId == myId)||
-            element.swap.status == ApiKeys.KEY_SWAP_STATUS_STARTED
+               element.swap.status == ApiKeys.KEY_SWAP_STATUS_STARTED
             )) {
           notificatios.add(element);
         }

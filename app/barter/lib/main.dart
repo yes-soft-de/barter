@@ -199,7 +199,8 @@ void main() async {
                         )),
                         ServicesService(ServicesRepository(AuthService(
                             AuthPrefsHelper(),
-                            AuthManager(AuthRepository(ApiClient())))))),
+                            AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient())))),
                     AuthService(AuthPrefsHelper(),
                         AuthManager(AuthRepository(ApiClient())))),
               ),
@@ -216,7 +217,8 @@ void main() async {
                           )),
                           ServicesService(ServicesRepository(AuthService(
                               AuthPrefsHelper(),
-                              AuthManager(AuthRepository(ApiClient())))))),
+                              AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                          AuthManager(AuthRepository(ApiClient())))),
                       AuthService(AuthPrefsHelper(),
                           AuthManager(AuthRepository(ApiClient())))),
                   SwapService(
@@ -226,7 +228,8 @@ void main() async {
                       )),
                       ServicesService(ServicesRepository(AuthService(
                           AuthPrefsHelper(),
-                          AuthManager(AuthRepository(ApiClient()))))))),
+                          AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient())))),),
               ProfileService(
                 ProfileManager(ProfileRepository(
                     ApiClient(),
@@ -267,7 +270,8 @@ void main() async {
                 )),
                 ServicesService(ServicesRepository(AuthService(
                     AuthPrefsHelper(),
-                    AuthManager(AuthRepository(ApiClient())))))))),
+                    AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                AuthManager(AuthRepository(ApiClient())))))),
             CreateSwapScreen(CreateSwapStateManager(SwapService(
                 SwapManager(SwapRepository(
                   AuthService(AuthPrefsHelper(),
@@ -275,14 +279,16 @@ void main() async {
                 )),
                 ServicesService(ServicesRepository(AuthService(
                     AuthPrefsHelper(),
-                    AuthManager(AuthRepository(ApiClient())))))))),
+                    AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                AuthManager(AuthRepository(ApiClient())))))),
             UpdateSwapScreen(UpdateSwapStateManager(SwapService(
               SwapManager(SwapRepository(
                 AuthService(AuthPrefsHelper(),
                     AuthManager(AuthRepository(ApiClient()))),
               )),
               ServicesService(ServicesRepository(AuthService(AuthPrefsHelper(),
-                  AuthManager(AuthRepository(ApiClient()))))),
+                  AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                AuthManager(AuthRepository(ApiClient())))
             )))),
         ChatModule(
             ChatPage(
@@ -305,7 +311,8 @@ void main() async {
                         )),
                         ServicesService(ServicesRepository(AuthService(
                             AuthPrefsHelper(),
-                            AuthManager(AuthRepository(ApiClient())))))),
+                            AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                        AuthManager(AuthRepository(ApiClient())))),
                     AuthService(AuthPrefsHelper(),
                         AuthManager(AuthRepository(ApiClient())))),
               ),
@@ -318,7 +325,8 @@ void main() async {
                 )),
                 ServicesService(ServicesRepository(AuthService(
                     AuthPrefsHelper(),
-                    AuthManager(AuthRepository(ApiClient()))))),
+                    AuthManager(AuthRepository(ApiClient())))),),                  AuthService(AuthPrefsHelper(),
+                  AuthManager(AuthRepository(ApiClient())))
               ),
               NotificationService(
                   SwapService(
@@ -328,7 +336,8 @@ void main() async {
                       )),
                       ServicesService(ServicesRepository(AuthService(
                           AuthPrefsHelper(),
-                          AuthManager(AuthRepository(ApiClient())))))),
+                          AuthManager(AuthRepository(ApiClient()))))),                  AuthService(AuthPrefsHelper(),
+                      AuthManager(AuthRepository(ApiClient())))),
                   AuthService(AuthPrefsHelper(),
                       AuthManager(AuthRepository(ApiClient())))),
               ImageUploadService(UploadManager(UploadRepository())),

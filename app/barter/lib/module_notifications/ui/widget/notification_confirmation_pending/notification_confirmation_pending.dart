@@ -74,72 +74,25 @@ class _NotificationSwapConfirmationPendingState
   }
 
   Widget _getConfirmationOverlay() {
-    if (!widget.canComplete) {
-      return Container(
-        child: Center(
-          child: Flex(
-            direction: Axis.horizontal,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Final approval',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+  return  Container(
+      color: Colors.black38,
+      child: Center(
+        child: Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Pending Confirmation',
+              //    S.of(context).pendingConfirmation,
+              style: TextStyle(
+                color: Colors.white,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    widget.onRrjected();
-                  },
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    widget.onCompleted();
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    } else {
-      return Container(
-        color: Colors.black38,
-        child: Center(
-          child: Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Pending Confirmation',
-                //    S.of(context).pendingConfirmation,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      ),
+    );
     }
   }
-}
+

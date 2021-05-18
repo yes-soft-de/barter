@@ -46,6 +46,7 @@ class ServiceListStateLoaded extends ServiceListState {
                 textAlign: TextAlign.start,
               ),
             ),
+            members == null?SizedBox.shrink():
             Container(
               height: 240,
               child: ListView(
@@ -61,6 +62,7 @@ class ServiceListStateLoaded extends ServiceListState {
                 textAlign: TextAlign.start,
               ),
             ),
+            members == null?SizedBox.shrink():
             Container(
               height: 240,
               child: ListView(
@@ -76,6 +78,7 @@ class ServiceListStateLoaded extends ServiceListState {
 
   List<Widget> _getPersonalCards() {
     var cards = <Widget>[];
+
     members.personalAccounts.forEach((element) {
       cards.add(MemberCard(
         'Personal',
